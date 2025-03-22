@@ -1,0 +1,3 @@
+[submodule "PinataEngine/vendor/spdlog"]
+	path = PinataEngine/vendor/spdlog
+	url = https://github.com/gabime/spdlog
