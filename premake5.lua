@@ -16,6 +16,9 @@ project "PinataEngine"
     targetdir ("bin/" ..outputdir.. "/%{prj.name}")
     objdir ("bin-int/" ..outputdir.. "/%{prj.name}")
 
+    pchheader "ptapch.h"
+    pchsource "Pinata/src/ptapch.cpp"
+
     files
     {
         "%{prj.name}/src/**.h",

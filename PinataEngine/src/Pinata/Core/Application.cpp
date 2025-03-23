@@ -1,3 +1,4 @@
+#include "ptapch.h"
 #include "Application.h"
 #include "Log.h"
 #include "Pinata/Event/ApplicationEvent.h"

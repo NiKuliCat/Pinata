@@ -43,6 +43,7 @@
     <ClInclude Include="src\Pinata\Event\MouseEvent.h">
       <Filter>Pinata\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\ptapch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -51,5 +52,6 @@
     <ClCompile Include="src\Pinata\Core\Log.cpp">
       <Filter>Pinata\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\ptapch.cpp" />
   </ItemGroup>
 </Project>
