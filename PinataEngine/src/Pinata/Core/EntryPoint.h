@@ -1,5 +1,4 @@
 #pragma once
-
 #ifdef PINATA_PLATFORM_WINDOW
 
 extern Pinata::Application* Pinata::CreateApplication();
@@ -14,6 +13,4 @@ int main(int argc, char** argv)
 	app->Run();
 	delete app;
 }
-
-
 #endif

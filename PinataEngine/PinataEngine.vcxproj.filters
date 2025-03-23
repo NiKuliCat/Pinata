@@ -1,42 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Pinata">
+      <UniqueIdentifier>{A2C125CA-8E63-50A0-771E-64F4635FD7F0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Pinata\Core">
+      <UniqueIdentifier>{3A3B439A-A6F0-BB8F-2FE5-B5669B99B293}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Pinata\Event">
+      <UniqueIdentifier>{7374D2E2-5FD7-6187-085D-9A3DF49E2D0A}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Pinata\Core.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="src\Pinata.h" />
+    <ClInclude Include="src\Pinata\Core\Application.h">
+      <Filter>Pinata\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Application.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="src\Pinata\Core\Core.h">
+      <Filter>Pinata\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="src\Pinata\Core\EntryPoint.h">
+      <Filter>Pinata\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\EntryPoint.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="src\Pinata\Core\KeyCode.h">
+      <Filter>Pinata\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Log.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="src\Pinata\Core\Log.h">
+      <Filter>Pinata\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Core\MouseCode.h">
+      <Filter>Pinata\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Event\ApplicationEvent.h">
+      <Filter>Pinata\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Event\Event.h">
+      <Filter>Pinata\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Event\KeyboardEvent.h">
+      <Filter>Pinata\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Event\MouseEvent.h">
+      <Filter>Pinata\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Pinata\Application.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="src\Pinata\Core\Application.cpp">
+      <Filter>Pinata\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pinata\Log.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="src\Pinata\Core\Log.cpp">
+      <Filter>Pinata\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

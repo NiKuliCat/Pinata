@@ -1,6 +1,6 @@
 #pragma once
-#include "Pinata/Application.h"
+#include "Pinata/Core/Application.h"
 #include "stdio.h"
-#include "Pinata/Log.h"
+#include "Pinata/Core/Log.h"
 //--------entry point-----------------
-#include "Pinata/EntryPoint.h"
+#include "Pinata/Core/EntryPoint.h"

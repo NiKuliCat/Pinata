@@ -9,10 +9,6 @@ namespace Pinata {
 	class PINATA_API Log
 	{
 	public:
-		Log();
-		~Log();
-
-	public:
 
 		static void Init();
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
