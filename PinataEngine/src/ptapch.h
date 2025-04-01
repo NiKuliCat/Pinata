@@ -13,7 +13,7 @@
 #include <unordered_set>
 
 
-
+#include "Pinata/Core/Log.h"
 #ifdef PINATA_PLATFORM_WINDOW
 
 #include <Windows.h>

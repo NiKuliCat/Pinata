@@ -8,6 +8,11 @@ workspace "PinataEngine"
         "Dist"
     }
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+IncludeDir = {}
+IncludeDir["GLFW"] = "PinataEngine/vendor/GLFW/include"
+include "PinataEngine/vendor/GLFW"
+
 project "PinataEngine"
     location "PinataEngine"
     kind "SharedLib"
@@ -28,11 +33,17 @@ project "PinataEngine"
     includedirs
     {
         "%{prj.name}/vendor/spdlog/include",
-        "%{prj.name}/src"
+        "%{prj.name}/src",
+        "%{IncludeDir.GLFW}"
     }
     buildoptions
     {
         "/utf-8"
+    }
+    links
+    {
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"

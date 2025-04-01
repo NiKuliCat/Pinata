@@ -10,6 +10,12 @@
     <Filter Include="Pinata\Event">
       <UniqueIdentifier>{7374D2E2-5FD7-6187-085D-9A3DF49E2D0A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pinata.h" />
@@ -31,6 +37,9 @@
     <ClInclude Include="src\Pinata\Core\MouseCode.h">
       <Filter>Pinata\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Core\Window.h">
+      <Filter>Pinata\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Event\ApplicationEvent.h">
       <Filter>Pinata\Event</Filter>
     </ClInclude>
@@ -43,6 +52,9 @@
     <ClInclude Include="src\Pinata\Event\MouseEvent.h">
       <Filter>Pinata\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\ptapch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +63,9 @@
     </ClCompile>
     <ClCompile Include="src\Pinata\Core\Log.cpp">
       <Filter>Pinata\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\ptapch.cpp" />
   </ItemGroup>

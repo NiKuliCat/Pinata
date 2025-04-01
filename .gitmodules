@@ -1,3 +1,6 @@
 [submodule "PinataEngine/vendor/spdlog"]
 	path = PinataEngine/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "PinataEngine/vendor/GLFW"]
+	path = PinataEngine/vendor/GLFW
+	url = https://github.com/NiKuliCat/glfw

@@ -6,12 +6,14 @@ namespace Pinata {
 
 	void Application::Run()
 	{
-		WindowResizeEvent e(800, 600);
-		PTA_CORE_TRACE(e.ToString());
-		while (true);
+		while (m_Running)
+		{
+			m_Window->OnUpdata();
+		}
 	}
 	Application::Application()
 	{
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 	Application::~Application()
 	{

@@ -14,5 +14,13 @@
 
 #endif // PINATA_PLATFORM_WINDOW
 
+#ifdef PINATA_ENABLE_ASSERTS
+	#define PTA_ASSERT(x,...) { if(!x){PTA_ERROR("Assert Failed : {0}",__VA_ARGS__); __debugbreak();}}
+	#define PTA_CORE_ASSERT(x,...) { if(!x){PTA_CORE_ERROR("Assert Failed : {0}",__VA_ARGS__); __debugbreak();}}
+#else
+	#define PTA_ASSERT(x, ...)
+	#define PTA_CORE_ASSERT(x,...)
+#endif
+
 
 #define BIT(x)  (1 << x)
