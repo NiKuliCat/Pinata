@@ -1,7 +1,6 @@
 #pragma once
 #include "Event.h"
 #include "Pinata/Core/KeyCode.h"
-#include <sstream>
 namespace Pinata {
 
 	class PINATA_API KeyboardEvent : public Event

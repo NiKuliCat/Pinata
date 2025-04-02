@@ -1,8 +1,6 @@
 #pragma once
-#include <functional>
+#include "ptapch.h"
 #include "Pinata/Core/Core.h"
-#include <string>
-#include <functional>
 namespace Pinata {
 
 	enum class EventType
@@ -42,8 +40,6 @@ namespace Pinata {
 
 		inline bool IsInCategory(EventCategory category) { return GetCategoryFlags() & category; }
 
-	protected:
-
 		bool m_Handled = false;
 	};
 
@@ -52,6 +48,7 @@ namespace Pinata {
 	public:
 		EventDisPatcher(Event& event)
 			:m_Event(event){ }
+
 
 		template<typename T,typename F>
 		bool Dispatcher(const F& func)
