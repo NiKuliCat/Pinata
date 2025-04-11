@@ -2,6 +2,7 @@
 #include "ptapch.h"
 #include "Core.h"
 #include "Window.h"
+#include "Pinata/Core/LayerStack.h"
 #include <Pinata/Event/ApplicationEvent.h>
 namespace Pinata {
 
@@ -14,8 +15,12 @@ namespace Pinata {
 		void Run();
 		void OnEvent(Event& e);
 
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+
 	private:
 		std::unique_ptr<Window> m_Window;
+		LayerStack m_LayerStack;
 		bool m_Running = true;
 
 		bool OnWindowClosed(WindowCloseEvent& evnet);

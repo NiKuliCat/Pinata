@@ -63,14 +63,17 @@ project "PinataEngine"
 
     filter "system:Debug"
         defines "PTA_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "system:Release"
         defines "PTA_RELEASE"
+        buildoptions "/MD"
         symbols "On"
 
     filter "system:Dist"
         defines "PTA_DIST"
+        buildoptions "/MD"
         symbols "On"
 
 
@@ -115,12 +118,15 @@ project "Sandbox"
 
     filter "system:Debug"
         defines "PTA_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "system:Release"
         defines "PTA_RELEASE"
+        buildoptions "/MD"
         symbols "On"
 
     filter "system:Dist"
         defines "PTA_DIST"
+        buildoptions "/MD"
         symbols "On"

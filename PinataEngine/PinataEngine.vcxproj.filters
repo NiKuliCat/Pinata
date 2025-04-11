@@ -31,6 +31,12 @@
     <ClInclude Include="src\Pinata\Core\KeyCode.h">
       <Filter>Pinata\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Core\Layer.h">
+      <Filter>Pinata\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Core\LayerStack.h">
+      <Filter>Pinata\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Core\Log.h">
       <Filter>Pinata\Core</Filter>
     </ClInclude>
@@ -59,6 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
+      <Filter>Pinata\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Core\Layer.cpp">
+      <Filter>Pinata\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Core\LayerStack.cpp">
       <Filter>Pinata\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Core\Log.cpp">
