@@ -17,6 +17,9 @@ IncludeDir["ImGui"] = "PinataEngine/vendor/ImGui"
 include "PinataEngine/vendor/GLFW"
 include "PinataEngine/vendor/Glad"
 include "PinataEngine/vendor/ImGui"
+
+startproject "Sandbox"
+
 project "PinataEngine"
     location "PinataEngine"
     kind "SharedLib"

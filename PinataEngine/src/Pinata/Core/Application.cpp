@@ -1,6 +1,7 @@
 #include "ptapch.h"
 #include "Application.h"
 #include "Pinata/Event/ApplicationEvent.h"
+#include "Pinata/Core/Input.h"
 #include <GLFW/glfw3.h>
 namespace Pinata {
 
@@ -12,10 +13,15 @@ namespace Pinata {
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			auto [x, y] = Input::GetMousePosition();
+
+			PTA_CORE_TRACE("MousePosition : <{0},{1}>", x, y);
+
 			for (Layer* layer : m_LayerStack)
 			{
 				layer->OnUpdata();
 			}
+
 
 			m_Window->OnUpdata();
 		}

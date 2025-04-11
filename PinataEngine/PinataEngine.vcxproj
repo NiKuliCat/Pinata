@@ -145,6 +145,7 @@
     <ClInclude Include="src\Pinata\Core\Application.h" />
     <ClInclude Include="src\Pinata\Core\Core.h" />
     <ClInclude Include="src\Pinata\Core\EntryPoint.h" />
+    <ClInclude Include="src\Pinata\Core\Input.h" />
     <ClInclude Include="src\Pinata\Core\KeyCode.h" />
     <ClInclude Include="src\Pinata\Core\Layer.h" />
     <ClInclude Include="src\Pinata\Core\LayerStack.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\Platform\OpenGL\imgui_impl_glfw.h" />
     <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h" />
     <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\ptapch.h" />
   </ItemGroup>
@@ -170,6 +172,7 @@
     <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ptapch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

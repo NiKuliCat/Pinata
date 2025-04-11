@@ -167,6 +167,7 @@ namespace Pinata {
 	}
 
 
+
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
