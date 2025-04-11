@@ -4,3 +4,6 @@
 [submodule "PinataEngine/vendor/GLFW"]
 	path = PinataEngine/vendor/GLFW
 	url = https://github.com/NiKuliCat/glfw
+[submodule "PinataEngine/vendor/ImGui"]
+	path = PinataEngine/vendor/ImGui
+	url = https://github.com/NiKuliCat/imgui

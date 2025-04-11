@@ -10,8 +10,14 @@
     <Filter Include="Pinata\Event">
       <UniqueIdentifier>{7374D2E2-5FD7-6187-085D-9A3DF49E2D0A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pinata\ImGui">
+      <UniqueIdentifier>{4C6815E3-38CB-A487-E150-DD3DCD92700A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
@@ -58,6 +64,15 @@
     <ClInclude Include="src\Pinata\Event\MouseEvent.h">
       <Filter>Pinata\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h">
+      <Filter>Pinata\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3_loader.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
@@ -75,6 +90,12 @@
     </ClCompile>
     <ClCompile Include="src\Pinata\Core\Log.cpp">
       <Filter>Pinata\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp">
+      <Filter>Pinata\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp">
+      <Filter>Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>

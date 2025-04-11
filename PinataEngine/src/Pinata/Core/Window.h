@@ -7,13 +7,13 @@ namespace Pinata {
 	struct WindowProps
 	{
 		std::string Title;
-		unsigned int Width;
-		unsigned int Height;
+		uint32_t Width;
+		uint32_t Height;
 
 
 		WindowProps(const std::string& title = "Pinata Engine",
-					const unsigned int width = 1920,
-					const unsigned int height = 1080)
+					const uint32_t width = 1920,
+					const uint32_t height = 1080)
 			:Title(title),Width(width),Height(height)
 		{
 

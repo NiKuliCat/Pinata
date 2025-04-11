@@ -29,6 +29,7 @@ public:
 	Sandbox()
 	{
 		PushLayer(new TestLayer());
+		PushLayer(new Pinata::ImGuiLayer());
 	}
 	~Sandbox()
 	{

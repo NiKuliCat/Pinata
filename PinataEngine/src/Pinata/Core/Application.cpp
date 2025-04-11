@@ -4,8 +4,7 @@
 #include <GLFW/glfw3.h>
 namespace Pinata {
 
-#define BIND_EVENT_FUNC(x) std::bind(&Application::x, this, std::placeholders::_1)
-
+	Application* Application::s_Instance = nullptr;
 	void Application::Run()
 	{
 		while (m_Running)
@@ -24,7 +23,7 @@ namespace Pinata {
 	void Application::OnEvent(Event& e)
 	{
 		EventDisPatcher dispatcher(e);
-		dispatcher.Dispatcher<WindowCloseEvent>(BIND_EVENT_FUNC(OnWindowClosed));
+		dispatcher.Dispatcher<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClosed));
 
 		PTA_CORE_TRACE("{0}", e.ToString());
 
@@ -40,10 +39,12 @@ namespace Pinata {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 #pragma endregion
 
@@ -54,8 +55,9 @@ namespace Pinata {
 	}
 	Application::Application()
 	{
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FUNC(OnEvent));
+		m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 	}
 	Application::~Application()
 	{

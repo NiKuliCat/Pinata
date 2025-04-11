@@ -12,10 +12,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "PinataEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "PinataEngine/vendor/Glad/include"
+IncludeDir["ImGui"] = "PinataEngine/vendor/ImGui"
 
 include "PinataEngine/vendor/GLFW"
 include "PinataEngine/vendor/Glad"
-
+include "PinataEngine/vendor/ImGui"
 project "PinataEngine"
     location "PinataEngine"
     kind "SharedLib"
@@ -38,7 +39,8 @@ project "PinataEngine"
         "%{prj.name}/vendor/spdlog/include",
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}"
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
     buildoptions
     {
@@ -48,6 +50,7 @@ project "PinataEngine"
     {
         "GLFW",
         "Glad",
+        "ImGui",
         "opengl32.lib"
     }
 
