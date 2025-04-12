@@ -3,6 +3,7 @@
 #include "Pinata/Core/Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Pinata/Renderer/GraphicsContext.h"
 
 namespace Pinata {
 	class WindowsWindow : public Window
@@ -31,6 +32,7 @@ namespace Pinata {
 
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 
 	private:

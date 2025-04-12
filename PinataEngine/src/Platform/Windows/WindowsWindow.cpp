@@ -4,7 +4,7 @@
 #include "Pinata/Event/ApplicationEvent.h"
 #include "Pinata/Event/KeyboardEvent.h"
 #include "Pinata/Event/MouseEvent.h"
-
+#include "Platform/OpenGL/OpenGLContext.h"
 namespace Pinata {
 
 	static bool s_GLFWInitialized = false;
@@ -41,10 +41,15 @@ namespace Pinata {
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
+
+#pragma region ----------------------------------------------------glfw callback
 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 			{
@@ -135,6 +140,7 @@ namespace Pinata {
 				MouseMovedEvent event((float)xpos, (float)ypos);
 				data.EventCallback(event);
 			});
+#pragma endregion
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -145,7 +151,7 @@ namespace Pinata {
 	void WindowsWindow::OnUpdata()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

@@ -37,8 +37,6 @@ namespace Pinata {
 		EventDisPatcher dispatcher(e);
 		dispatcher.Dispatcher<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClosed));
 
-		PTA_CORE_TRACE("{0}", e.ToString());
-
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
 			(*--it)->OnEvent(e);
