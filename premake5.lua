@@ -13,12 +13,12 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "PinataEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "PinataEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "PinataEngine/vendor/ImGui"
+IncludeDir["glm"] = "PinataEngine/vendor/glm"
 
 include "PinataEngine/vendor/GLFW"
 include "PinataEngine/vendor/Glad"
 include "PinataEngine/vendor/ImGui"
 
-startproject "Sandbox"
 
 project "PinataEngine"
     location "PinataEngine"
@@ -34,7 +34,9 @@ project "PinataEngine"
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/glm/glm/**.hpp",
+        "%{prj.name}/vendor/glm/glm/**.inl"
     }
 
     includedirs
@@ -43,7 +45,8 @@ project "PinataEngine"
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
     buildoptions
     {
@@ -99,13 +102,14 @@ project "Sandbox"
     files
     {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
     }
 
     includedirs
     {
         "PinataEngine/vendor/spdlog/include",
-        "PinataEngine/src"
+        "PinataEngine/src",
+        "%{IncludeDir.glm}"
     }
 
     buildoptions
