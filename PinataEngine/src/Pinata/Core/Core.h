@@ -2,12 +2,20 @@
 
 #ifdef PINATA_PLATFORM_WINDOW
 
+#ifdef PINATA_DYNAMIC_LINK
+
 	#ifdef PINATA_BUILD_DLL
 		#define PINATA_API __declspec(dllexport)
 	#else
 		#define PINATA_API __declspec(dllimport)
 
 	#endif // PINATA_BUILD_DLL
+#else 
+
+	#define PINATA_API 
+
+#endif // PINATA_DYNAMIC_LINK
+
 
 #else
 #error Pinata only support windows

@@ -22,8 +22,10 @@ include "PinataEngine/vendor/ImGui"
 
 project "PinataEngine"
     location "PinataEngine"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/" ..outputdir.. "/%{prj.name}")
     objdir ("bin-int/" ..outputdir.. "/%{prj.name}")
@@ -37,6 +39,10 @@ project "PinataEngine"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl"
+    }
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     includedirs
@@ -61,8 +67,6 @@ project "PinataEngine"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
         defines
         {
@@ -70,31 +74,28 @@ project "PinataEngine"
             "PINATA_BUILD_DLL"
         }
 
-        postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" ..outputdir.. "/Sandbox")
-        }
-
-    filter "system:Debug"
+    filter "configurations:Debug"
         defines "PTA_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
-    filter "system:Release"
+    filter "configurations:Release"
         defines "PTA_RELEASE"
-        buildoptions "/MD"
-        symbols "On"
+        runtime "Release"
+        optimize "On"
 
-    filter "system:Dist"
+    filter "configurations:Dist"
         defines "PTA_DIST"
-        buildoptions "/MD"
-        symbols "On"
+        runtime "Release"
+        optimize "On"
 
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/" ..outputdir.. "/%{prj.name}")
     objdir ("bin-int/" ..outputdir.. "/%{prj.name}")
@@ -124,25 +125,23 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
         defines
         {
             "PINATA_PLATFORM_WINDOW"
         }
 
-    filter "system:Debug"
+    filter "configurations:Debug"
         defines "PTA_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
-    filter "system:Release"
+    filter "configurations:Release"
         defines "PTA_RELEASE"
-        buildoptions "/MD"
-        symbols "On"
+        runtime "Release"
+        optimize "On"
 
-    filter "system:Dist"
+    filter "configurations:Dist"
         defines "PTA_DIST"
-        buildoptions "/MD"
-        symbols "On"
+        runtime "Release"
+        optimize "On"
