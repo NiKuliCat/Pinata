@@ -3,6 +3,7 @@
 
 #include "imgui.h"
 #include "Platform/OpenGL/imgui_impl_opengl3.h"
+#include "Platform/OpenGL/imgui_impl_glfw.h"
 #include "GLFW/glfw3.h"
 #include "Pinata/Core/Application.h"
 //#include <Platform/OpenGL/imgui_impl_glfw.cpp>
@@ -14,21 +15,29 @@ namespace Pinata {
 	}
 	ImGuiLayer::~ImGuiLayer()
 	{
+
 	}
 	void ImGuiLayer::OnAttach()
 	{
-		ImGui::CreateContext();
+
+//-----------------------------Init ImGui--look at url:https://github.com/ocornut/imgui/wiki/Getting-Started
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 		ImGuiIO& io = ImGui::GetIO();
 
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
-
+        auto window = (GLFWwindow*) Application::Get().GetWindow().GetNativeWindow();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 	void ImGuiLayer::OnDetach()
 	{
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
 	}
 	void ImGuiLayer::OnUpdata()
 	{
@@ -43,7 +52,7 @@ namespace Pinata {
 		m_Time = time;
 
 		ImGui_ImplOpenGL3_NewFrame();
-		//ImGui_ImplGlfw_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
 		static bool show = true;
@@ -51,11 +60,6 @@ namespace Pinata {
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        //if (ImGui::IsKeyDown(ImGuiKey_LeftShift))
-        //{
-        //    PTA_CORE_ERROR("left shift pressed");
-        //}
 
 	}
 
