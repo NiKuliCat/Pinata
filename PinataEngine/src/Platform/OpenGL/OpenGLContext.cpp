@@ -15,6 +15,7 @@ namespace Pinata {
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		PTA_CORE_ASSERT(status, "Failed to init Glad !");
+		PTA_CORE_INFO("OpenGLRenderer: {0}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
 	}
 	void OpenGLContext::SwapBuffers()
 	{

@@ -31,6 +31,8 @@ namespace Pinata {
 
 		bool OnWindowClosed(WindowCloseEvent& evnet);
 
+		unsigned int m_VertexArray, m_IndexBuffer, m_VertexBuffer;
+
 	};
 
 
