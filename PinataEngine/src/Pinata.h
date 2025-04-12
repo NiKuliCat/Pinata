@@ -3,6 +3,7 @@
 #include "Pinata/Core/Log.h"
 #include "Pinata/Core/Layer.h"
 #include "Pinata/ImGui/ImGuiLayer.h"
+#include "Pinata/Core/Input.h"
 #include "Pinata/Core/KeyCode.h"
 #include "Pinata/Core/MouseCode.h"
 //--------entry point-----------------
