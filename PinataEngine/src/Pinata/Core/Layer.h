@@ -13,6 +13,7 @@ namespace Pinata {
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdata() {}
+		virtual void OnImGuiRender(){}
 		virtual void OnEvent(Event& event)	{}
 
 		inline const std::string& GetName() const { return m_DebugName; }

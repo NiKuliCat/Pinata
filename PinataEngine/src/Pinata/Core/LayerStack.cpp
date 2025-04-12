@@ -5,7 +5,6 @@ namespace Pinata {
 
 		LayerStack::LayerStack()
 		{
-			m_LayerInsert = m_Layer.begin();
 		}
 
 		LayerStack::~LayerStack()
@@ -18,7 +17,8 @@ namespace Pinata {
 
 		void LayerStack::PushLayer(Layer* layer)
 		{
-			m_LayerInsert = m_Layer.emplace(m_LayerInsert, layer);
+			m_Layer.emplace(m_Layer.begin() + m_LayerInsertIndex, layer);
+			m_LayerInsertIndex++;
 		}
 
 		void LayerStack::PopLayer(Layer* layer)
@@ -27,7 +27,7 @@ namespace Pinata {
 			if (it != m_Layer.end())
 			{
 				m_Layer.erase(it);
-				m_LayerInsert--;
+				m_LayerInsertIndex--;
 			}
 		}
 

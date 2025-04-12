@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Window.h"
 #include "Pinata/Core/LayerStack.h"
+#include "Pinata/ImGui/ImGuiLayer.h"
 #include <Pinata/Event/ApplicationEvent.h>
 namespace Pinata {
 
@@ -23,6 +24,7 @@ namespace Pinata {
 
 	private:
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 		bool m_Running = true;
 		static Application* s_Instance;

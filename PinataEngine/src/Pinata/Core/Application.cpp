@@ -13,14 +13,20 @@ namespace Pinata {
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			auto [x, y] = Input::GetMousePosition();
 
-			PTA_CORE_TRACE("MousePosition : <{0},{1}>", x, y);
-
+			//执行所有layer的事件
 			for (Layer* layer : m_LayerStack)
 			{
 				layer->OnUpdata();
 			}
+
+			//执行所有layer的渲染程序
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
 
 
 			m_Window->OnUpdata();
@@ -64,6 +70,9 @@ namespace Pinata {
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 	Application::~Application()
 	{

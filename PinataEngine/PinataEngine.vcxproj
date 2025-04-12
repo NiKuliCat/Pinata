@@ -157,9 +157,6 @@
     <ClInclude Include="src\Pinata\Event\KeyboardEvent.h" />
     <ClInclude Include="src\Pinata\Event\MouseEvent.h" />
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Platform\OpenGL\imgui_impl_glfw.h" />
-    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\ptapch.h" />
@@ -587,9 +584,8 @@
     <ClCompile Include="src\Pinata\Core\Layer.cpp" />
     <ClCompile Include="src\Pinata\Core\LayerStack.cpp" />
     <ClCompile Include="src\Pinata\Core\Log.cpp" />
+    <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ptapch.cpp">

@@ -109,6 +109,7 @@ project "Sandbox"
     {
         "PinataEngine/vendor/spdlog/include",
         "PinataEngine/src",
+        "PinataEngine/vendor/ImGui",
         "%{IncludeDir.glm}"
     }
 
