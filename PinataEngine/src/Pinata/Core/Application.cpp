@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Pinata/Event/ApplicationEvent.h"
 #include "Pinata/Core/Input.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 namespace Pinata {
@@ -80,26 +81,27 @@ namespace Pinata {
 		glGenVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
 		
-		glGenBuffers(1, &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-
 		float vertexs[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			0.0f, 0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f
 		};
+		m_VertexBuffer.reset(VertexBuffer::Create(vertexs, sizeof(vertexs)));
+		m_VertexBuffer->Bind();
 
-
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexs), vertexs, GL_STATIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(vertexs), vertexs, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-		glGenBuffers(1, &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+		uint32_t indexs[3] = { 0,1,2 };
+		m_IndexBuffer.reset(IndexBuffer::Create(indexs, 3));
+		m_IndexBuffer->Bind();
 
-		unsigned int indexs[3] = { 0,1,2 };
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexs), indexs, GL_STATIC_DRAW);
-
+		m_Shader = new OpenGLShader();
+		m_Shader->Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader", 
+			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader");
+		//m_Shader->Creat("src/Pinata.h", "Shaders/Basic.shader");
+		m_Shader->Register();
 	}
 	Application::~Application()
 	{

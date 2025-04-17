@@ -4,6 +4,8 @@
 #include "Window.h"
 #include "Pinata/Core/LayerStack.h"
 #include "Pinata/ImGui/ImGuiLayer.h"
+#include "Pinata/Renderer/Shader.h"
+#include "Pinata/Renderer/Buffer.h"
 #include <Pinata/Event/ApplicationEvent.h>
 namespace Pinata {
 
@@ -24,6 +26,7 @@ namespace Pinata {
 
 	private:
 		std::unique_ptr<Window> m_Window;
+		Shader* m_Shader;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 		bool m_Running = true;
@@ -31,7 +34,10 @@ namespace Pinata {
 
 		bool OnWindowClosed(WindowCloseEvent& evnet);
 
-		unsigned int m_VertexArray, m_IndexBuffer, m_VertexBuffer;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		unsigned int m_VertexArray;
+
 
 	};
 
