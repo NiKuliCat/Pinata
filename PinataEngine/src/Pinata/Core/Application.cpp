@@ -81,17 +81,30 @@ namespace Pinata {
 		glGenVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
 		
-		float vertexs[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f
+		float vertexs[7 * 3] = {
+			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,
+			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,
+			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f
 		};
 		m_VertexBuffer.reset(VertexBuffer::Create(vertexs, sizeof(vertexs)));
 		m_VertexBuffer->Bind();
 
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(vertexs), vertexs, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		BufferLayout layout = {
+			{ShaderDataType::Float3,"PositionOS"},
+			{ShaderDataType::Float4,"Color"}
+		};
+		m_VertexBuffer->SetLayout(layout);
+
+		uint32_t index = 0;
+		for (auto& element : m_VertexBuffer->GetLayout())
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index, element.Count, GL_FLOAT, GL_FALSE, layout.GetVertexStride(), (void*)element.Offset);
+			index++;
+		}
+
+		//glEnableVertexAttribArray(0);
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
 		uint32_t indexs[3] = { 0,1,2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indexs, 3));
