@@ -52,10 +52,11 @@ namespace Pinata {
 		uint32_t Size;
 		uint32_t Count;
 		uint32_t Offset;
+		bool Normalized;
 
 		BufferElement() = default;
-		BufferElement( ShaderDataType type, const std::string& name)
-			:Name(name), DataType(type),Size(GetShaderDataTypeSize(type)),Count(GetShaderDataTypeCount(type)),Offset(0)
+		BufferElement( ShaderDataType type, const std::string& name,bool normalized = false)
+			:Name(name), DataType(type),Size(GetShaderDataTypeSize(type)),Count(GetShaderDataTypeCount(type)),Offset(0), Normalized(normalized)
 		{
 
 		}

@@ -15,9 +15,10 @@ namespace Pinata {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			glBindVertexArray(m_VertexArray);
-
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			squareVA->Bind();
+			glDrawElements(GL_TRIANGLES, squareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 
 			//执行所有layer的事件
@@ -78,42 +79,50 @@ namespace Pinata {
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
-		
+		//triangle
+		m_VertexArray.reset(VertexArray::Create());
 		float vertexs[7 * 3] = {
 			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,
 			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,
 			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f
 		};
 		m_VertexBuffer.reset(VertexBuffer::Create(vertexs, sizeof(vertexs)));
-		m_VertexBuffer->Bind();
-
 		BufferLayout layout = {
 			{ShaderDataType::Float3,"PositionOS"},
 			{ShaderDataType::Float4,"Color"}
 		};
 		m_VertexBuffer->SetLayout(layout);
 
-		uint32_t index = 0;
-		for (auto& element : m_VertexBuffer->GetLayout())
-		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, element.Count, GL_FLOAT, GL_FALSE, layout.GetVertexStride(), (void*)element.Offset);
-			index++;
-		}
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
-		//glEnableVertexAttribArray(0);
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
 		uint32_t indexs[3] = { 0,1,2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indexs, 3));
-		m_IndexBuffer->Bind();
+		m_VertexArray->SetVertexBuffer(m_IndexBuffer);
 
-		m_Shader = new OpenGLShader();
+
+		//square
+		float squarePos[7 * 4] =
+		{
+			-0.8f, 0.8f, 0.0f,1.0f,1.0f,1.0f,1.0f,
+			0.8f, 0.8f, 0.0f,0.0f,0.0f,0.0f,1.0f,
+			0.8f, -0.8f, 0.0f,0.0f,0.0f,0.0f,1.0f,
+			-0.8f, -0.8f, 0.0f,1.0f,1.0f,1.0f,1.0f
+		};
+		uint32_t squareIndices[6] = { 0,1,2,0,2,3 };
+		std::shared_ptr<VertexBuffer> squareVB;
+		std::shared_ptr<IndexBuffer> squareIB;
+
+		squareVA.reset(VertexArray::Create());
+		squareVB.reset(VertexBuffer::Create(squarePos,sizeof(squarePos)));
+		squareIB.reset(IndexBuffer::Create(squareIndices, 6));
+		squareVB->SetLayout(layout);//顶点布局同上
+		squareVA->AddVertexBuffer(squareVB);
+		squareVA->SetVertexBuffer(squareIB);
+
+		m_Shader.reset(new OpenGLShader());
 		m_Shader->Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader", 
 			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader");
-		//m_Shader->Creat("src/Pinata.h", "Shaders/Basic.shader");
 		m_Shader->Register();
 	}
 	Application::~Application()
