@@ -8,6 +8,8 @@
 #include "Pinata/Renderer/Buffer.h"
 #include "Pinata/Renderer/VertexArray.h"
 #include <Pinata/Event/ApplicationEvent.h>
+
+#include "Pinata/Renderer/OrthographicCamera.h"
 namespace Pinata {
 
 	class PINATA_API Application
@@ -42,7 +44,7 @@ namespace Pinata {
 
 		std::shared_ptr<VertexArray> squareVA;
 
-
+		OrthographicCamera* m_Camera;
 	};
 
 

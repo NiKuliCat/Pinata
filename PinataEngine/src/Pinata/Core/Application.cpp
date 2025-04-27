@@ -16,10 +16,10 @@ namespace Pinata {
 			RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			Renderer::BeginScene(m_Camera);
 
-			Renderer::Submit(squareVA);
-			Renderer::Submit(m_VertexArray);
+			Renderer::Submit(squareVA,m_Shader);
+			Renderer::Submit(m_VertexArray, m_Shader);
 
 			Renderer::EndScene();
 
@@ -79,6 +79,9 @@ namespace Pinata {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 
+		m_Camera = new OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
+		m_Camera->SetPosition({ 0.5f,0.5f,0.0f });
+		m_Camera->SetRotation(45.0f);
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
@@ -126,7 +129,6 @@ namespace Pinata {
 		m_Shader.reset(new OpenGLShader());
 		m_Shader->Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader", 
 			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader");
-		m_Shader->Register();
 	}
 	Application::~Application()
 	{
