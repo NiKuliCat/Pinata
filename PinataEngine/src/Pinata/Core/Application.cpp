@@ -13,15 +13,6 @@ namespace Pinata {
 		while (m_Running)
 		{
 			
-			RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
-			RenderCommand::Clear();
-
-			Renderer::BeginScene(m_Camera);
-
-			Renderer::Submit(squareVA,m_Shader);
-			Renderer::Submit(m_VertexArray, m_Shader);
-
-			Renderer::EndScene();
 
 
 			//执行所有layer的事件
@@ -79,56 +70,8 @@ namespace Pinata {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 
-		m_Camera = new OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
-		m_Camera->SetPosition({ 0.5f,0.5f,0.0f });
-		m_Camera->SetRotation(45.0f);
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-
-		//triangle
-		m_VertexArray.reset(VertexArray::Create());
-		float vertexs[7 * 3] = {
-			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,
-			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,
-			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f
-		};
-		m_VertexBuffer.reset(VertexBuffer::Create(vertexs, sizeof(vertexs)));
-		BufferLayout layout = {
-			{ShaderDataType::Float3,"PositionOS"},
-			{ShaderDataType::Float4,"Color"}
-		};
-		m_VertexBuffer->SetLayout(layout);
-
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-
-		uint32_t indexs[3] = { 0,1,2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indexs, 3));
-		m_VertexArray->SetVertexBuffer(m_IndexBuffer);
-
-
-		//square
-		float squarePos[7 * 4] =
-		{
-			-0.8f, 0.8f, 0.0f,1.0f,1.0f,1.0f,1.0f,
-			0.8f, 0.8f, 0.0f,0.0f,0.0f,0.0f,1.0f,
-			0.8f, -0.8f, 0.0f,0.0f,0.0f,0.0f,1.0f,
-			-0.8f, -0.8f, 0.0f,1.0f,1.0f,1.0f,1.0f
-		};
-		uint32_t squareIndices[6] = { 0,1,2,0,2,3 };
-		std::shared_ptr<VertexBuffer> squareVB;
-		std::shared_ptr<IndexBuffer> squareIB;
-
-		squareVA.reset(VertexArray::Create());
-		squareVB.reset(VertexBuffer::Create(squarePos,sizeof(squarePos)));
-		squareIB.reset(IndexBuffer::Create(squareIndices, 6));
-		squareVB->SetLayout(layout);//顶点布局同上
-		squareVA->AddVertexBuffer(squareVB);
-		squareVA->SetVertexBuffer(squareIB);
-
-		m_Shader.reset(new OpenGLShader());
-		m_Shader->Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader", 
-			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader");
 	}
 	Application::~Application()
 	{

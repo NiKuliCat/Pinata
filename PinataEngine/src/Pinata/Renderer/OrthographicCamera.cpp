@@ -17,6 +17,10 @@ namespace Pinata {
 		m_Rotation = rotation;
 		UpdataMatrix();
 	}
+	const glm::vec3& OrthographicCamera::TransformObject2View_Position(glm::vec3& position)
+	{
+		return   m_ViewMatrix * glm::vec4(position, 1.0f);
+	}
 	void OrthographicCamera::UpdataMatrix()
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position) 
