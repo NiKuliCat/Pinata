@@ -3,8 +3,8 @@
 #include "Pinata/Event/ApplicationEvent.h"
 #include "Pinata/Core/Input.h"
 #include "Platform/OpenGL/OpenGLShader.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "Pinata/Renderer/RenderCommand.h"
+#include "Pinata/Renderer/Renderer.h"
 namespace Pinata {
 
 	Application* Application::s_Instance = nullptr;
@@ -12,13 +12,16 @@ namespace Pinata {
 	{
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			
+			RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
+			RenderCommand::Clear();
 
-			squareVA->Bind();
-			glDrawElements(GL_TRIANGLES, squareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::BeginScene();
+
+			Renderer::Submit(squareVA);
+			Renderer::Submit(m_VertexArray);
+
+			Renderer::EndScene();
 
 
 			//执行所有layer的事件

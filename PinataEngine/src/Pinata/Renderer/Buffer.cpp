@@ -8,12 +8,12 @@ namespace Pinata {
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::None:
+		case RendererAPI::API::None:
 			{
 				return nullptr;
 				break;
 			}
-			case RendererAPI::OpenGL:
+			case  RendererAPI::API::OpenGL:
 			{
 				return  new  OpenGLVertexBuffer(vertices, size);
 				break;
@@ -31,12 +31,12 @@ namespace Pinata {
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
+		case  RendererAPI::API::None:
 		{
 			return nullptr;
 			break;
 		}
-		case RendererAPI::OpenGL:
+		case  RendererAPI::API::OpenGL:
 		{
 			return  new  OpenGLIndexBuffer(indices, count);
 			break;
