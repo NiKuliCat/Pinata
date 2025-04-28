@@ -19,6 +19,9 @@
     <Filter Include="src\Pinata\Renderer">
       <UniqueIdentifier>{9F22D21A-0B84-AF28-94F1-F5DA0052E6E7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Pinata\vendor">
+      <UniqueIdentifier>{16637425-8279-72BB-CBF0-FDDC37464343}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -60,6 +63,9 @@
     <ClInclude Include="src\Pinata\Core\Core.h">
       <Filter>src\Pinata\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Core\CoreTime.h">
+      <Filter>src\Pinata\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Core\EntryPoint.h">
       <Filter>src\Pinata\Core</Filter>
     </ClInclude>
@@ -79,6 +85,9 @@
       <Filter>src\Pinata\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Core\MouseCode.h">
+      <Filter>src\Pinata\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Core\Time.h">
       <Filter>src\Pinata\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Core\Window.h">
@@ -1404,11 +1413,12 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Core\Time.h" />
-    <ClInclude Include="src\Pinata\Core\CoreTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
+      <Filter>src\Pinata\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Core\CoreTime.cpp">
       <Filter>src\Pinata\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Core\Layer.cpp">
@@ -1444,6 +1454,9 @@
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pinata\vendor\stb_image.cpp">
+      <Filter>src\Pinata\vendor</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1468,6 +1481,5 @@
     <ClCompile Include="src\ptapch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pinata\Core\CoreTime.cpp" />
   </ItemGroup>
 </Project>

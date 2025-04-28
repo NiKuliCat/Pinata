@@ -48,6 +48,7 @@ project "PinataEngine"
     includedirs
     {
         "%{prj.name}/vendor/spdlog/include",
+        "%{prj.name}/vendor/stb_image",
         "%{prj.name}/src",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",

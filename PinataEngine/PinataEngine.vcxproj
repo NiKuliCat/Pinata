@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\stb_image;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -99,7 +99,7 @@
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\stb_image;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -125,7 +125,7 @@
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\stb_image;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -149,6 +149,7 @@
     <ClInclude Include="src\Pinata.h" />
     <ClInclude Include="src\Pinata\Core\Application.h" />
     <ClInclude Include="src\Pinata\Core\Core.h" />
+    <ClInclude Include="src\Pinata\Core\CoreTime.h" />
     <ClInclude Include="src\Pinata\Core\EntryPoint.h" />
     <ClInclude Include="src\Pinata\Core\Input.h" />
     <ClInclude Include="src\Pinata\Core\KeyCode.h" />
@@ -157,7 +158,6 @@
     <ClInclude Include="src\Pinata\Core\Log.h" />
     <ClInclude Include="src\Pinata\Core\MouseCode.h" />
     <ClInclude Include="src\Pinata\Core\Time.h" />
-    <ClInclude Include="src\Pinata\Core\CoreTime.h" />
     <ClInclude Include="src\Pinata\Core\Window.h" />
     <ClInclude Include="src\Pinata\Event\ApplicationEvent.h" />
     <ClInclude Include="src\Pinata\Event\Event.h" />
@@ -613,7 +613,9 @@
     <ClCompile Include="src\Pinata\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\Shader.cpp" />
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Pinata\vendor\stb_image.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />

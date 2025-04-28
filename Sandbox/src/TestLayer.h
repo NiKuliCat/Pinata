@@ -1,7 +1,7 @@
 #pragma once
 #include <Pinata.h>
 #include "imgui.h"
-
+#include <glm/gtc/type_ptr.hpp>
 class TestLayer : public Pinata::Layer
 {
 public:
@@ -10,6 +10,13 @@ public:
 		m_Camera = new Pinata::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
 		m_Camera->SetPosition({ 0.5f,0.5f,0.0f });
 		//m_Camera->SetRotation(45.0f);
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Setting");
+		ImGui::ColorEdit4("TintColor", glm::value_ptr(tintColor));
+		ImGui::End();
 	}
 
 	virtual void OnAttach() override
@@ -55,9 +62,8 @@ public:
 		squareVA->AddVertexBuffer(squareVB);
 		squareVA->SetVertexBuffer(squareIB);
 
-		m_Shader.reset(new Pinata::OpenGLShader());
-		m_Shader->Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader",
-			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader");
+		m_Shader.reset(Pinata::Shader::Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader",
+			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader"));
 	}
 
 	virtual void OnUpdata() override
@@ -67,6 +73,8 @@ public:
 		Pinata::RenderCommand::Clear();
 
 		Pinata::Renderer::BeginScene(m_Camera);
+
+		m_Shader->SetColor("_TintColor", tintColor);
 
 		Pinata::Renderer::Submit(squareVA, m_Shader);
 		Pinata::Renderer::Submit(m_VertexArray, m_Shader);
@@ -113,6 +121,8 @@ private:
 	std::shared_ptr< Pinata::VertexArray> m_VertexArray;
 
 	std::shared_ptr< Pinata::VertexArray> squareVA;
+
+	glm::vec4 tintColor = {1.0f,1.0f,1.0f,1.0f};
 
 	Pinata::OrthographicCamera* m_Camera;
 

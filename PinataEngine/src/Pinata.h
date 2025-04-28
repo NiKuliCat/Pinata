@@ -16,6 +16,6 @@
 #include "Pinata/Renderer/VertexArray.h"
 #include "Pinata/Renderer/OrthographicCamera.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "Pinata/Renderer/Shader.h"
 //--------entry point-----------------
 #include "Pinata/Core/EntryPoint.h"

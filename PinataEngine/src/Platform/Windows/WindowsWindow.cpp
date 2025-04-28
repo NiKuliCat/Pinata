@@ -125,6 +125,7 @@ namespace Pinata {
 				}
 
 			});
+		
 
 
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)

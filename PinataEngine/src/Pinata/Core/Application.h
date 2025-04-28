@@ -7,7 +7,7 @@
 #include "Pinata/Renderer/Shader.h"
 #include "Pinata/Renderer/Buffer.h"
 #include "Pinata/Renderer/VertexArray.h"
-#include <Pinata/Event/ApplicationEvent.h>
+#include "Pinata/Event/ApplicationEvent.h"
 
 #include "Pinata/Renderer/OrthographicCamera.h"
 namespace Pinata {

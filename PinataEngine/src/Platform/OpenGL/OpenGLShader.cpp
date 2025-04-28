@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 namespace Pinata {
 
-	void OpenGLShader::Creat(const std::string& vertexPath, const std::string& fragmentPath)
+	OpenGLShader::OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath)
 	{
 		std::string vertexSrc_ = GLSLShaderHelper::Read(vertexPath, ShaderType::Vertex);
 		std::string fragmentSrc_ = GLSLShaderHelper::Read(fragmentPath, ShaderType::Fragment);
@@ -24,7 +24,6 @@ namespace Pinata {
 		glDeleteShader(fs);
 		m_Program_ID = program;
 	}
-
 	void OpenGLShader::Register()
 	{
 		glUseProgram(m_Program_ID);
@@ -40,6 +39,40 @@ namespace Pinata {
 		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
 		//glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, const float value)
+	{
+		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
+		glUniform1f(location, value);
+	}
+
+	void OpenGLShader::SetVector(const std::string& name, const glm::vec4& value)
+	{
+		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
+		glUniform4f(location, value.x,value.y,value.z,value.w);
+	}
+
+	void OpenGLShader::SetVector(const std::string& name, const glm::vec3& value)
+	{
+		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
+		glUniform3f(location, value.x, value.y, value.z);
+	}
+
+	void OpenGLShader::SetVector(const std::string& name, const glm::vec2& value)
+	{
+		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
+		glUniform2f(location, value.x, value.y);
+	}
+
+	void OpenGLShader::SetColor(const std::string& name, const glm::vec4& color)
+	{
+		OpenGLShader::SetVector(name, color);
+	}
+
+	void OpenGLShader::SetColor(const std::string& name, const glm::vec3& color)
+	{
+		OpenGLShader::SetVector(name, color);
 	}
 
 	uint32_t OpenGLShader::CompileShader(uint32_t type, const std::string& source)
