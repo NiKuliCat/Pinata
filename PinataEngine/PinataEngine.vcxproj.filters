@@ -1404,6 +1404,8 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Core\Time.h" />
+    <ClInclude Include="src\Pinata\Core\CoreTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1466,5 +1468,6 @@
     <ClCompile Include="src\ptapch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pinata\Core\CoreTime.cpp" />
   </ItemGroup>
 </Project>

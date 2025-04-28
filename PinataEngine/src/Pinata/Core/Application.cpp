@@ -5,6 +5,9 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Pinata/Renderer/RenderCommand.h"
 #include "Pinata/Renderer/Renderer.h"
+
+#include "GLFW/glfw3.h"
+#include "CoreTime.h"
 namespace Pinata {
 
 	Application* Application::s_Instance = nullptr;
@@ -12,8 +15,9 @@ namespace Pinata {
 	{
 		while (m_Running)
 		{
-			
-
+			//同步时间
+			float time = (float)glfwGetTime();
+			CoreTime::UpdateTime(time);
 
 			//执行所有layer的事件
 			for (Layer* layer : m_LayerStack)

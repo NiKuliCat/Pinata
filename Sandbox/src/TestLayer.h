@@ -62,6 +62,7 @@ public:
 
 	virtual void OnUpdata() override
 	{
+		PTA_INFO("timeStep:{0}s({1}ms) per frame", Pinata::Time::GetDeltaTime(), Pinata::Time::GetDeltaTime() * 1000.0f);
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 

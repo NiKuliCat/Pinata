@@ -7,6 +7,8 @@
 #include "Pinata/Core/KeyCode.h"
 #include "Pinata/Core/MouseCode.h"
 
+#include "Pinata/Core/Time.h"
+
 #include "Pinata/Renderer/Buffer.h"
 #include "Pinata/Renderer/Renderer.h"
 #include "Pinata/Renderer/RenderCommand.h"

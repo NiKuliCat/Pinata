@@ -156,6 +156,8 @@
     <ClInclude Include="src\Pinata\Core\LayerStack.h" />
     <ClInclude Include="src\Pinata\Core\Log.h" />
     <ClInclude Include="src\Pinata\Core\MouseCode.h" />
+    <ClInclude Include="src\Pinata\Core\Time.h" />
+    <ClInclude Include="src\Pinata\Core\CoreTime.h" />
     <ClInclude Include="src\Pinata\Core\Window.h" />
     <ClInclude Include="src\Pinata\Event\ApplicationEvent.h" />
     <ClInclude Include="src\Pinata\Event\Event.h" />
@@ -600,6 +602,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp" />
+    <ClCompile Include="src\Pinata\Core\CoreTime.cpp" />
     <ClCompile Include="src\Pinata\Core\Layer.cpp" />
     <ClCompile Include="src\Pinata\Core\LayerStack.cpp" />
     <ClCompile Include="src\Pinata\Core\Log.cpp" />
