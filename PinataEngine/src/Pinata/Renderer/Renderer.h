@@ -18,11 +18,11 @@ namespace Pinata {
 		inline static RendererAPI::API GetAPI() { return  RendererAPI::GetAPI(); }
 
 	public:
-
+		static void Init();
 		static void BeginScene(OrthographicCamera* mainCamera);
 		static void EndScene();
-
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader);
+		static void SetBlend(bool enable);
+		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);
 
 	private:
 

@@ -3,7 +3,6 @@
 #include "Pinata/Event/ApplicationEvent.h"
 #include "Pinata/Core/Input.h"
 #include "Platform/OpenGL/OpenGLShader.h"
-#include "Pinata/Renderer/RenderCommand.h"
 #include "Pinata/Renderer/Renderer.h"
 
 #include "GLFW/glfw3.h"
@@ -71,8 +70,10 @@ namespace Pinata {
 	Application::Application()
 	{
 		s_Instance = this;
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = Scope<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);

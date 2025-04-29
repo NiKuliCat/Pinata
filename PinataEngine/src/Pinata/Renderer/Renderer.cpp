@@ -4,6 +4,11 @@ namespace Pinata {
 
 	SceneData* Renderer::m_SceneData = new SceneData;
 
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+
 	void Renderer::BeginScene(OrthographicCamera* camera)
 	{
 		//»·¾³£ºlights,map,
@@ -13,7 +18,11 @@ namespace Pinata {
 	{
 		//m_SceneData->Clear()
 	}
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
+	void Renderer::SetBlend(bool enable)
+	{
+		RenderCommand::SetBlend(enable);
+	}
+	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader)
 	{
 		vertexArray->Bind();
 		shader->Register();

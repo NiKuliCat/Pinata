@@ -8,7 +8,7 @@ public:
 	TestLayer() :Layer("Test")
 	{
 		m_Camera = new Pinata::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
-		m_Camera->SetPosition({ 0.5f,0.5f,0.0f });
+		//m_Camera->SetPosition({ 0.5f,0.5f,0.0f });
 		//m_Camera->SetRotation(45.0f);
 	}
 
@@ -16,6 +16,7 @@ public:
 	{
 		ImGui::Begin("Setting");
 		ImGui::ColorEdit4("TintColor", glm::value_ptr(tintColor));
+		ImGui::SliderInt("Intensity", &intensity, 0, 2);
 		ImGui::End();
 	}
 
@@ -23,15 +24,16 @@ public:
 	{
 		//triangle
 		m_VertexArray.reset(Pinata::VertexArray::Create());
-		float vertexs[7 * 3] = {
-			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,
-			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,
-			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f
+		float vertexs[9 * 3] = {
+			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,
+			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,0.5f,0.5f,
+			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f
 		};
 		m_VertexBuffer.reset(Pinata::VertexBuffer::Create(vertexs, sizeof(vertexs)));
 		Pinata::BufferLayout layout = {
 			{Pinata::ShaderDataType::Float3,"PositionOS"},
-			{Pinata::ShaderDataType::Float4,"Color"}
+			{Pinata::ShaderDataType::Float4,"Color"},
+			{Pinata::ShaderDataType::Float2,"Texcoord"}
 		};
 		m_VertexBuffer->SetLayout(layout);
 
@@ -44,16 +46,17 @@ public:
 
 
 		//square
-		float squarePos[7 * 4] =
+		float squarePos[9 * 4] =
 		{
-			-0.8f, 0.8f, 0.0f,1.0f,1.0f,1.0f,1.0f,
-			0.8f, 0.8f, 0.0f,0.0f,0.0f,0.0f,1.0f,
-			0.8f, -0.8f, 0.0f,0.0f,0.0f,0.0f,1.0f,
-			-0.8f, -0.8f, 0.0f,1.0f,1.0f,1.0f,1.0f
+			//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
+			 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,1.0f,   1.0f, 1.0f,   // 右上
+			 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,1.0f,   1.0f, 0.0f,   // 右下
+			-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,1.0f,   0.0f, 0.0f,   // 左下
+			-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,1.0f,   0.0f, 1.0f    // 左上
 		};
-		uint32_t squareIndices[6] = { 0,1,2,0,2,3 };
-		std::shared_ptr<Pinata::VertexBuffer> squareVB;
-		std::shared_ptr<Pinata::IndexBuffer> squareIB;
+		uint32_t squareIndices[6] = { 0, 1, 3, 1, 2, 3 };
+		Pinata::Ref<Pinata::VertexBuffer> squareVB;
+		Pinata::Ref<Pinata::IndexBuffer> squareIB;
 
 		squareVA.reset(Pinata::VertexArray::Create());
 		squareVB.reset(Pinata::VertexBuffer::Create(squarePos, sizeof(squarePos)));
@@ -62,22 +65,30 @@ public:
 		squareVA->AddVertexBuffer(squareVB);
 		squareVA->SetVertexBuffer(squareIB);
 
-		m_Shader.reset(Pinata::Shader::Creat("F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader",
-			"F:\\dev\\PinataEngine\\PinataEngine\\src\\Platform\\OpenGL\\Shaders\\Basic.shader"));
+		m_Shader.reset(Pinata::Shader::Creat("Assets/Shader/Basic.shader","Assets/Shader/Basic.shader"));
+		Pinata::TextureAttributes attri;
+		m_Texture2D = Pinata::Texture2D::Create(attri,"Assets/Textures/01.jpg");
+		m_Shader->Register();
+		m_Texture2D->Bind(1);
+		m_Shader->SetInt("_MainTex", 1);
 	}
 
 	virtual void OnUpdata() override
 	{
-		PTA_INFO("timeStep:{0}s({1}ms) per frame", Pinata::Time::GetDeltaTime(), Pinata::Time::GetDeltaTime() * 1000.0f);
+		//PTA_INFO("timeStep:{0}s({1}ms) per frame", Pinata::Time::GetDeltaTime(), Pinata::Time::GetDeltaTime() * 1000.0f);
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
 		Pinata::Renderer::BeginScene(m_Camera);
 
 		m_Shader->SetColor("_TintColor", tintColor);
+		m_Shader->SetInt("_Intensity", intensity);
+		//m_Shader->Register();
+		m_Texture2D->Bind();
+		//m_Shader->SetInt("_MainTex", 0);
 
 		Pinata::Renderer::Submit(squareVA, m_Shader);
-		Pinata::Renderer::Submit(m_VertexArray, m_Shader);
+		//Pinata::Renderer::Submit(m_VertexArray, m_Shader);
 
 		Pinata::Renderer::EndScene();
 	}
@@ -115,14 +126,16 @@ public:
 
 
 private:
-	std::shared_ptr< Pinata::Shader> m_Shader;
-	std::shared_ptr< Pinata::VertexBuffer> m_VertexBuffer;
-	std::shared_ptr< Pinata::IndexBuffer> m_IndexBuffer;
-	std::shared_ptr< Pinata::VertexArray> m_VertexArray;
+	Pinata::Ref< Pinata::Shader> m_Shader;
+	Pinata::Ref<Pinata::Texture2D> m_Texture2D;
+	Pinata::Ref< Pinata::VertexBuffer> m_VertexBuffer;
+	Pinata::Ref< Pinata::IndexBuffer> m_IndexBuffer;
+	Pinata::Ref< Pinata::VertexArray> m_VertexArray;
 
-	std::shared_ptr< Pinata::VertexArray> squareVA;
+	Pinata::Ref< Pinata::VertexArray> squareVA;
 
 	glm::vec4 tintColor = {1.0f,1.0f,1.0f,1.0f};
+	int intensity;
 
 	Pinata::OrthographicCamera* m_Camera;
 

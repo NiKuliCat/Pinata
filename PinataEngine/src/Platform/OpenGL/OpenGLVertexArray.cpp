@@ -40,7 +40,7 @@ namespace Pinata {
 	{
 		glBindVertexArray(0);
 	}
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		PTA_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size, "vertex buffer not set layout");
 		//首先绑定顶点组
@@ -63,7 +63,7 @@ namespace Pinata {
 		m_VertexBuffers.push_back(vertexBuffer);
 
 	}
-	void OpenGLVertexArray::SetVertexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+	void OpenGLVertexArray::SetVertexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		//首先绑定顶点组
 		glBindVertexArray(m_VertexArrayID);
@@ -71,11 +71,11 @@ namespace Pinata {
 
 		m_IndexBuffer = indexBuffer;
 	}
-	const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::GetVertexBuffers() const
+	const std::vector<Ref<VertexBuffer>>& OpenGLVertexArray::GetVertexBuffers() const
 	{
 		return m_VertexBuffers;
 	}
-	const std::shared_ptr<IndexBuffer>& OpenGLVertexArray::GetIndexBuffer() const
+	const Ref<IndexBuffer>& OpenGLVertexArray::GetIndexBuffer() const
 	{
 		return m_IndexBuffer;
 	}

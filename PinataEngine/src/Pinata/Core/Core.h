@@ -1,5 +1,5 @@
 #pragma once
-
+#include <memory>
 #ifdef PINATA_PLATFORM_WINDOW
 
 #ifdef PINATA_DYNAMIC_LINK
@@ -33,3 +33,14 @@
 
 #define BIT(x)  (1 << x)
 #define BIND_EVENT_FUNC(fn) std::bind(&fn, this, std::placeholders::_1)
+
+
+namespace Pinata {
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+}

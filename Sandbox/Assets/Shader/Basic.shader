@@ -2,7 +2,7 @@
 #version 330 core 
 layout (location = 0) in vec3 PositionOS; 
 layout (location = 1) in vec4 aColor; 
-layout (location = 2) in vec2 Texcoord;
+layout (location = 2) in vec2 texcoord;
 uniform mat4 _ViewProjectMatrix;
 uniform vec4 _TintColor;
 out vec4 ourColor;
@@ -11,7 +11,7 @@ void main()
 { 
    gl_Position = _ViewProjectMatrix * vec4(PositionOS, 1.0); 
    ourColor = aColor * _TintColor;
-   uv = Texcoord;
+   uv = texcoord;
 };
 
 #fragment

@@ -6,6 +6,10 @@ namespace Pinata {
 	class RenderCommand
 	{
 	public:
+		inline static void Init()
+		{
+			s_RendererAPI->Init();
+		}
 		inline static void Clear()
 		{
 			s_RendererAPI->Clear();
@@ -14,7 +18,11 @@ namespace Pinata {
 		{
 			s_RendererAPI->SetClearColor(color);
 		}
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+		inline static void SetBlend(bool enable)
+		{
+			s_RendererAPI->SetBlend(enable);
+		}
+		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray)
 		{
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}

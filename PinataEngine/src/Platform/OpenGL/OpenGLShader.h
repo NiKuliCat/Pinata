@@ -13,6 +13,7 @@ namespace Pinata {
 		virtual void UnRegister() override;
 
 	public:
+		virtual void SetInt(const std::string& name, const uint32_t value) override;
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override;
 		virtual void SetFloat(const std::string& name, const float value) override;
 

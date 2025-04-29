@@ -10,7 +10,6 @@ namespace Pinata {
 	{
 		std::string vertexSrc_ = GLSLShaderHelper::Read(vertexPath, ShaderType::Vertex);
 		std::string fragmentSrc_ = GLSLShaderHelper::Read(fragmentPath, ShaderType::Fragment);
-		PTA_CORE_INFO("vertexShader:{0}", fragmentSrc_);
 		uint32_t program = glCreateProgram();
 		uint32_t vs = CompileShader(GL_VERTEX_SHADER, vertexSrc_);
 		uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, fragmentSrc_);
@@ -32,6 +31,12 @@ namespace Pinata {
 	void OpenGLShader::UnRegister()
 	{
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::SetInt(const std::string& name, const uint32_t value)
+	{
+		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
+		glUniform1i(location, value);
 	}
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix)

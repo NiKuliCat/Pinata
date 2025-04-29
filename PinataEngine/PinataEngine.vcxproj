@@ -171,12 +171,14 @@
     <ClInclude Include="src\Pinata\Renderer\Renderer.h" />
     <ClInclude Include="src\Pinata\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Pinata\Renderer\Shader.h" />
+    <ClInclude Include="src\Pinata\Renderer\Texture.h" />
     <ClInclude Include="src\Pinata\Renderer\VertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\GLSLShaderHelper.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
@@ -614,12 +616,14 @@
     <ClCompile Include="src\Pinata\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\Texture.cpp" />
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Pinata\vendor\stb_image.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
@@ -639,6 +643,9 @@
     <ProjectReference Include="vendor\ImGui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Platform\OpenGL\Shaders\Basic.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

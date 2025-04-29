@@ -17,5 +17,6 @@
 #include "Pinata/Renderer/OrthographicCamera.h"
 
 #include "Pinata/Renderer/Shader.h"
+#include "Pinata/Renderer/Texture.h"
 //--------entry point-----------------
 #include "Pinata/Core/EntryPoint.h"
