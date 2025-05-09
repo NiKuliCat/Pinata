@@ -21,13 +21,13 @@ public:
 	virtual void OnAttach() override
 	{
 		//triangle
-		m_VertexArray.reset(Pinata::VertexArray::Create());
+		m_VertexArray = Pinata::VertexArray::Create();
 		float vertexs[9 * 3] = {
 			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,
 			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,0.5f,0.5f,
 			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f
 		};
-		m_VertexBuffer.reset(Pinata::VertexBuffer::Create(vertexs, sizeof(vertexs)));
+		m_VertexBuffer = Pinata::VertexBuffer::Create(vertexs, sizeof(vertexs));
 		Pinata::BufferLayout layout = {
 			{Pinata::ShaderDataType::Float3,"PositionOS"},
 			{Pinata::ShaderDataType::Float4,"Color"},
@@ -39,8 +39,8 @@ public:
 
 
 		uint32_t indexs[3] = { 0,1,2 };
-		m_IndexBuffer.reset(Pinata::IndexBuffer::Create(indexs, 3));
-		m_VertexArray->SetVertexBuffer(m_IndexBuffer);
+		m_IndexBuffer = Pinata::IndexBuffer::Create(indexs, 3);
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 
 		//square
@@ -56,18 +56,17 @@ public:
 		Pinata::Ref<Pinata::VertexBuffer> squareVB;
 		Pinata::Ref<Pinata::IndexBuffer> squareIB;
 
-		squareVA.reset(Pinata::VertexArray::Create());
-		squareVB.reset(Pinata::VertexBuffer::Create(squarePos, sizeof(squarePos)));
-		squareIB.reset(Pinata::IndexBuffer::Create(squareIndices, 6));
+		squareVA = Pinata::VertexArray::Create();
+		squareVB = Pinata::VertexBuffer::Create(squarePos, sizeof(squarePos));
+		squareIB = Pinata::IndexBuffer::Create(squareIndices, 6);
 		squareVB->SetLayout(layout);
 		squareVA->AddVertexBuffer(squareVB);
-		squareVA->SetVertexBuffer(squareIB);
+		squareVA->SetIndexBuffer(squareIB);
 
-		//m_Shader.reset(Pinata::Shader::Creat("Assets/Shader/Basic.shader","Assets/Shader/Basic.shader"));
-		m_Shader = Pinata::Shader::Creat("Assets/Shader/test.shader"); // 更新shader读取
+		m_Shader = Pinata::Shader::Creat("Assets/Shader/DefaultShader.shader"); // 更新shader读取
 		Pinata::TextureAttributes attri;
 		m_Texture2D = Pinata::Texture2D::Create(attri,"Assets/Textures/02.png");
-		m_Shader->Register();
+		m_Shader->Bind();
 		m_Texture2D->Bind(1);
 		m_Shader->SetInt("_MainTex", 1);
 	}
@@ -79,16 +78,31 @@ public:
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
-		Pinata::Renderer::BeginScene(m_CameraController.GetCamera());
+		//Pinata::Renderer::BeginScene(m_CameraController.GetCamera());
 
-		m_Shader->SetColor("_TintColor", tintColor);
-		m_Shader->SetInt("_Intensity", intensity);
-		m_Texture2D->Bind();
+		//m_Shader->SetColor("_BaseColor", tintColor);
+		//m_Shader->SetInt("_Intensity", intensity);
+		//m_Texture2D->Bind();
 
-		Pinata::Renderer::Submit(squareVA, m_Shader);
+		//Pinata::Renderer::Submit(squareVA, m_Shader);
 		//Pinata::Renderer::Submit(m_VertexArray, m_Shader);
 
-		Pinata::Renderer::EndScene();
+		//Pinata::Renderer::EndScene();
+
+
+		//2D render draw call
+		Pinata::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		Pinata::Renderer2D::DrawQuad(
+			glm::vec3(0.0f,0.0f,0.0f),
+			glm::vec3(0.0f,0.0f,180.0f), // 角度
+			glm::vec3(1.0f,1.0f,1.0f),
+			tintColor,
+			m_Texture2D
+		);
+
+		Pinata::Renderer2D::EndScene();
+
+
 	}
 
 	virtual void OnEvent(Pinata::Event& event)

@@ -9,7 +9,7 @@ namespace Pinata {
 		:m_Aspect(aspect),m_ZoomLevel(zoomLevel),m_Rotate(enableRotate),
 		m_Camera(- aspect * zoomLevel,  aspect* zoomLevel,-zoomLevel, zoomLevel)
 	{
-
+		m_CameraTranslationSpeed = 1.0f * abs(zoomLevel);
 	}
 
 	OrthoCameraController::OrthoCameraController(float aspect, bool enableRotate)
@@ -64,6 +64,7 @@ namespace Pinata {
 	bool OrthoCameraController::OnMouseScrolled(MouseScrolledEvent& event)
 	{
 		m_ZoomLevel -= event.GetYOffset() * 0.1f;
+		m_CameraTranslationSpeed = 1.0f * abs(m_ZoomLevel);
 		m_Camera.SetProjectionMatrix(-m_Aspect * m_ZoomLevel, m_Aspect * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;
 	}

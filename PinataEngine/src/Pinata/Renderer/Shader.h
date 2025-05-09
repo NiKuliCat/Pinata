@@ -15,8 +15,8 @@ namespace Pinata {
 		static Ref<Shader> Creat(const std::string& filepath);
 		static Ref<Shader> Creat(const std::string& vertexPath, const std::string& fragmentPath);
 
-		virtual void Register() = 0;
-		virtual void UnRegister() = 0;
+		virtual void Bind() = 0;
+		virtual void UnBind() = 0;
 
 		virtual void SetInt(const std::string& name, const uint32_t value) = 0;
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) = 0;

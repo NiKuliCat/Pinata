@@ -26,6 +26,10 @@ namespace Pinata {
 			glDisable(GL_BLEND);
 		}
 	}
+	void OpenGLRendererAPI::SetViewport(const uint32_t x, const  uint32_t y, const uint32_t width, const  uint32_t height)
+	{
+		glViewport(x, y, width, height);
+	}
 	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)
 	{
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);

@@ -13,7 +13,7 @@ namespace Pinata {
 		virtual void UnBind() const override;
 
 		virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
-		virtual void SetVertexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
+		virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
 		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const override;
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() const override;

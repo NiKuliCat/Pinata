@@ -41,12 +41,12 @@ namespace Pinata {
 		glDeleteShader(fs);
 		m_Program_ID = program;
 	}
-	void OpenGLShader::Register()
+	void OpenGLShader::Bind()
 	{
 		glUseProgram(m_Program_ID);
 	}
 
-	void OpenGLShader::UnRegister()
+	void OpenGLShader::UnBind()
 	{
 		glUseProgram(0);
 	}

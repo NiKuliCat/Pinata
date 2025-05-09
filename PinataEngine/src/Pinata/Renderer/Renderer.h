@@ -2,6 +2,7 @@
 #include "RenderCommand.h"
 #include "Shader.h"
 #include "OrthographicCamera.h"
+#include "Pinata/Object/Transform.h"
 namespace Pinata {
 
 	struct CameraData
@@ -21,9 +22,10 @@ namespace Pinata {
 		static void Init();
 		static void BeginScene(OrthographicCamera& mainCamera);
 		static void EndScene();
+		static void SetWindowSize(const uint32_t width, const uint32_t height);
 		static void SetBlend(bool enable);
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);
-
+		static void Submit(const Ref<VertexArray>& vertexArray,glm::mat4& model,const Ref<Shader>& shader);
 	private:
 
 		static  SceneData* m_SceneData;

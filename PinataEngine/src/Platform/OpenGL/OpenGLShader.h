@@ -10,8 +10,8 @@ namespace Pinata {
 		OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath);
 		~OpenGLShader(){}
 
-		virtual void Register() override;
-		virtual void UnRegister() override;
+		virtual void Bind() override;
+		virtual void UnBind() override;
 
 	public:
 		virtual void SetInt(const std::string& name, const uint32_t value) override;

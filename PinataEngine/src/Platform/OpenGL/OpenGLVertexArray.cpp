@@ -63,7 +63,7 @@ namespace Pinata {
 		m_VertexBuffers.push_back(vertexBuffer);
 
 	}
-	void OpenGLVertexArray::SetVertexBuffer(const Ref<IndexBuffer>& indexBuffer)
+	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		//首先绑定顶点组
 		glBindVertexArray(m_VertexArrayID);

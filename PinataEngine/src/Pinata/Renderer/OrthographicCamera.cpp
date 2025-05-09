@@ -29,10 +29,12 @@ namespace Pinata {
 
 	void OrthographicCamera::UpdataMatrix()
 	{
+		//得到相机 to 世界空间 的转化矩阵
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position) 
 								* glm::rotate(glm::mat4(1.0f),glm::radians( m_Rotation), glm::vec3(0, 0, 1));
 
-		m_ViewMatrix = glm::inverse(transform);
+		//求逆， 得到世界 to 相机空间 的转化矩阵
+		m_ViewMatrix = glm::inverse(transform); 
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 
 	}

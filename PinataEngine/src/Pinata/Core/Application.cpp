@@ -19,9 +19,12 @@ namespace Pinata {
 			CoreTime::UpdateTime(time);
 
 			//执行所有layer的事件
-			for (Layer* layer : m_LayerStack)
+			if (!m_Minimized)
 			{
-				layer->OnUpdata(CoreTime::GetDeltaTime());
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnUpdata(CoreTime::GetDeltaTime());
+				}
 			}
 
 			//执行所有layer的渲染程序
@@ -40,7 +43,7 @@ namespace Pinata {
 	{
 		EventDisPatcher dispatcher(e);
 		dispatcher.Dispatcher<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClosed));
-
+		dispatcher.Dispatcher<WindowResizeEvent>(BIND_EVENT_FUNC(Application::OnWindowResize));
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
 			(*--it)->OnEvent(e);
@@ -62,10 +65,21 @@ namespace Pinata {
 	}
 #pragma endregion
 
-	bool Application::OnWindowClosed(WindowCloseEvent& evnet)
+	bool Application::OnWindowClosed(WindowCloseEvent& event)
 	{
 		m_Running = false;
 		return true;
+	}
+	bool Application::OnWindowResize(WindowResizeEvent& event)
+	{
+		if (event.GetWidth() == 0 || event.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+		Renderer::SetWindowSize(event.GetWidth(), event.GetHeight());
+		m_Minimized = false;
+		return false;
 	}
 	Application::Application()
 	{

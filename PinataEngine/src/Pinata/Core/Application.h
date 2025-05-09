@@ -32,9 +32,11 @@ namespace Pinata {
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 		bool m_Running = true;
+		bool m_Minimized = false;
 		static Application* s_Instance;
 
-		bool OnWindowClosed(WindowCloseEvent& evnet);
+		bool OnWindowClosed(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizeEvent& event);
 
 	};
 

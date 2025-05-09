@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 namespace Pinata {
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -15,7 +15,7 @@ namespace Pinata {
 		}
 		case  RendererAPI::API::OpenGL:
 		{
-			return new OpenGLVertexArray();
+			return std::make_shared<OpenGLVertexArray>();
 			break;
 		}
 		}
