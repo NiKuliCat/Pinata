@@ -159,6 +159,7 @@
     <ClInclude Include="src\Pinata\Core\MouseCode.h" />
     <ClInclude Include="src\Pinata\Core\Time.h" />
     <ClInclude Include="src\Pinata\Core\Window.h" />
+    <ClInclude Include="src\Pinata\Editor\OrthoCameraController.h" />
     <ClInclude Include="src\Pinata\Event\ApplicationEvent.h" />
     <ClInclude Include="src\Pinata\Event\Event.h" />
     <ClInclude Include="src\Pinata\Event\KeyboardEvent.h" />
@@ -608,6 +609,7 @@
     <ClCompile Include="src\Pinata\Core\Layer.cpp" />
     <ClCompile Include="src\Pinata\Core\LayerStack.cpp" />
     <ClCompile Include="src\Pinata\Core\Log.cpp" />
+    <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Buffer.cpp" />

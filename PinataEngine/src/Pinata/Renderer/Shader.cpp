@@ -7,7 +7,24 @@ namespace Pinata {
 
 
 
-	Shader* Shader::Creat(const std::string& vertexPath, const std::string& fragmentPath)
+	Ref<Shader> Shader::Creat(const std::string& filepath)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case  RendererAPI::API::None:
+		{
+			return nullptr;
+			break;
+		}
+		case  RendererAPI::API::OpenGL:
+		{
+			return std::make_shared<OpenGLShader>(filepath);
+			break;
+		}
+		}
+	}
+
+	Ref<Shader> Shader::Creat(const std::string& vertexPath, const std::string& fragmentPath)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -18,7 +35,7 @@ namespace Pinata {
 			}
 			case  RendererAPI::API::OpenGL:
 			{
-				return new OpenGLShader(vertexPath,fragmentPath);
+				return std::make_shared<OpenGLShader>(vertexPath,fragmentPath);
 				break;
 			}
 		}

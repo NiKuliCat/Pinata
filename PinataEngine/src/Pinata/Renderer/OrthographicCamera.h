@@ -12,6 +12,7 @@ namespace Pinata {
 		const glm::vec3 GetPosition() const  { return m_Position; }
 		void SetRotation(const float rotation);
 		const float GetRotation() const { return m_Rotation; }
+		void SetProjectionMatrix(float left, float right, float top, float down);
 
 		const glm::mat4& GetProjectionMatrix()const { return m_ProjectionMatrix; }
 		const glm::mat4& GetViewMatrix()const { return m_ViewMatrix; }

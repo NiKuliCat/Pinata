@@ -5,11 +5,9 @@
 class TestLayer : public Pinata::Layer
 {
 public:
-	TestLayer() :Layer("Test")
+	TestLayer() 
+		: Layer("Test"), m_CameraController(16.0f / 9.0f,true),intensity(1)
 	{
-		m_Camera = new Pinata::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
-		//m_Camera->SetPosition({ 0.5f,0.5f,0.0f });
-		//m_Camera->SetRotation(45.0f);
 	}
 
 	virtual void OnImGuiRender() override
@@ -65,27 +63,27 @@ public:
 		squareVA->AddVertexBuffer(squareVB);
 		squareVA->SetVertexBuffer(squareIB);
 
-		m_Shader.reset(Pinata::Shader::Creat("Assets/Shader/Basic.shader","Assets/Shader/Basic.shader"));
+		//m_Shader.reset(Pinata::Shader::Creat("Assets/Shader/Basic.shader","Assets/Shader/Basic.shader"));
+		m_Shader = Pinata::Shader::Creat("Assets/Shader/test.shader"); // ¸üÐÂshader¶ÁÈ¡
 		Pinata::TextureAttributes attri;
-		m_Texture2D = Pinata::Texture2D::Create(attri,"Assets/Textures/01.jpg");
+		m_Texture2D = Pinata::Texture2D::Create(attri,"Assets/Textures/02.png");
 		m_Shader->Register();
 		m_Texture2D->Bind(1);
 		m_Shader->SetInt("_MainTex", 1);
 	}
 
-	virtual void OnUpdata() override
+	virtual void OnUpdata(float daltaTime) override
 	{
+		m_CameraController.OnUpdate(daltaTime);
 		//PTA_INFO("timeStep:{0}s({1}ms) per frame", Pinata::Time::GetDeltaTime(), Pinata::Time::GetDeltaTime() * 1000.0f);
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
-		Pinata::Renderer::BeginScene(m_Camera);
+		Pinata::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		m_Shader->SetColor("_TintColor", tintColor);
 		m_Shader->SetInt("_Intensity", intensity);
-		//m_Shader->Register();
 		m_Texture2D->Bind();
-		//m_Shader->SetInt("_MainTex", 0);
 
 		Pinata::Renderer::Submit(squareVA, m_Shader);
 		//Pinata::Renderer::Submit(m_VertexArray, m_Shader);
@@ -95,33 +93,7 @@ public:
 
 	virtual void OnEvent(Pinata::Event& event)
 	{
-		Pinata::EventDisPatcher dispatcher(event);
-		dispatcher.Dispatcher<Pinata::KeyPressedEvent>(BIND_EVENT_FUNC(TestLayer::OnMouseScrolled));
-	}
-
-	bool OnMouseScrolled(Pinata::KeyPressedEvent& event)
-	{
-		glm::vec3 pos = m_Camera->GetPosition();
-		if (event.GetKeyCode() == Pinata::Key::Up)
-		{
-			pos += glm::vec3(0.0, 0.1f, 0.0f);
-		}
-		if (event.GetKeyCode() == Pinata::Key::Down)
-		{
-			pos += glm::vec3(0.0, -0.1f, 0.0f);
-		}
-		if (event.GetKeyCode() == Pinata::Key::Left)
-		{
-			pos += glm::vec3(-0.1f, 0.0f, 0.0f);
-		}
-		if (event.GetKeyCode() == Pinata::Key::Right)
-		{
-			pos += glm::vec3(0.1f, 0.0f, 0.0f);
-		}
-			m_Camera->SetPosition(pos);
-
-		PTA_INFO(event.ToString());
-		return false;
+		m_CameraController.OnEvent(event);
 	}
 
 
@@ -137,7 +109,7 @@ private:
 	glm::vec4 tintColor = {1.0f,1.0f,1.0f,1.0f};
 	int intensity;
 
-	Pinata::OrthographicCamera* m_Camera;
+	Pinata::OrthoCameraController  m_CameraController;
 
 
 };

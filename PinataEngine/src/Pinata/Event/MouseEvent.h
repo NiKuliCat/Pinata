@@ -78,7 +78,7 @@ namespace Pinata {
 	};
 
 
-	class MouseScrolledEvent : public Event
+	class PINATA_API MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(const float xOffset, const float yOffset)

@@ -1415,6 +1415,7 @@
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\Texture.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Pinata\Editor\OrthoCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1486,6 +1487,7 @@
     <ClCompile Include="src\Pinata\Renderer\Shader.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Texture.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\Basic.shader" />

@@ -21,7 +21,7 @@ namespace Pinata {
 			//执行所有layer的事件
 			for (Layer* layer : m_LayerStack)
 			{
-				layer->OnUpdata();
+				layer->OnUpdata(CoreTime::GetDeltaTime());
 			}
 
 			//执行所有layer的渲染程序

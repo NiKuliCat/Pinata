@@ -17,8 +17,8 @@ namespace Pinata{
 		////参考  https://learnopengl-cn.github.io/01%20Getting%20started/06%20Textures/#stb_imageh
 		////glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
-		glTextureStorage2D(m_TextureID, 1, GL_RGB8, m_Size.x, m_Size.y); // 注意是GL_RGB8 而不是GL_RGB
-		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Size.x, m_Size.y, GL_RGB, GL_UNSIGNED_BYTE,data);
+		glTextureStorage2D(m_TextureID, 1, GL_RGBA8, m_Size.x, m_Size.y); // 注意是GL_RGB8 而不是GL_RGB
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Size.x, m_Size.y, GL_RGBA, GL_UNSIGNED_BYTE,data);
 
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

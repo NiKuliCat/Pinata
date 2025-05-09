@@ -12,7 +12,8 @@ namespace Pinata {
 	class Shader
 	{
 	public:
-		static Shader* Creat(const std::string& vertexPath, const std::string& fragmentPath);
+		static Ref<Shader> Creat(const std::string& filepath);
+		static Ref<Shader> Creat(const std::string& vertexPath, const std::string& fragmentPath);
 
 		virtual void Register() = 0;
 		virtual void UnRegister() = 0;

@@ -6,6 +6,24 @@
 #include <glm/gtc/type_ptr.hpp>
 namespace Pinata {
 
+	OpenGLShader::OpenGLShader(const std::string& filepath)
+	{
+		std::unordered_map<GLenum, std::string> src = GLSLShaderHelper::Read(filepath);
+
+		uint32_t program = glCreateProgram();
+		uint32_t vs = CompileShader(GL_VERTEX_SHADER, src[GL_VERTEX_SHADER]);
+		uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, src[GL_FRAGMENT_SHADER]);
+
+		glAttachShader(program, vs);
+		glAttachShader(program, fs);
+		glLinkProgram(program);
+		glValidateProgram(program);
+
+		glDeleteShader(vs);
+		glDeleteShader(fs);
+		m_Program_ID = program;
+	}
+
 	OpenGLShader::OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath)
 	{
 		std::string vertexSrc_ = GLSLShaderHelper::Read(vertexPath, ShaderType::Vertex);
@@ -96,9 +114,10 @@ namespace Pinata {
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
 			char* log = (char*)malloc(len * sizeof(char));
 			glGetShaderInfoLog(id, len, &len, log);
-			std::cout << "[" << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << "shader failed to compile] " << std::endl;
-			std::cout << log << std::endl;
-			std::cout << "" << std::endl;
+
+			PTA_CORE_ERROR("{0} shader is failed to compile", type == GL_VERTEX_SHADER ? "vertex" : "fragment");
+			PTA_CORE_ERROR("{0}", log);
+
 			glDeleteShader(id);
 			return 0;
 		}

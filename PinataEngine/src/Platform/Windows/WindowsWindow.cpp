@@ -41,6 +41,12 @@ namespace Pinata {
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		if (!m_Window) {
+			const char* error;
+			glfwGetError(&error);
+			PTA_CORE_ERROR("Window creation failed: {0}", error);
+			exit(1);
+		}
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
@@ -57,8 +63,8 @@ namespace Pinata {
 
 				data.Width = width;
 				data.Height = height;
-
 				WindowResizeEvent event(width, height);
+				//PTA_CORE_INFO(event.ToString());
 				data.EventCallback(event);
 			});
 

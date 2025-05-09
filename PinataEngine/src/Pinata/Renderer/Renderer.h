@@ -19,7 +19,7 @@ namespace Pinata {
 
 	public:
 		static void Init();
-		static void BeginScene(OrthographicCamera* mainCamera);
+		static void BeginScene(OrthographicCamera& mainCamera);
 		static void EndScene();
 		static void SetBlend(bool enable);
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);

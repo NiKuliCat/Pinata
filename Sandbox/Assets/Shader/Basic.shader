@@ -25,5 +25,5 @@ uniform int _Intensity;
 void main()
 {
 	vec4 baseColor = texture(_MainTex,uv);
-	FragColor = texture(_MainTex,uv);
+	FragColor = baseColor;
 };

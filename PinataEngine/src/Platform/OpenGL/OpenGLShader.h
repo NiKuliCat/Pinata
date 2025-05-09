@@ -6,6 +6,7 @@ namespace Pinata {
 	class OpenGLShader : public Shader
 	{
 	public:
+		OpenGLShader::OpenGLShader(const std::string& filepath);
 		OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath);
 		~OpenGLShader(){}
 
