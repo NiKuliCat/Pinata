@@ -2,6 +2,33 @@
 #include "OpenGLTexture.h"
 #include <glad/glad.h>
 namespace Pinata{
+	OpenGLTexture2D::OpenGLTexture2D(const TextureAttributes& t_Attributes)
+		:m_Size(t_Attributes.Width,t_Attributes.Height)
+	{
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
+		glTextureStorage2D(m_TextureID, 1, GL_RGBA8, m_Size.x, m_Size.y);
+
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+	OpenGLTexture2D::OpenGLTexture2D(const DefaultTexColor& defaultColor)
+		:m_Size(1,1)
+	{
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
+		glTextureStorage2D(m_TextureID, 1, GL_RGBA8, m_Size.x, m_Size.y);
+
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		uint32_t data = SetColorByType(defaultColor);
+		SetData(&data, sizeof(data));
+	}
 	OpenGLTexture2D::OpenGLTexture2D(const TextureAttributes& t_Attributes, const std::string& path)
 		:m_Path(path)
 	{
@@ -33,8 +60,34 @@ namespace Pinata{
 	{
 		glDeleteTextures(1, &m_TextureID);
 	}
+	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	{
+		uint32_t bpp = 4;
+		PTA_CORE_ASSERT(size == bpp * m_Size.x * m_Size.y, "data size not equals texture size");
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Size.x, m_Size.y, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	}
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		glBindTextureUnit(slot, m_TextureID);
+	}
+
+	//opengl中颜色值分布为 AGRB   ---------即AA/RR/GG/BB   ex:洋红色： 0xffff00ff
+	uint32_t OpenGLTexture2D::SetColorByType(const DefaultTexColor& defaultColor)
+	{
+		uint32_t result = 0x000000ff;
+		switch (defaultColor)
+		{
+			case DefaultTexColor::White:
+				result = 0xffffffff;
+				break;
+			case DefaultTexColor::Black:
+				result = 0xFF000000;
+				break;
+			case DefaultTexColor::Magenta:
+				result = 0xffff00ff;
+				break;
+		}
+
+		return result;
 	}
 }

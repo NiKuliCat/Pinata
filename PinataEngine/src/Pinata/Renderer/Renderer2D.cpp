@@ -9,7 +9,7 @@ namespace Pinata {
 	{
 		Ref<VertexArray> VA_Quad;
 		Ref<Shader> DefaultShader;
-
+		Ref<Texture2D>DefaultTexture;
 
 		Renderer2DBaseData()
 		{
@@ -40,7 +40,8 @@ namespace Pinata {
 			VA_Quad->AddVertexBuffer(VB_Quad);
 			VA_Quad->SetIndexBuffer(IB_Quad);
 
-			DefaultShader = Pinata::Shader::Creat("Assets/Shader/DefaultShader.shader");
+			DefaultShader = Shader::Creat("Assets/Shader/DefaultShader.shader");
+			DefaultTexture = Texture2D::DefaultTexture(DefaultTexColor::White);
 
 		}
 	};
@@ -93,14 +94,22 @@ namespace Pinata {
 	void Renderer2D::DrawQuad(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale, glm::vec4& color, Ref<Texture2D>& texture)
 	{
 		Transform tra = Transform(position, rotation, scale);
-		glm::mat4 model = Transform::GetModelMatrix(tra);
-		s_BaseData->DefaultShader->Bind();
-		s_BaseData->DefaultShader->SetColor("_BaseColor", color);
+		DrawQuad(tra, color, texture);
+	}
 
-		texture->Bind(0);
-		s_BaseData->DefaultShader->SetInt("_MainTex", 0);
+	void Renderer2D::DrawQuad(glm::vec4& color)
+	{
+		DrawQuad(color, s_BaseData->DefaultTexture);
+	}
 
-		Renderer::Submit(s_BaseData->VA_Quad,model,s_BaseData->DefaultShader);
+	void Renderer2D::DrawQuad(Transform& transform, glm::vec4& color)
+	{
+		DrawQuad(transform,color, s_BaseData->DefaultTexture);
+	}
+
+	void Renderer2D::DrawQuad(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale, glm::vec4& color)
+	{
+		DrawQuad(position, rotation, scale, color, s_BaseData->DefaultTexture);
 	}
 
 }

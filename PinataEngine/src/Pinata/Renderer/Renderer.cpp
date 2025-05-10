@@ -28,6 +28,10 @@ namespace Pinata {
 	{
 		RenderCommand::SetBlend(enable);
 	}
+	void Renderer::SetDepthTest(bool enable)
+	{
+		RenderCommand::SetDepthTest(enable);
+	}
 	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader)
 	{
 		vertexArray->Bind();

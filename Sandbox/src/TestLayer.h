@@ -65,16 +65,22 @@ public:
 
 		m_Shader = Pinata::Shader::Creat("Assets/Shader/DefaultShader.shader"); // 更新shader读取
 		Pinata::TextureAttributes attri;
-		m_Texture2D = Pinata::Texture2D::Create(attri,"Assets/Textures/02.png");
+		m_Texture2D_A = Pinata::Texture2D::Create(attri,"Assets/Textures/03.png");
+		m_Texture2D_B = Pinata::Texture2D::Create(attri, "Assets/Textures/02.png");
 		m_Shader->Bind();
-		m_Texture2D->Bind(1);
+		m_Texture2D_A->Bind(1);
 		m_Shader->SetInt("_MainTex", 1);
+
+
+		defaultWhiteTex = Pinata::Texture2D::DefaultTexture(Pinata::DefaultTexColor::Magenta);
 	}
 
 	virtual void OnUpdata(float daltaTime) override
 	{
 		m_CameraController.OnUpdate(daltaTime);
 		//PTA_INFO("timeStep:{0}s({1}ms) per frame", Pinata::Time::GetDeltaTime(), Pinata::Time::GetDeltaTime() * 1000.0f);
+
+
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
@@ -93,12 +99,27 @@ public:
 		//2D render draw call
 		Pinata::Renderer2D::BeginScene(m_CameraController.GetCamera());
 		Pinata::Renderer2D::DrawQuad(
-			glm::vec3(0.0f,0.0f,0.0f),
-			glm::vec3(0.0f,0.0f,180.0f), // 角度
-			glm::vec3(1.0f,1.0f,1.0f),
+			glm::vec3(0.5f, 0.2f, 0.1f),
+			glm::vec3(0.0f, 0.0f, 0.0f), // 角度
+			glm::vec3(0.5f, 0.5f, 1.0f),
 			tintColor,
-			m_Texture2D
+			m_Texture2D_B
 		);
+		Pinata::Renderer2D::DrawQuad(
+			glm::vec3(0.0f,0.0f,0.0f),
+			glm::vec3(0.0f,0.0f,0.0f), // 角度
+			glm::vec3(2.0f,1.0f,1.0f),
+			tintColor,
+			m_Texture2D_A
+		);
+
+		Pinata::Renderer2D::DrawQuad(
+			glm::vec3(-0.5f, 0.0f, 0.1f),
+			glm::vec3(0.0f, 0.0f, 0.0f), // 角度
+			glm::vec3(1.0f, 1.0f, 1.0f),
+			tintColor
+		);
+
 
 		Pinata::Renderer2D::EndScene();
 
@@ -113,7 +134,9 @@ public:
 
 private:
 	Pinata::Ref< Pinata::Shader> m_Shader;
-	Pinata::Ref<Pinata::Texture2D> m_Texture2D;
+	Pinata::Ref<Pinata::Texture2D> m_Texture2D_A;
+	Pinata::Ref<Pinata::Texture2D> m_Texture2D_B;
+	Pinata::Ref<Pinata::Texture2D> defaultWhiteTex;
 	Pinata::Ref< Pinata::VertexBuffer> m_VertexBuffer;
 	Pinata::Ref< Pinata::IndexBuffer> m_IndexBuffer;
 	Pinata::Ref< Pinata::VertexArray> m_VertexArray;

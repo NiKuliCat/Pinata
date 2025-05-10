@@ -24,6 +24,7 @@ namespace Pinata {
 		static void EndScene();
 		static void SetWindowSize(const uint32_t width, const uint32_t height);
 		static void SetBlend(bool enable);
+		static void SetDepthTest(bool enable);
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);
 		static void Submit(const Ref<VertexArray>& vertexArray,glm::mat4& model,const Ref<Shader>& shader);
 	private:

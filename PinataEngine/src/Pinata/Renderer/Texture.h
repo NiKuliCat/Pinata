@@ -11,6 +11,13 @@ namespace Pinata {
 	{
 		Cube
 	};
+
+	enum class DefaultTexColor
+	{
+		White,
+		Black,
+		Magenta
+	};
 	enum class ImageFormat
 	{
 		RGB,
@@ -34,10 +41,12 @@ namespace Pinata {
 
 	struct TextureAttributes
 	{
-		TextureType type = TextureType::Default;
-		ImageFormat format = ImageFormat::RGB;
-		ImageWarpMode warp = ImageWarpMode::Repeat;
-		ImageFilterMode filter = ImageFilterMode::Linear;
+		uint32_t Width = 1;
+		uint32_t Height = 1;
+		TextureType Type = TextureType::Default;
+		ImageFormat Format = ImageFormat::RGB;
+		ImageWarpMode Warp = ImageWarpMode::Repeat;
+		ImageFilterMode Filter = ImageFilterMode::Linear;
 		
 		bool GenerateMipmaps = true;
 	};
@@ -46,6 +55,7 @@ namespace Pinata {
 	{
 	public:
 		virtual ~Texture() = default;
+		virtual void SetData(void* data, uint32_t size) = 0;
 		virtual glm::uvec2 GetSize() const = 0;
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
@@ -59,6 +69,7 @@ namespace Pinata {
 	class Texture2D : public Texture
 	{
 	public:
+		static Ref<Texture2D> DefaultTexture(const DefaultTexColor& defaultColor);
 		static Ref<Texture2D> Create(const TextureAttributes& t_Attributes);
 		static Ref<Texture2D> Create(const TextureAttributes& t_Attributes, const std::string& path);
 

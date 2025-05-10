@@ -22,6 +22,10 @@ namespace Pinata {
 		{
 			s_RendererAPI->SetBlend(enable);
 		}
+		inline static void SetDepthTest(bool enable)
+		{
+			s_RendererAPI->SetDepthTest(enable);
+		}
 		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray)
 		{
 			s_RendererAPI->DrawIndexed(vertexArray);

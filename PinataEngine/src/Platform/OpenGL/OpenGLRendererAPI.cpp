@@ -5,6 +5,7 @@ namespace Pinata {
 	void OpenGLRendererAPI::Init()
 	{
 		SetBlend(true);
+		SetDepthTest(true);
 	}
 	void OpenGLRendererAPI::Clear()
 	{
@@ -24,6 +25,17 @@ namespace Pinata {
 		else
 		{
 			glDisable(GL_BLEND);
+		}
+	}
+	void OpenGLRendererAPI::SetDepthTest(bool value)
+	{
+		if (value)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}
+		else
+		{
+			glDisable(GL_DEPTH_TEST);
 		}
 	}
 	void OpenGLRendererAPI::SetViewport(const uint32_t x, const  uint32_t y, const uint32_t width, const  uint32_t height)
