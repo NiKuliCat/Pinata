@@ -155,7 +155,7 @@ namespace Pinata {
 		Shutdown();
 	}
 
-	void WindowsWindow::OnUpdata()
+	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
 		m_Context->SwapBuffers();

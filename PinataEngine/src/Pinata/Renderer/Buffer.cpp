@@ -3,7 +3,25 @@
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 namespace Pinata {
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+			case RendererAPI::API::None:
+			{
+				return nullptr;
+				break;
+			}
+			case  RendererAPI::API::OpenGL:
+			{
+				return  CreateRef<OpenGLVertexBuffer>(size);
+				break;
+			}
+		}
 
+		PTA_CORE_ERROR("UnKown RendererAPI !");
+		return nullptr;
+	}
 	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
@@ -15,7 +33,7 @@ namespace Pinata {
 			}
 			case  RendererAPI::API::OpenGL:
 			{
-				return  std::make_shared<OpenGLVertexBuffer>(vertices, size);
+				return  CreateRef<OpenGLVertexBuffer>(vertices, size);
 				break;
 			}
 		}
@@ -38,7 +56,7 @@ namespace Pinata {
 		}
 		case  RendererAPI::API::OpenGL:
 		{
-			return  std::make_shared<OpenGLIndexBuffer>(indices, count);
+			return  CreateRef<OpenGLIndexBuffer>(indices, count);
 			break;
 		}
 		}

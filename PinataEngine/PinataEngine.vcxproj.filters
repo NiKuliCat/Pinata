@@ -1418,6 +1418,11 @@
     <ClInclude Include="src\Pinata\Editor\OrthoCameraController.h" />
     <ClInclude Include="src\Pinata\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Pinata\Object\Transform.h" />
+    <ClInclude Include="src\Pinata\Renderer\Light.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLLight.h" />
+    <ClInclude Include="src\Pinata\Renderer\ShaderLibrary.h" />
+    <ClInclude Include="src\Pinata\Renderer\Material.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1491,6 +1496,11 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\Light.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLLight.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\ShaderLibrary.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\Material.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\Basic.shader" />

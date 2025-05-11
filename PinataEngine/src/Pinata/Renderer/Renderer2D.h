@@ -24,6 +24,9 @@ namespace Pinata {
 		static void DrawQuad(Transform& transform, glm::vec4& color);
 		static void DrawQuad(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale, glm::vec4& color);
 
+
+	private:
+		static void Flush();
 		//TODO   add material system 
 		//static void DrawQuad(Transform& transform,Material& mat);
 	};

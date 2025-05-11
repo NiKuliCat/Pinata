@@ -18,7 +18,7 @@ namespace Pinata {
 		}
 		case  RendererAPI::API::OpenGL:
 		{
-			return std::make_shared<OpenGLShader>(filepath);
+			return CreateRef<OpenGLShader>(filepath);
 			break;
 		}
 		}
@@ -35,7 +35,7 @@ namespace Pinata {
 			}
 			case  RendererAPI::API::OpenGL:
 			{
-				return std::make_shared<OpenGLShader>(vertexPath,fragmentPath);
+				return CreateRef<OpenGLShader>(vertexPath,fragmentPath);
 				break;
 			}
 		}

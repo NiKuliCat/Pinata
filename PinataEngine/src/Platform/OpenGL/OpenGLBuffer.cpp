@@ -2,7 +2,14 @@
 #include "OpenGLBuffer.h"
 #include <glad/glad.h>
 namespace Pinata {
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
+
+	OpenGLVertexBuffer::OpenGLVertexBuffer(const uint32_t size)
+	{
+		glCreateBuffers(1, &m_VertexBufferID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, const uint32_t size)
 	{
 		//glGenBuffers(1, &m_VertexBufferID); 为什么不用这个
 		glCreateBuffers(1, &m_VertexBufferID);
@@ -23,6 +30,12 @@ namespace Pinata {
 	void OpenGLVertexBuffer::UnBind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER,0);
+	}
+
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data); // 偏移量目前为0 : 一次全部填入
 	}
 
 

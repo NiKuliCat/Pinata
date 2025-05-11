@@ -21,6 +21,7 @@ namespace Pinata {
 		virtual void SetDepthTest(bool value) = 0;
 		virtual void SetViewport(const uint32_t x, const uint32_t y, const uint32_t width, const uint32_t height) = 0;
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) = 0;
+		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray,const uint32_t count) = 0;
 
 		inline static  API GetAPI() { return s_API; }
 

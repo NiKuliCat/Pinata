@@ -98,6 +98,7 @@ namespace Pinata {
 		OpenGLShader::SetVector(name, color);
 	}
 
+
 	uint32_t OpenGLShader::CompileShader(uint32_t type, const std::string& source)
 	{
 		uint32_t id = glCreateShader(type);

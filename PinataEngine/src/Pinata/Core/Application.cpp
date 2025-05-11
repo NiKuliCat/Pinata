@@ -23,7 +23,7 @@ namespace Pinata {
 			{
 				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnUpdata(CoreTime::GetDeltaTime());
+					layer->OnUpdate(CoreTime::GetDeltaTime());
 				}
 			}
 
@@ -36,7 +36,7 @@ namespace Pinata {
 			m_ImGuiLayer->End();
 
 
-			m_Window->OnUpdata();
+			m_Window->OnUpdate();
 		}
 	}
 	void Application::OnEvent(Event& e)

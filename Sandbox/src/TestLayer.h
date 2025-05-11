@@ -2,6 +2,51 @@
 #include <Pinata.h>
 #include "imgui.h"
 #include <glm/gtc/type_ptr.hpp>
+
+#include <chrono>
+
+
+#define PROFILE_SCOPE(name) Timer timer##__Line__(name,[&](ProfileResult profileResult){m_ProfileResults.push_back(profileResult);})
+template<typename Fn>
+class Timer
+{
+public:
+	Timer(const char* name,Fn&& func)
+		:m_Name(name),m_Stopped(false),m_Func(func)
+	{
+		m_StartTimepoint = std::chrono::high_resolution_clock::now();
+	}
+
+	~Timer()
+	{
+		if (!m_Stopped)
+			Stop();
+
+	}
+
+
+	void Stop()
+	{
+		auto endTimePtr = std::chrono::high_resolution_clock::now();
+		long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
+		long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePtr).time_since_epoch().count();
+
+		m_Stopped = true;
+		float duration = (end - start) * 0.001f ;
+		//std::cout <<m_Name<< "    Duration: " << duration << "ms" << std::endl;
+		m_Func({ m_Name,duration });
+	}
+
+
+private:
+	const char* m_Name;
+	std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
+	bool m_Stopped;
+	Fn m_Func;
+};
+
+
+
 class TestLayer : public Pinata::Layer
 {
 public:
@@ -9,117 +54,73 @@ public:
 		: Layer("Test"), m_CameraController(16.0f / 9.0f,true),intensity(1)
 	{
 	}
-
 	virtual void OnImGuiRender() override
 	{
 		ImGui::Begin("Setting");
 		ImGui::ColorEdit4("TintColor", glm::value_ptr(tintColor));
 		ImGui::SliderInt("Intensity", &intensity, 0, 2);
+		for (auto& profile : m_ProfileResults)
+		{
+			char label[50];
+			strcpy(label, " %.3f ms  ");
+			strcat(label, profile.name);
+
+			ImGui::Text(label, profile.time);
+		}
+
+		m_ProfileResults.clear();
 		ImGui::End();
 	}
 
 	virtual void OnAttach() override
 	{
-		//triangle
-		m_VertexArray = Pinata::VertexArray::Create();
-		float vertexs[9 * 3] = {
-			-0.5f, -0.5f, 0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,
-			0.0f, 0.5f, 0.0f,0.0f,1.0f,0.0f,1.0f,0.5f,0.5f,
-			0.5f, -0.5f, 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f
-		};
-		m_VertexBuffer = Pinata::VertexBuffer::Create(vertexs, sizeof(vertexs));
-		Pinata::BufferLayout layout = {
-			{Pinata::ShaderDataType::Float3,"PositionOS"},
-			{Pinata::ShaderDataType::Float4,"Color"},
-			{Pinata::ShaderDataType::Float2,"Texcoord"}
-		};
-		m_VertexBuffer->SetLayout(layout);
-
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-
-		uint32_t indexs[3] = { 0,1,2 };
-		m_IndexBuffer = Pinata::IndexBuffer::Create(indexs, 3);
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-
-		//square
-		float squarePos[9 * 4] =
-		{
-			//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
-			 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,1.0f,   1.0f, 1.0f,   // 右上
-			 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,1.0f,   1.0f, 0.0f,   // 右下
-			-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,1.0f,   0.0f, 0.0f,   // 左下
-			-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,1.0f,   0.0f, 1.0f    // 左上
-		};
-		uint32_t squareIndices[6] = { 0, 1, 3, 1, 2, 3 };
-		Pinata::Ref<Pinata::VertexBuffer> squareVB;
-		Pinata::Ref<Pinata::IndexBuffer> squareIB;
-
-		squareVA = Pinata::VertexArray::Create();
-		squareVB = Pinata::VertexBuffer::Create(squarePos, sizeof(squarePos));
-		squareIB = Pinata::IndexBuffer::Create(squareIndices, 6);
-		squareVB->SetLayout(layout);
-		squareVA->AddVertexBuffer(squareVB);
-		squareVA->SetIndexBuffer(squareIB);
-
-		m_Shader = Pinata::Shader::Creat("Assets/Shader/DefaultShader.shader"); // 更新shader读取
+		
 		Pinata::TextureAttributes attri;
 		m_Texture2D_A = Pinata::Texture2D::Create(attri,"Assets/Textures/03.png");
 		m_Texture2D_B = Pinata::Texture2D::Create(attri, "Assets/Textures/02.png");
-		m_Shader->Bind();
-		m_Texture2D_A->Bind(1);
-		m_Shader->SetInt("_MainTex", 1);
-
-
 		defaultWhiteTex = Pinata::Texture2D::DefaultTexture(Pinata::DefaultTexColor::Magenta);
 	}
 
-	virtual void OnUpdata(float daltaTime) override
+	virtual void OnUpdate(float daltaTime) override
 	{
-		m_CameraController.OnUpdate(daltaTime);
-		//PTA_INFO("timeStep:{0}s({1}ms) per frame", Pinata::Time::GetDeltaTime(), Pinata::Time::GetDeltaTime() * 1000.0f);
-
+		PROFILE_SCOPE("TestLayer::OnUpdate");
+		{
+			PROFILE_SCOPE("CameraController::OnUpdate");
+			m_CameraController.OnUpdate(daltaTime);	
+		}
 
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
-		//Pinata::Renderer::BeginScene(m_CameraController.GetCamera());
-
-		//m_Shader->SetColor("_BaseColor", tintColor);
-		//m_Shader->SetInt("_Intensity", intensity);
-		//m_Texture2D->Bind();
-
-		//Pinata::Renderer::Submit(squareVA, m_Shader);
-		//Pinata::Renderer::Submit(m_VertexArray, m_Shader);
-
-		//Pinata::Renderer::EndScene();
-
-
 		//2D render draw call
-		Pinata::Renderer2D::BeginScene(m_CameraController.GetCamera());
-		Pinata::Renderer2D::DrawQuad(
-			glm::vec3(0.5f, 0.2f, 0.1f),
-			glm::vec3(0.0f, 0.0f, 0.0f), // 角度
-			glm::vec3(0.5f, 0.5f, 1.0f),
-			tintColor,
-			m_Texture2D_B
-		);
-		Pinata::Renderer2D::DrawQuad(
-			glm::vec3(0.0f,0.0f,0.0f),
-			glm::vec3(0.0f,0.0f,0.0f), // 角度
-			glm::vec3(2.0f,1.0f,1.0f),
-			tintColor,
-			m_Texture2D_A
-		);
+		{
+			PROFILE_SCOPE("Renderer2D::BeginScene");
+			Pinata::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		}
+		{
+			PROFILE_SCOPE("Renderer2D::DrawQuad");
+			//Pinata::Renderer2D::DrawQuad(
+			//	glm::vec3(0.5f, 0.2f, 0.1f),
+			//	glm::vec3(0.0f, 0.0f, 0.0f), // 角度
+			//	glm::vec3(0.5f, 0.5f, 1.0f),
+			//	tintColor,
+			//	m_Texture2D_B
+			//);
+			Pinata::Renderer2D::DrawQuad(
+				glm::vec3(0.5f, 1.0f, 0.0f),
+				glm::vec3(0.0f, 0.0f, 0.0f), // 角度
+				glm::vec3(0.5f, 0.5f, 1.0f),
+				tintColor,
+				m_Texture2D_A
+			);
 
-		Pinata::Renderer2D::DrawQuad(
-			glm::vec3(-0.5f, 0.0f, 0.1f),
-			glm::vec3(0.0f, 0.0f, 0.0f), // 角度
-			glm::vec3(1.0f, 1.0f, 1.0f),
-			tintColor
-		);
-
+			Pinata::Renderer2D::DrawQuad(
+				glm::vec3(-0.5f, 0.0f, 0.1f),
+				glm::vec3(0.0f, 0.0f, 0.0f), // 角度
+				glm::vec3(1.0f, 1.0f, 1.0f),
+				tintColor
+			);
+		}
 
 		Pinata::Renderer2D::EndScene();
 
@@ -133,20 +134,21 @@ public:
 
 
 private:
-	Pinata::Ref< Pinata::Shader> m_Shader;
 	Pinata::Ref<Pinata::Texture2D> m_Texture2D_A;
 	Pinata::Ref<Pinata::Texture2D> m_Texture2D_B;
 	Pinata::Ref<Pinata::Texture2D> defaultWhiteTex;
-	Pinata::Ref< Pinata::VertexBuffer> m_VertexBuffer;
-	Pinata::Ref< Pinata::IndexBuffer> m_IndexBuffer;
-	Pinata::Ref< Pinata::VertexArray> m_VertexArray;
-
-	Pinata::Ref< Pinata::VertexArray> squareVA;
-
 	glm::vec4 tintColor = {1.0f,1.0f,1.0f,1.0f};
 	int intensity;
 
 	Pinata::OrthoCameraController  m_CameraController;
 
+
+	struct ProfileResult
+	{
+		const char* name;
+		float time;
+	};
+
+	std::vector<ProfileResult> m_ProfileResults;
 
 };

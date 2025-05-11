@@ -9,6 +9,7 @@ namespace Pinata {
 		Fragment
 	};
 
+
 	class Shader
 	{
 	public:
@@ -26,9 +27,12 @@ namespace Pinata {
 		virtual void SetVector(const std::string& name, const glm::vec2& value) = 0;
 		virtual void SetColor(const std::string& name, const glm::vec4& color) = 0;
 		virtual void SetColor(const std::string& name, const glm::vec3& color) = 0;
-	protected:
-		uint32_t m_Program_ID;
+
+		virtual const uint32_t GetID() const  = 0;
+		virtual const std::string& GetName() const = 0;
 	};
+
+
 
 
 }

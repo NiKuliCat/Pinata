@@ -13,7 +13,7 @@ namespace Pinata {
 
 		virtual ~WindowsWindow();
 
-		void OnUpdata() override;
+		void OnUpdate() override;
 
 		inline uint32_t GetWidth() const  override { return m_Data.Width; }
 		inline uint32_t GetHeight() const override { return m_Data.Height; }

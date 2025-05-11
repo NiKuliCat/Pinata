@@ -12,7 +12,7 @@ namespace Pinata {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdata(float daltaTime) {}
+		virtual void OnUpdate(float daltaTime) {}
 		virtual void OnImGuiRender(){}
 		virtual void OnEvent(Event& event)	{}
 

@@ -9,6 +9,11 @@ namespace Pinata {
 	{
 		glm::mat4 ViewProjectMatrix;
 	};
+
+	struct LightsData
+	{
+
+	};
 	struct SceneData
 	{
 		CameraData mainCamera;
@@ -27,6 +32,7 @@ namespace Pinata {
 		static void SetDepthTest(bool enable);
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader);
 		static void Submit(const Ref<VertexArray>& vertexArray,glm::mat4& model,const Ref<Shader>& shader);
+		static void Submit(const Ref<VertexArray>& vertexArray,uint32_t count, glm::mat4& model, const Ref<Shader>& shader);
 	private:
 
 		static  SceneData* m_SceneData;

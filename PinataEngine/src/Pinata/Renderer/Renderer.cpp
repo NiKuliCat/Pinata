@@ -48,4 +48,12 @@ namespace Pinata {
 		shader->SetMat4("_MVP", mvp);
 		RenderCommand::DrawIndexed(vertexArray);
 	}
+	void Renderer::Submit(const Ref<VertexArray>& vertexArray, uint32_t count, glm::mat4& model, const Ref<Shader>& shader)
+	{
+		vertexArray->Bind();
+		shader->Bind();
+		glm::mat4 mvp = m_SceneData->mainCamera.ViewProjectMatrix * model;
+		shader->SetMat4("_MVP", mvp);
+		RenderCommand::DrawIndexed(vertexArray,count);
+	}
 }

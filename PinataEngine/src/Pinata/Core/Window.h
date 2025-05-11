@@ -27,7 +27,7 @@ namespace Pinata {
 
 		virtual ~Window() = default;
 
-		virtual void OnUpdata() = 0;
+		virtual void OnUpdate() = 0;
 
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;

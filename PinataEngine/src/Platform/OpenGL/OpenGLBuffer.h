@@ -6,7 +6,8 @@ namespace Pinata {
 	class OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer(float* vertices, uint32_t size);
+		OpenGLVertexBuffer(const uint32_t size);
+		OpenGLVertexBuffer(float* vertices,const uint32_t size);
 		virtual ~OpenGLVertexBuffer();
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
@@ -19,6 +20,8 @@ namespace Pinata {
 		{
 			return m_Layout;
 		}
+
+		virtual void SetData(const void* data, uint32_t size) override;
 
 	private:
 		uint32_t m_VertexBufferID;

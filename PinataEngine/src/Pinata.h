@@ -14,6 +14,7 @@
 #include "Pinata/Renderer/Renderer2D.h"
 #include "Pinata/Renderer/RenderCommand.h"
 #include "Pinata/Renderer/Shader.h"
+#include "Pinata/Renderer/ShaderLibrary.h"
 #include "Pinata/Renderer/VertexArray.h"
 #include "Pinata/Editor/OrthoCameraController.h"
 

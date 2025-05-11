@@ -23,8 +23,17 @@ namespace Pinata {
 		virtual void SetVector(const std::string& name, const glm::vec2& value) override;
 		virtual void SetColor(const std::string& name, const glm::vec4& color) override;
 		virtual void SetColor(const std::string& name, const glm::vec3& color) override;
+
+		virtual const uint32_t GetID() const override { return m_Program_ID; }
+		virtual const std::string& GetName() const override { return m_Name; }
 	private:
 		uint32_t CompileShader(uint32_t type, const std::string& source);
+
+
+	private:
+		uint32_t m_Program_ID;
+		std::string  m_Name;
+
 	};
 
 }

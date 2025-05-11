@@ -3,13 +3,48 @@
 #include "Renderer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "ShaderLibrary.h"
 namespace Pinata {
+	//和layout排列一致，该顶点的数据
+	struct QuadVertex
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
+		glm::vec2 Texcoord;
+		//normal,tangent .....
+		QuadVertex(glm::vec3& position, glm::vec4& color, glm::vec2& texcoord)
+			:Position(position),Color(color),Texcoord(texcoord)
+		{
+
+		}
+
+		QuadVertex()
+		{
+
+		}
+	};
 
 	struct Renderer2DBaseData
 	{
+		const uint32_t MaxCount = 10000;
+		const uint32_t MaxVertices = MaxCount * 4;
+		const uint32_t MaxIndices = MaxCount * 6;
+
+		uint32_t DrawVertexCount = 0;
 		Ref<VertexArray> VA_Quad;
-		Ref<Shader> DefaultShader;
+		Ref<VertexBuffer> VB_Quad;
+		uint32_t DefaultShader;
 		Ref<Texture2D>DefaultTexture;
+
+		QuadVertex* QuadVB_Start = nullptr;
+		QuadVertex* QuadVB_End   = nullptr;
+		QuadVertex RawQuad[4] = {
+			{glm::vec3(0.5f,0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(1.0f,1.0f)},
+			{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(1.0f, 0.0f)},
+			{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(0.0f, 0.0f)},
+			{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(0.0f, 1.0f)}
+		};
+
 
 		Renderer2DBaseData()
 		{
@@ -21,27 +56,54 @@ namespace Pinata {
 				-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 0.0f,   // 左下
 				-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 1.0f    // 左上
 			};
-
+			DrawVertexCount = 0;
 			uint32_t QuadIndices[6] = { 0, 1, 3, 1, 2, 3 };
-			Ref<VertexBuffer> VB_Quad;
-			Ref<IndexBuffer> IB_Quad;
 
-			VA_Quad = VertexArray::Create();
-			VB_Quad = VertexBuffer::Create(QuadPos, sizeof(QuadPos));
-			IB_Quad = IndexBuffer::Create(QuadIndices, sizeof(QuadIndices) / sizeof(uint32_t));
+		
+//////  --------------------------------------- index buffer ---------------------------------
+			uint32_t* MaXQuadIndices = new uint32_t[MaxIndices];
+			uint32_t offset = 0;
+			for (int i = 0; i < MaxIndices; i+=6)
+			{
+				MaXQuadIndices[i + 0] = offset + 0;
+				MaXQuadIndices[i + 1] = offset + 1;
+				MaXQuadIndices[i + 2] = offset + 3;
+
+				MaXQuadIndices[i + 3] = offset + 1;
+				MaXQuadIndices[i + 4] = offset + 2;
+				MaXQuadIndices[i + 5] = offset + 3;
+				offset += 4;
+			}
+			Ref<IndexBuffer> IB_Quad;
+			IB_Quad = IndexBuffer::Create(MaXQuadIndices, MaxIndices);
+
+			delete[] MaXQuadIndices;
+//////  --------------------------------------- index buffer ---------------------------------
+
+
+//////  --------------------------------------- vertex buffer ---------------------------------
+			VB_Quad = VertexBuffer::Create(MaxVertices * sizeof(QuadVertex));
 
 			BufferLayout layout = {
 				{ShaderDataType::Float3,"PositionOS"},
 				{ShaderDataType::Float4,"Color"},
 				{ShaderDataType::Float2,"Texcoord"}
 			};
-			VB_Quad->SetLayout(layout);
 
+			VB_Quad->SetLayout(layout);
+//////  --------------------------------------- vertex buffer ---------------------------------
+
+
+			VA_Quad = VertexArray::Create();
 			VA_Quad->AddVertexBuffer(VB_Quad);
 			VA_Quad->SetIndexBuffer(IB_Quad);
 
-			DefaultShader = Shader::Creat("Assets/Shader/DefaultShader.shader");
+			DefaultShader = 0;
 			DefaultTexture = Texture2D::DefaultTexture(DefaultTexColor::White);
+
+
+			QuadVB_Start = new QuadVertex[MaxCount];
+
 
 		}
 	};
@@ -51,6 +113,7 @@ namespace Pinata {
 	void Renderer2D::Init()
 	{
 		s_BaseData = new Renderer2DBaseData();
+		s_BaseData->DefaultShader = ShaderLibrary::Load("Assets/Shader/DefaultShader.shader")->GetID();
 	}
 
 	void Renderer2D::Shutdown()
@@ -61,34 +124,49 @@ namespace Pinata {
 	void Renderer2D::BeginScene(OrthographicCamera& mainCamera)
 	{
 		Renderer::BeginScene(mainCamera);
+		s_BaseData->DrawVertexCount = 0;
+		s_BaseData->QuadVB_End = s_BaseData->QuadVB_Start;
 	}
 
 	void Renderer2D::EndScene()
 	{
-
+		uint32_t dataSize = (uint8_t*)s_BaseData->QuadVB_End - (uint8_t*)s_BaseData->QuadVB_Start;
+		s_BaseData->VB_Quad->SetData(s_BaseData->QuadVB_Start, dataSize);
+		Flush();
 	}
 
 	void Renderer2D::DrawQuad(glm::vec4& color, Ref<Texture2D>& texture)
 	{
-		s_BaseData->DefaultShader->Bind();
-		s_BaseData->DefaultShader->SetColor("_BaseColor", color);
+		auto shader = ShaderLibrary::Get(s_BaseData->DefaultShader);
+
+		shader->Bind();
+		shader->SetColor("_BaseColor", color);
 
 		texture->Bind(0);
-		s_BaseData->DefaultShader->SetInt("_MainTex", 0);
+		shader->SetInt("_MainTex", 0);
 
-		Renderer::Submit(s_BaseData->VA_Quad,s_BaseData->DefaultShader);
+
+		Renderer::Submit(s_BaseData->VA_Quad, shader);
 	}
 
 	void Renderer2D::DrawQuad(Transform& transform, glm::vec4& color, Ref<Texture2D>& texture)
 	{
+		auto shader = ShaderLibrary::Get(s_BaseData->DefaultShader);
 		glm::mat4 model = Transform::GetModelMatrix(transform);
-		s_BaseData->DefaultShader->Bind();
-		s_BaseData->DefaultShader->SetColor("_BaseColor", color);
+		shader->Bind();
+		shader->SetColor("_BaseColor", color);
 
 		texture->Bind(0);
-		s_BaseData->DefaultShader->SetInt("_MainTex", 0);
+		shader->SetInt("_MainTex", 0);
 
-		Renderer::Submit(s_BaseData->VA_Quad, model, s_BaseData->DefaultShader);
+
+		for (int i = 0; i < 4; i++)
+		{
+			s_BaseData->QuadVB_End->Position = model * glm::vec4(s_BaseData->RawQuad[i].Position,1.0f);
+			s_BaseData->QuadVB_End++;
+		}
+		s_BaseData->DrawVertexCount += 6;
+		//Renderer::Submit(s_BaseData->VA_Quad, model, shader);
 	}
 
 	void Renderer2D::DrawQuad(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale, glm::vec4& color, Ref<Texture2D>& texture)
@@ -110,6 +188,12 @@ namespace Pinata {
 	void Renderer2D::DrawQuad(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale, glm::vec4& color)
 	{
 		DrawQuad(position, rotation, scale, color, s_BaseData->DefaultTexture);
+	}
+
+	void Renderer2D::Flush()
+	{
+		auto shader = ShaderLibrary::Get(s_BaseData->DefaultShader);
+		Renderer::Submit(s_BaseData->VA_Quad,s_BaseData->DrawVertexCount, glm::mat4(1.0f), shader);
 	}
 
 }
