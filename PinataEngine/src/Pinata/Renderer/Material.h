@@ -16,12 +16,10 @@ namespace Pinata {
 		virtual void Set(const std::string& name, const Ref<Texture2D>& value) = 0;
 
 	public:
-
 		virtual const  uint32_t GetShaderID() const = 0;
-		virtual const  glm::mat4& GetModelMatrix() const = 0;
-
+		virtual const Ref<Texture2D> GetTexture() const = 0;
 	public:
-		static Ref<Material> Create(const uint32_t shaderID,const  glm::mat4& model);
+		static Ref<Material> Create(const uint32_t shaderID,const Ref<Texture2D>& texture);
 
 	};
 }

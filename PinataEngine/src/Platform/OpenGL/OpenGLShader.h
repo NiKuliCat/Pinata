@@ -24,6 +24,8 @@ namespace Pinata {
 		virtual void SetColor(const std::string& name, const glm::vec4& color) override;
 		virtual void SetColor(const std::string& name, const glm::vec3& color) override;
 
+		virtual void SetIntArray(const std::string& name, const int* vaule, const uint32_t count) override;
+
 		virtual const uint32_t GetID() const override { return m_Program_ID; }
 		virtual const std::string& GetName() const override { return m_Name; }
 	private:

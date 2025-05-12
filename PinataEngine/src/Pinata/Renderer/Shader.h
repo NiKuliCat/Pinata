@@ -28,6 +28,8 @@ namespace Pinata {
 		virtual void SetColor(const std::string& name, const glm::vec4& color) = 0;
 		virtual void SetColor(const std::string& name, const glm::vec3& color) = 0;
 
+		virtual void SetIntArray(const std::string& name, const int* vaule,const uint32_t count) = 0;
+
 		virtual const uint32_t GetID() const  = 0;
 		virtual const std::string& GetName() const = 0;
 	};

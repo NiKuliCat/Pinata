@@ -2,8 +2,8 @@
 #include "OpenGLMaterial.h"
 #include "Pinata/Renderer/ShaderLibrary.h"
 namespace Pinata {
-	OpenGLMaterial::OpenGLMaterial(const uint32_t shaderID,const glm::mat4& model)
-		:m_ShaderID(shaderID),m_ModelMatrix(model),m_Shader(ShaderLibrary::Get(shaderID))
+	OpenGLMaterial::OpenGLMaterial(const uint32_t shaderID, const Ref<Texture2D>& texture)
+		:m_ShaderID(shaderID),m_Shader(ShaderLibrary::Get(shaderID)),m_Texture(texture)
 	{
 	}
 

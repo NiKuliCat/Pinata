@@ -7,7 +7,7 @@ namespace Pinata {
 	class OpenGLMaterial : public Material
 	{
 	public:
-		OpenGLMaterial(const uint32_t shaderID,const glm::mat4& model);
+		OpenGLMaterial(const uint32_t shaderID,const Ref<Texture2D>& texture);
 		~OpenGLMaterial();
 
 
@@ -24,12 +24,12 @@ namespace Pinata {
 
 	public:
 		virtual const  uint32_t GetShaderID() const override { return m_ShaderID; }
-		virtual const  glm::mat4& GetModelMatrix() const { return  m_ModelMatrix; }
-
+		virtual const Ref<Texture2D> GetTexture() const override { return m_Texture; }
 	private:
 		uint32_t m_ShaderID;
 		Ref<Shader> m_Shader;
-		glm::mat4 m_ModelMatrix;
+		 
+		Ref<Texture2D> m_Texture;
 	};
 
 }

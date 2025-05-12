@@ -7,7 +7,7 @@ namespace Pinata {
 
 
 
-	Ref<Material> Material::Create(const uint32_t shaderID,const  glm::mat4& model)
+	Ref<Material> Material::Create(const uint32_t shaderID, const Ref<Texture2D>& texture)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -18,7 +18,7 @@ namespace Pinata {
 			}
 			case  RendererAPI::API::OpenGL:
 			{
-				return CreateRef<OpenGLMaterial>(shaderID, model);
+				return CreateRef<OpenGLMaterial>(shaderID, texture);
 				break;
 			}
 		}

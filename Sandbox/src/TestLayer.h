@@ -67,7 +67,7 @@ public:
 
 			ImGui::Text(label, profile.time);
 		}
-
+		ImGui::Text("FPS : %.3f per frame", 1.0f / m_TimeStep);
 		m_ProfileResults.clear();
 		ImGui::End();
 	}
@@ -76,13 +76,26 @@ public:
 	{
 		
 		Pinata::TextureAttributes attri;
-		m_Texture2D_A = Pinata::Texture2D::Create(attri,"Assets/Textures/03.png");
-		m_Texture2D_B = Pinata::Texture2D::Create(attri, "Assets/Textures/02.png");
+		m_Texture2D_A = Pinata::Texture2D::Create(attri,"Assets/Textures/02.png");
+		m_Texture2D_B = Pinata::Texture2D::Create(attri, "Assets/Textures/03.png");
 		defaultWhiteTex = Pinata::Texture2D::DefaultTexture(Pinata::DefaultTexColor::Magenta);
+
+		m_Shader = Pinata::ShaderLibrary::Load("Assets/Shader/DefaultShader.shader");
+
+		m_Material_A = Pinata::Material::Create(m_Shader->GetID(), m_Texture2D_A);
+		m_Material_B = Pinata::Material::Create(m_Shader->GetID(), m_Texture2D_B);
+
+		m_Transform_A = Pinata::Transform(glm::vec3(0.5f, 1.0f, 0.0f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.5f, 0.5f, 1.0f));
+		m_Transform_B = Pinata::Transform(glm::vec3(-0.5f, 0.0f, 0.1f),
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(1.0f, 1.0f, 1.0f));
 	}
 
 	virtual void OnUpdate(float daltaTime) override
 	{
+		m_TimeStep = daltaTime;
 		PROFILE_SCOPE("TestLayer::OnUpdate");
 		{
 			PROFILE_SCOPE("CameraController::OnUpdate");
@@ -99,28 +112,13 @@ public:
 		}
 		{
 			PROFILE_SCOPE("Renderer2D::DrawQuad");
-			//Pinata::Renderer2D::DrawQuad(
-			//	glm::vec3(0.5f, 0.2f, 0.1f),
-			//	glm::vec3(0.0f, 0.0f, 0.0f), // 실똑
-			//	glm::vec3(0.5f, 0.5f, 1.0f),
-			//	tintColor,
-			//	m_Texture2D_B
-			//);
-			Pinata::Renderer2D::DrawQuad(
-				glm::vec3(0.5f, 1.0f, 0.0f),
-				glm::vec3(0.0f, 0.0f, 0.0f), // 실똑
-				glm::vec3(0.5f, 0.5f, 1.0f),
-				tintColor,
-				m_Texture2D_A
-			);
 
-			Pinata::Renderer2D::DrawQuad(
-				glm::vec3(-0.5f, 0.0f, 0.1f),
-				glm::vec3(0.0f, 0.0f, 0.0f), // 실똑
-				glm::vec3(1.0f, 1.0f, 1.0f),
-				tintColor
-			);
+			Pinata::Renderer2D::DrawQuad(m_Transform_A, m_Material_A);
+			Pinata::Renderer2D::DrawQuad(m_Transform_B, m_Material_B);
+
 		}
+
+
 
 		Pinata::Renderer2D::EndScene();
 
@@ -137,9 +135,17 @@ private:
 	Pinata::Ref<Pinata::Texture2D> m_Texture2D_A;
 	Pinata::Ref<Pinata::Texture2D> m_Texture2D_B;
 	Pinata::Ref<Pinata::Texture2D> defaultWhiteTex;
+
+	Pinata::Ref<Pinata::Shader> m_Shader;
+	Pinata::Ref<Pinata::Material> m_Material_A;
+	Pinata::Ref<Pinata::Material> m_Material_B;
+
+	Pinata::Transform m_Transform_A;
+	Pinata::Transform m_Transform_B;
 	glm::vec4 tintColor = {1.0f,1.0f,1.0f,1.0f};
 	int intensity;
 
+	float m_TimeStep;
 	Pinata::OrthoCameraController  m_CameraController;
 
 

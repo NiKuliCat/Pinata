@@ -98,6 +98,12 @@ namespace Pinata {
 		OpenGLShader::SetVector(name, color);
 	}
 
+	void OpenGLShader::SetIntArray(const std::string& name, const int* vaule, const uint32_t count)
+	{
+		GLint location = glGetUniformLocation(m_Program_ID, name.c_str());
+		glUniform1iv(location, count, vaule);
+	}
+
 
 	uint32_t OpenGLShader::CompileShader(uint32_t type, const std::string& source)
 	{

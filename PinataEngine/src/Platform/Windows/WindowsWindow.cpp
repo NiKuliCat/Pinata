@@ -53,7 +53,7 @@ namespace Pinata {
 
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
-		SetVSync(true);
+		SetVSync(false);
 
 #pragma region ----------------------------------------------------glfw callback
 
