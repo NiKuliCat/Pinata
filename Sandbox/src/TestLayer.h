@@ -1,6 +1,6 @@
 #pragma once
 #include <Pinata.h>
-#include "imgui.h"
+#include <ImGui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <chrono>
@@ -109,7 +109,7 @@ public:
 			PROFILE_SCOPE("CameraController::OnUpdate");
 			m_CameraController.OnUpdate(daltaTime);	
 		}
-		m_FrameBuffer->Bind();
+		//m_FrameBuffer->Bind();
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
@@ -129,7 +129,7 @@ public:
 
 
 		Pinata::Renderer2D::EndScene();
-		m_FrameBuffer->UnBind();
+		//m_FrameBuffer->UnBind();
 
 	}
 

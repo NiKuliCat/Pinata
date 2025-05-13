@@ -1,6 +1,6 @@
 workspace "PinataEngine"
-    architecture "x64"
-
+    architecture "x86_64"
+     startproject "Editor"   
     configurations
     {
         "Debug",
@@ -15,10 +15,11 @@ IncludeDir["Glad"] = "PinataEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "PinataEngine/vendor/ImGui"
 IncludeDir["glm"] = "PinataEngine/vendor/glm"
 
-include "PinataEngine/vendor/GLFW"
-include "PinataEngine/vendor/Glad"
-include "PinataEngine/vendor/ImGui"
-
+group "Dependencies"
+    include "PinataEngine/vendor/GLFW"
+    include "PinataEngine/vendor/Glad"
+    include "PinataEngine/vendor/ImGui"
+group "" 
 
 project "PinataEngine"
     location "PinataEngine"
@@ -112,7 +113,64 @@ project "Sandbox"
     {
         "PinataEngine/vendor/spdlog/include",
         "PinataEngine/src",
-        "PinataEngine/vendor/ImGui",
+        "PinataEngine/vendor",
+        "%{IncludeDir.glm}"
+    }
+
+    buildoptions
+    {
+        "/utf-8"
+    }
+
+    links
+    {
+        "PinataEngine"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+        defines
+        {
+            "PINATA_PLATFORM_WINDOW"
+        }
+
+    filter "configurations:Debug"
+        defines "PTA_DEBUG"
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        defines "PTA_RELEASE"
+        runtime "Release"
+        optimize "On"
+
+    filter "configurations:Dist"
+        defines "PTA_DIST"
+        runtime "Release"
+        optimize "On"
+
+
+project "Editor"
+    location "Editor"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("bin/" ..outputdir.. "/%{prj.name}")
+    objdir ("bin-int/" ..outputdir.. "/%{prj.name}")
+
+    files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+    }
+
+    includedirs
+    {
+        "PinataEngine/vendor/spdlog/include",
+        "PinataEngine/src",
+        "PinataEngine/vendor",
         "%{IncludeDir.glm}"
     }
 

@@ -21,6 +21,8 @@ namespace Pinata {
 		virtual uint32_t GetColorRenderTexture() = 0;
 		virtual uint32_t GetDepthRenderTexture() = 0;
 
+		virtual void ReSize(uint32_t width, uint32_t height) = 0;
+
 		virtual void Bind() = 0;
 		virtual void UnBind() = 0;
 

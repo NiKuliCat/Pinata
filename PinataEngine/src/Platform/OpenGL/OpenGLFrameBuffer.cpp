@@ -16,12 +16,21 @@ namespace Pinata {
 	OpenGLFrameBuffer::~OpenGLFrameBuffer()
 	{
 		glDeleteBuffers(1, &m_FrameBuffer_ID);
+		glDeleteTextures(1, &m_ColorRT_ID);
+		//glDeleteTextures(1, &m_DepthRT_ID);
+	}
+
+	void OpenGLFrameBuffer::ReSize(uint32_t width, uint32_t height)
+	{
+		m_Description.Width = width;
+		m_Description.Height = height;
+		Invaliadta();
 	}
 
 	void OpenGLFrameBuffer::Bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer_ID);
-	
+		glViewport(0, 0, m_Description.Width, m_Description.Height);
 	}
 
 	void OpenGLFrameBuffer::UnBind()
@@ -31,6 +40,14 @@ namespace Pinata {
 
 	void OpenGLFrameBuffer::Invaliadta()
 	{
+
+		if (m_FrameBuffer_ID)
+		{
+			//glDeleteBuffers(1, &m_FrameBuffer_ID);
+			glDeleteTextures(1, &m_ColorRT_ID);
+			//glDeleteTextures(1, &m_DepthRT_ID);
+		}
+
 		glCreateFramebuffers(1, &m_FrameBuffer_ID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer_ID);
 

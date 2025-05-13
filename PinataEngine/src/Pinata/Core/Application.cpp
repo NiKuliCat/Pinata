@@ -81,10 +81,12 @@ namespace Pinata {
 		m_Minimized = false;
 		return false;
 	}
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		s_Instance = this;
-		m_Window = Scope<Window>(Window::Create());
+		WindowProps props;
+		props.Title = name;
+		m_Window = Scope<Window>(Window::Create(props));
 		m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
 
 		Renderer::Init();

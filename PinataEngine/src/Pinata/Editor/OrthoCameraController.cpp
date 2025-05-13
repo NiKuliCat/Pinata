@@ -57,7 +57,13 @@ namespace Pinata {
 	{
 		EventDisPatcher dispatcher(event);
 		dispatcher.Dispatcher<MouseScrolledEvent>(BIND_EVENT_FUNC(OrthoCameraController::OnMouseScrolled));
-		dispatcher.Dispatcher<WindowResizeEvent>(BIND_EVENT_FUNC(OrthoCameraController::OnWindowResize));
+		//dispatcher.Dispatcher<WindowResizeEvent>(BIND_EVENT_FUNC(OrthoCameraController::OnWindowResize)); //更改成viewport窗户显示后,不跟踪主窗口的尺寸变化
+	}
+
+	void OrthoCameraController::OnResize(float width, float height)
+	{
+		m_Aspect = width / height;
+		m_Camera.SetProjectionMatrix(-m_Aspect * m_ZoomLevel, m_Aspect * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	}
 
 	
@@ -71,8 +77,7 @@ namespace Pinata {
 
 	bool OrthoCameraController::OnWindowResize(WindowResizeEvent& event)
 	{
-		m_Aspect = (float)event.GetWidth() / (float) event.GetHeight();
-		m_Camera.SetProjectionMatrix(-m_Aspect * m_ZoomLevel, m_Aspect * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		OnResize((float)event.GetWidth(), (float)event.GetHeight());
 		return false;
 	}
 

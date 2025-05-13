@@ -10,11 +10,17 @@
     <Filter Include="src\Pinata\Core">
       <UniqueIdentifier>{D16E1DB2-3DFA-8A76-460B-0E6BB215E776}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Pinata\Editor">
+      <UniqueIdentifier>{EF0913B3-5B20-1149-A497-9C6A10EDE1D0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Pinata\Event">
       <UniqueIdentifier>{EA1AF3F5-D613-1248-FF45-F7CCEB9DF153}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Pinata\ImGui">
       <UniqueIdentifier>{C30E36F6-AF07-5548-D839-3ACDC4913454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Pinata\Object">
+      <UniqueIdentifier>{3FBA42CA-ABD0-4060-F447-CC81609D11E8}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Pinata\Renderer">
       <UniqueIdentifier>{9F22D21A-0B84-AF28-94F1-F5DA0052E6E7}</UniqueIdentifier>
@@ -51,6 +57,9 @@
     </Filter>
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +102,9 @@
     <ClInclude Include="src\Pinata\Core\Window.h">
       <Filter>src\Pinata\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Editor\OrthoCameraController.h">
+      <Filter>src\Pinata\Editor</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Event\ApplicationEvent.h">
       <Filter>src\Pinata\Event</Filter>
     </ClInclude>
@@ -108,10 +120,22 @@
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h">
       <Filter>src\Pinata\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Object\Transform.h">
+      <Filter>src\Pinata\Object</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\Buffer.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\GraphicsContext.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\Light.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\Material.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\OrthographicCamera.h">
@@ -123,10 +147,19 @@
     <ClInclude Include="src\Pinata\Renderer\Renderer.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\Renderer2D.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\RendererAPI.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\Shader.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\ShaderLibrary.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\Texture.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\VertexArray.h">
@@ -141,10 +174,22 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLLight.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1413,18 +1458,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Renderer\Texture.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
-    <ClInclude Include="src\Pinata\Editor\OrthoCameraController.h" />
-    <ClInclude Include="src\Pinata\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\Pinata\Object\Transform.h" />
-    <ClInclude Include="src\Pinata\Renderer\Light.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLLight.h" />
-    <ClInclude Include="src\Pinata\Renderer\ShaderLibrary.h" />
-    <ClInclude Include="src\Pinata\Renderer\Material.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
-    <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1442,6 +1478,9 @@
     <ClCompile Include="src\Pinata\Core\Log.cpp">
       <Filter>src\Pinata\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp">
+      <Filter>src\Pinata\Editor</Filter>
+    </ClCompile>
     <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp">
       <Filter>src\Pinata\ImGui</Filter>
     </ClCompile>
@@ -1449,6 +1488,15 @@
       <Filter>src\Pinata\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\Buffer.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\Light.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\Material.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\OrthographicCamera.cpp">
@@ -1460,7 +1508,19 @@
     <ClCompile Include="src\Pinata\Renderer\Renderer.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\Renderer2D.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\RendererAPI.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\Shader.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\ShaderLibrary.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\Texture.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp">
@@ -1475,10 +1535,22 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLLight.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -1493,20 +1565,5 @@
     <ClCompile Include="src\ptapch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pinata\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\Texture.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
-    <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\Light.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLLight.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\ShaderLibrary.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\Material.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\Platform\OpenGL\Shaders\Basic.shader" />
   </ItemGroup>
 </Project>
