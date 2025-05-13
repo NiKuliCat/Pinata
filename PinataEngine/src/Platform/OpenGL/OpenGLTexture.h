@@ -17,7 +17,7 @@ namespace Pinata {
 		virtual glm::uvec2 GetSize() const override { return m_Size; };
 		virtual uint32_t GetWidth() const override { return m_Size.x; };
 		virtual uint32_t GetHeight() const override { return m_Size.y; };
-
+		virtual uint32_t GetID() const override { return m_TextureID; }
 		virtual void Bind(uint32_t slot = 0) const override;
 
 	private:

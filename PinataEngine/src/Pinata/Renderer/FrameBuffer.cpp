@@ -1,10 +1,13 @@
 #include "ptapch.h"
-#include "VertexArray.h"
-#include "Buffer.h"
+#include "FrameBuffer.h"
 #include "Renderer.h"
-#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLFrameBuffer.h"
 namespace Pinata {
-	Ref<VertexArray> VertexArray::Create()
+
+
+
+
+	Ref<FrameBuffer> FrameBuffer::Create(const FrameBufferDescription& description)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -15,7 +18,7 @@ namespace Pinata {
 		}
 		case  RendererAPI::API::OpenGL:
 		{
-			return CreateRef<OpenGLVertexArray>();
+			return CreateRef<OpenGLFrameBuffer>(description);
 			break;
 		}
 		}
@@ -23,4 +26,5 @@ namespace Pinata {
 		PTA_CORE_ERROR("UnKown RendererAPI !");
 		return nullptr;
 	}
+
 }

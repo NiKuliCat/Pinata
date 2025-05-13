@@ -68,6 +68,8 @@ public:
 			ImGui::Text(label, profile.time);
 		}
 		ImGui::Text("FPS : %.3f per frame", 1.0f / m_TimeStep);
+		uint32_t ScreenRT_ID = m_FrameBuffer->GetColorRenderTexture();
+		ImGui::Image(ScreenRT_ID, ImVec2{ 1280,720 });
 		m_ProfileResults.clear();
 		ImGui::End();
 	}
@@ -91,6 +93,12 @@ public:
 		m_Transform_B = Pinata::Transform(glm::vec3(-0.5f, 0.0f, 0.1f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 1.0f, 1.0f));
+
+
+		Pinata::FrameBufferDescription disc;
+		disc.Width = 1280;
+		disc.Height = 720;
+		m_FrameBuffer = Pinata::FrameBuffer::Create(disc);
 	}
 
 	virtual void OnUpdate(float daltaTime) override
@@ -101,7 +109,7 @@ public:
 			PROFILE_SCOPE("CameraController::OnUpdate");
 			m_CameraController.OnUpdate(daltaTime);	
 		}
-
+		m_FrameBuffer->Bind();
 		Pinata::RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		Pinata::RenderCommand::Clear();
 
@@ -121,7 +129,7 @@ public:
 
 
 		Pinata::Renderer2D::EndScene();
-
+		m_FrameBuffer->UnBind();
 
 	}
 
@@ -142,6 +150,8 @@ private:
 
 	Pinata::Transform m_Transform_A;
 	Pinata::Transform m_Transform_B;
+
+	Pinata::Ref<Pinata::FrameBuffer> m_FrameBuffer;
 	glm::vec4 tintColor = {1.0f,1.0f,1.0f,1.0f};
 	int intensity;
 

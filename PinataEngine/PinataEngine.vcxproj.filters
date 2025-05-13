@@ -1423,6 +1423,8 @@
     <ClInclude Include="src\Pinata\Renderer\ShaderLibrary.h" />
     <ClInclude Include="src\Pinata\Renderer\Material.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
+    <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1501,6 +1503,8 @@
     <ClCompile Include="src\Pinata\Renderer\ShaderLibrary.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Material.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\Basic.shader" />

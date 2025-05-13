@@ -7,12 +7,14 @@ namespace Pinata{
 	{
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_TextureID);
 		glTextureStorage2D(m_TextureID, 1, GL_RGBA8, m_Size.x, m_Size.y);
+		//glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Size.x, m_Size.y, GL_RGBA, GL_UNSIGNED_BYTE, (void*)nullptr);
 
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(m_TextureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
 	}
 	OpenGLTexture2D::OpenGLTexture2D(const DefaultTexColor& defaultColor)
 		:m_Size(1,1)

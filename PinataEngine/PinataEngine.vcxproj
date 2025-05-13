@@ -167,6 +167,7 @@
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Pinata\Object\Transform.h" />
     <ClInclude Include="src\Pinata\Renderer\Buffer.h" />
+    <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Pinata\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Pinata\Renderer\Light.h" />
     <ClInclude Include="src\Pinata\Renderer\Material.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\Platform\OpenGL\GLSLShaderHelper.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLLight.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLMaterial.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -620,6 +622,7 @@
     <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Light.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Material.cpp" />
     <ClCompile Include="src\Pinata\Renderer\OrthographicCamera.cpp" />
@@ -634,6 +637,7 @@
     <ClCompile Include="src\Pinata\vendor\stb_image.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLLight.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLMaterial.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
