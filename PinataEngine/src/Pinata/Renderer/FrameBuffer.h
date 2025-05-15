@@ -15,6 +15,7 @@ namespace Pinata {
 	{
 
 	public:
+		virtual ~FrameBuffer() = default;
 		virtual  FrameBufferDescription& GetBufferDescription() = 0;
 		virtual const FrameBufferDescription& GetBufferDescription() const  = 0;
 

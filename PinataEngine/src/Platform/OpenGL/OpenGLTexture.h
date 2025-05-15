@@ -23,7 +23,7 @@ namespace Pinata {
 	private:
 		virtual uint32_t SetColorByType(const DefaultTexColor& defaultColor);
 	private:
-		uint32_t m_TextureID;
+		uint32_t m_TextureID = -1;
 		std::string m_Path;
 		glm::uvec2 m_Size;
 

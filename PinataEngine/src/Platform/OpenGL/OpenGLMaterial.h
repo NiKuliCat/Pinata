@@ -26,7 +26,7 @@ namespace Pinata {
 		virtual const  uint32_t GetShaderID() const override { return m_ShaderID; }
 		virtual const Ref<Texture2D> GetTexture() const override { return m_Texture; }
 	private:
-		uint32_t m_ShaderID;
+		uint32_t m_ShaderID = -1;
 		Ref<Shader> m_Shader;
 		 
 		Ref<Texture2D> m_Texture;

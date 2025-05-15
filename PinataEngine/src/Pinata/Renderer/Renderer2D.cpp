@@ -4,15 +4,15 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "ShaderLibrary.h"
+#include <unordered_map>
 namespace Pinata {
-	//和layout排列一致，该顶点的数据
 
-	struct TextureSlot
+	struct TextureslotInfo
 	{
-		Ref<Texture2D> Tex;
-		uint32_t  Slot;
-
+		uint32_t TexID;
+		uint32_t Slot;
 	};
+	//和layout排列一致，该顶点的数据
 	struct QuadVertex
 	{
 		glm::vec3 Position;
@@ -53,12 +53,9 @@ namespace Pinata {
 			{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(0.0f, 0.0f),0},
 			{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(0.0f, 1.0f),0}
 		};
-
-		//texture;
-		std::vector<TextureSlot> CurrentTextures;
 		uint32_t CurrentTexCount;
-
-
+		std::unordered_map<uint32_t, uint32_t> m_CurrentTextures;
+		int32_t samplers[MaxTextureSlots];
 
 		Renderer2DBaseData()
 		{
@@ -114,8 +111,9 @@ namespace Pinata {
 			VA_Quad->SetIndexBuffer(IB_Quad);
 
 			DefaultShader = 0;
-			DefaultTexture = Texture2D::DefaultTexture(DefaultTexColor::White);
 
+			DefaultTexture = Texture2D::DefaultTexture(DefaultTexColor::White);
+			m_CurrentTextures = std::unordered_map<uint32_t, uint32_t>(MaxTextureSlots);
 
 			QuadVB_Start = new QuadVertex[MaxCount];
 
@@ -142,8 +140,13 @@ namespace Pinata {
 		s_BaseData->DrawVertexCount = 0;
 		s_BaseData->QuadVB_End = s_BaseData->QuadVB_Start;
 
-		s_BaseData->CurrentTexCount = 0;
-		s_BaseData->CurrentTextures.clear();
+		s_BaseData->m_CurrentTextures.clear();                                
+		s_BaseData->CurrentTexCount = -1;
+
+		s_BaseData->CurrentTexCount++;
+		s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
+		s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
+		s_BaseData->samplers[s_BaseData->CurrentTexCount] =(int32_t)s_BaseData->CurrentTexCount;
 	}
 
 	void Renderer2D::EndScene()
@@ -170,7 +173,7 @@ namespace Pinata {
 	void Renderer2D::DrawQuad(Transform& transform, glm::vec4& color, Ref<Texture2D>& texture)
 	{
 		auto shader = ShaderLibrary::Get(s_BaseData->DefaultShader);
-		glm::mat4 model = Transform::GetModelMatrix(transform);
+		glm::mat4 model = transform.GetModelMatrix();
 		shader->Bind();
 		shader->SetColor("_BaseColor", color);
 
@@ -210,17 +213,24 @@ namespace Pinata {
 
 	void Renderer2D::DrawQuad(Transform& transform, Ref<Material>& material)
 	{
-		glm::mat4 model = Transform::GetModelMatrix(transform);
-
+		glm::mat4 model = transform.GetModelMatrix();
 		auto texture = material->GetTexture();
+		uint32_t textureID = texture->GetID();
+		uint32_t  slot;
 
-		if (s_BaseData->CurrentTexCount < 32)
+		//如果此纹理还未绑定,则加入map中，并分配slot槽位
+		if (s_BaseData->m_CurrentTextures.find(textureID) == s_BaseData->m_CurrentTextures.end())
 		{
-			TextureSlot textureslot;
-			textureslot.Tex = texture;
-			textureslot.Slot = s_BaseData->CurrentTexCount;
-
-			s_BaseData->CurrentTextures.push_back(textureslot);
+			s_BaseData->CurrentTexCount++;
+			slot = s_BaseData->CurrentTexCount;
+			texture->Bind(s_BaseData->CurrentTexCount);
+			s_BaseData->samplers[s_BaseData->CurrentTexCount] = slot;
+			s_BaseData->m_CurrentTextures[textureID] = s_BaseData->CurrentTexCount;
+		}
+		//如果该纹理已经绑定过，找到其对应的slot;
+		else
+		{
+			slot = s_BaseData->m_CurrentTextures[textureID];
 		}
 
 		for (int i = 0; i < 4; i++)
@@ -228,30 +238,21 @@ namespace Pinata {
 			s_BaseData->QuadVB_End->Position = model * glm::vec4(s_BaseData->RawQuad[i].Position, 1.0f);
 			s_BaseData->QuadVB_End->Color = s_BaseData->RawQuad[i].Color;
 			s_BaseData->QuadVB_End->Texcoord = s_BaseData->RawQuad[i].Texcoord;
-			s_BaseData->QuadVB_End->TexIndex = s_BaseData->CurrentTexCount;
+			s_BaseData->QuadVB_End->TexIndex = slot;
 			s_BaseData->QuadVB_End++;
 		}
+
+
 		s_BaseData->DrawVertexCount += 6;
 
-		s_BaseData->CurrentTexCount++;
 		
 	}
 
 	void Renderer2D::Flush()
 	{
 		auto shader = ShaderLibrary::Get(s_BaseData->DefaultShader);
-		int32_t samplers[s_BaseData->MaxTextureSlots];
-
-		for (uint32_t i = 0; i < s_BaseData->CurrentTexCount; i++)
-		{
-			auto tex = s_BaseData->CurrentTextures[i];
-			tex.Tex->Bind(tex.Slot);
-			samplers[i] = tex.Slot;
-		}
-
 		shader->Bind();
-		shader->SetIntArray("_MainTex", samplers, s_BaseData->CurrentTexCount);
-
+		shader->SetIntArray("_MainTex", s_BaseData->samplers, s_BaseData->CurrentTexCount + 1);
 		Renderer::Submit(s_BaseData->VA_Quad,s_BaseData->DrawVertexCount, glm::mat4(1.0f), shader);
 	}
 

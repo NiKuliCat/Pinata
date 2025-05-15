@@ -1,7 +1,8 @@
 #include "EditorLayer.h"
 
 #include <ImGui/imgui.h>
-#include <glm/gtc/type_ptr.hpp>
+#include <ImGui/imgui_internal.h>
+#include <glm/glm.hpp>
 #include <chrono>
 namespace Pinata {
 	void EditorLayer::OnAttach()
@@ -20,7 +21,7 @@ namespace Pinata {
 		m_Transform_A = Transform(glm::vec3(0.5f, 1.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.5f, 0.5f, 1.0f));
-		m_Transform_B = Transform(glm::vec3(-0.5f, 0.0f, 0.1f),
+		m_Transform_B = Transform(glm::vec3(-3.0f, 0.0f, 0.1f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 1.0f, 1.0f));
 
@@ -92,8 +93,12 @@ namespace Pinata {
 			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 		}
 		ImGui::Image(ScreenRT_ID, ImVec2{ m_ViewportSize.x,m_ViewportSize.y },ImVec2(0,1),ImVec2(1,0));
+
+		//PTA_INFO(ImGui::IsWindowFocused());
+		//PTA_INFO(ImGui::IsWindowHovered());
 		ImGui::End();
 		ImGui::PopStyleVar();
+
 
 		ImGui::Begin("Base Info");
 		for (auto& profile : m_ProfileResults)
@@ -109,7 +114,6 @@ namespace Pinata {
 		m_ProfileResults.clear();
 		ImGui::End();
 
-
 //-----------------------------------My custom subWindow-----------------------------------
 
 		ImGui::End();
@@ -117,6 +121,8 @@ namespace Pinata {
 
 	void EditorLayer::OnUpdate(float daltaTime)
 	{
+
+
 		m_TimeStep = daltaTime;
 		PROFILE_SCOPE("TestLayer::OnUpdate");
 		{
@@ -133,10 +139,35 @@ namespace Pinata {
 			Renderer2D::BeginScene(m_CameraController.GetCamera());
 		}
 		{
-			PROFILE_SCOPE("Renderer2D::DrawQuad");
 
-			Renderer2D::DrawQuad(m_Transform_A, m_Material_A);
-			Renderer2D::DrawQuad(m_Transform_B, m_Material_B);
+			m_Transform_A = Transform(glm::vec3(0.5f, 1.0f, 0.0f),
+				glm::vec3(0.0f, 0.0f, 0.0f),
+				glm::vec3(0.5f, 0.5f, 1.0f));
+			m_Transform_B = Transform(glm::vec3(-1.0f, 0.0f, 0.1f),
+				glm::vec3(0.0f, 0.0f, 0.0f),
+				glm::vec3(1.0f, 1.0f, 1.0f));
+
+
+			PROFILE_SCOPE("Renderer2D::DrawQuad");
+			for (float i = 0.0f; i < 5.0f; i+= 1.0f)
+			{
+				for (float j = 0.0f; j < 5.0f; j += 1.0f)
+				{
+					m_Transform_A = Transform(glm::vec3(0.5f, 1.0f, 0.0f),
+						glm::vec3(0.0f, 0.0f, 0.0f),
+						glm::vec3(0.5f, 0.5f, 1.0f));
+
+					m_Transform_B = Transform(glm::vec3(-0.5f, 0.0f, 0.1f),
+						glm::vec3(0.0f, 0.0f, 0.0f),
+						glm::vec3(1.0f, 1.0f, 1.0f));
+
+					m_Transform_A.SetPosition(m_Transform_A.GetPosition() - glm::vec3(i * 0.6f, j * 0.6f, 0.0f));
+					m_Transform_B.SetPosition(m_Transform_B.GetPosition() + glm::vec3(i * 1.2f, j * 1.2f, 0.0f));
+
+					Renderer2D::DrawQuad(m_Transform_A, m_Material_A);
+					Renderer2D::DrawQuad(m_Transform_B, m_Material_B);
+				}
+			}
 
 		}
 

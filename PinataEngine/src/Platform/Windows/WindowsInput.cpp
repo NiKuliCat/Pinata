@@ -1,45 +1,38 @@
 #include "ptapch.h"
-#include "WindowsInput.h"
+#include "Pinata/Core/Input.h"
 #include "Pinata/Core/Application.h"
 #include <GLFW/glfw3.h>
 namespace Pinata {
 
-	//静态初始化
-	Input* Input::s_Instance = new WindowsInput();
-
-	bool WindowsInput::IsKeyPressedImpl(int keycode)
+	bool Input::IsKeyPressed(int keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		int state = glfwGetKey(window, keycode);
 
+		auto state = glfwGetKey(window, static_cast<int32_t>(keycode));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
-
-	bool WindowsInput::IsMouseButtonPressedImpl(int button)
+	bool Input::IsMouseButtonPressed(int button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		int state = glfwGetMouseButton(window, button);
-		return state == GLFW_PRESS ;
-	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
+		return state == GLFW_PRESS || state == GLFW_REPEAT;
+	}
+	std::pair<float, float> Input::GetMousePosition()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		double x, y;
-		glfwGetCursorPos(window, &x, &y);
-		return { (float)x,(float)y };
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		return {(float)xpos,(float)ypos};
 	}
-
-	float WindowsInput::GetMouseXImpl()
+	float Input::GetMouseX()
 	{
-		//结构化绑定
-		auto [x, y] = GetMousePositionImpl();
+		auto [x, y] = Input::GetMousePosition();
 		return x;
 	}
-
-	float WindowsInput::GetMouseYImpl()
+	float Input::GetMouseY()
 	{
-		auto [x, y] = GetMousePositionImpl();
+		auto [x, y] = Input::GetMousePosition();
 		return y;
 	}
 

@@ -1,54 +1,54 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/euler_angles.hpp>
 
 namespace Pinata {
-	struct Transform
+
+
+	class Transform
 	{
-		glm::vec3 Position = { 0.0f,0.0f,0.0f };
-		glm::vec3 Rotation = { 0.0f,0.0f,0.0f };
-		glm::vec3 Scale = { 1.0f,1.0f,1.0f };
 
+
+	public:
 		Transform() = default;
+		~Transform() = default;
 
-		Transform(glm::vec3 position)
-			:Position(position), Rotation({ 0.0f,0.0f,0.0f }), Scale({ 1.0f,1.0f,1.0f })
-		{
-
+		Transform(glm::vec3& position)
+			:m_Position(position), m_Rotation({ 0.0f,0.0f,0.0f }), m_Scale({ 1.0f,1.0f,1.0f }){
+			CaculateModelMatrix();
 		}
 
-		Transform(glm::vec3 position, glm::vec3 rotation)
-			:Position(position), Rotation(rotation), Scale({ 1.0f,1.0f,1.0f })
-		{
-
+		Transform(glm::vec3& position, glm::vec3& rotation)
+			:m_Position(position), m_Rotation(rotation), m_Scale({ 1.0f,1.0f,1.0f }) {
+			CaculateModelMatrix();
 		}
 
-		Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
-			:Position(position), Rotation(rotation), Scale(scale)
-		{
-
+		Transform(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale)
+			:m_Position(position), m_Rotation(rotation), m_Scale(scale){
+			CaculateModelMatrix();
 		}
-		static glm::mat4 GetModelMatrix(Transform& transform)
-		{
 
-			glm::mat4 translate = glm::translate(glm::mat4(1.0f), transform.Position);
-			glm::mat4 scale = glm::scale(glm::mat4(1.0f), transform.Scale);
+	public:
+		void SetPosition(const glm::vec3& position);
+		void SetRotation(const glm::vec3& rotation);
+		void SetScale(const glm::vec3& scale);
 
-			glm::vec3 radians = glm::radians(transform.Rotation); // 角度 转 弧度
-			glm::vec3 eulerAngles(radians); // 示例值（单位：弧度）
-			glm::quat quaternion = glm::quat(eulerAngles); // 计算出四元数
-			glm::mat4 rotate = glm::mat4_cast(quaternion); // 根据四元数得出旋转矩阵
+		 glm::vec3& GetPosition()	 { return m_Position; }
+		const glm::vec3& GetRotation()	const { return m_Rotation; }
+		const glm::vec3& GetScale()		const { return m_Scale; }
+
+	public:
+		const glm::mat4& GetModelMatrix() const { return m_ModelMatrix; }
+		
+	private:
+		void CaculateModelMatrix();
+
+	private:
+		glm::vec3 m_Position = { 0.0f,0.0f,0.0f };
+		glm::vec3 m_Rotation = { 0.0f,0.0f,0.0f };
+		glm::vec3 m_Scale = { 1.0f,1.0f,1.0f };
+
+		glm::mat4 m_ModelMatrix = glm::mat4(1.0f);
 
 
-			// 本地 to 世界
-			glm::mat4 model = translate * rotate  * scale;
-
-			return model;
-		}
 	};
-
-
 }

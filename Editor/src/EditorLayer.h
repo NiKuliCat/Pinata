@@ -51,6 +51,7 @@ namespace Pinata {
 			: Layer("Pinata Editor"), m_CameraController(16.0f / 9.0f, true)
 		{
 		}
+		virtual ~EditorLayer() = default;
 		virtual void OnImGuiRender() override;
 
 		virtual void OnAttach() override;

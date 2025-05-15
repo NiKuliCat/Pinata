@@ -30,4 +30,5 @@ uniform int _Intensity;
 void main()
 {
 	FragColor = ourColor *  texture(_MainTex[int(TexIndex)], uv);
+	//FragColor = vec4(TexIndex,TexIndex,TexIndex,1.0f);
 };

@@ -10,7 +10,7 @@ namespace Pinata {
 
 	public:
 		OpenGLFrameBuffer(const FrameBufferDescription& description);
-		~OpenGLFrameBuffer();
+		virtual ~OpenGLFrameBuffer();
 
 
 	public:

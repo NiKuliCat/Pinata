@@ -195,9 +195,6 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
-      <Filter>src\Platform\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
@@ -1564,6 +1561,9 @@
     </ClCompile>
     <ClCompile Include="src\ptapch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>src\Pinata\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
