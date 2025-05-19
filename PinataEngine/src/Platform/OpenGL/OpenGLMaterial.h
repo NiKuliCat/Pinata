@@ -28,7 +28,6 @@ namespace Pinata {
 	private:
 		uint32_t m_ShaderID = -1;
 		Ref<Shader> m_Shader;
-		 
 		Ref<Texture2D> m_Texture;
 	};
 

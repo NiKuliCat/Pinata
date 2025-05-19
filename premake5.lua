@@ -14,6 +14,7 @@ IncludeDir["GLFW"] = "PinataEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "PinataEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "PinataEngine/vendor/ImGui"
 IncludeDir["glm"] = "PinataEngine/vendor/glm"
+IncludeDir["entt"] = "PinataEngine/vendor/entt/include"
 
 group "Dependencies"
     include "PinataEngine/vendor/GLFW"
@@ -55,7 +56,8 @@ project "PinataEngine"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}"
     }
     buildoptions
     {
@@ -114,7 +116,8 @@ project "Sandbox"
         "PinataEngine/vendor/spdlog/include",
         "PinataEngine/src",
         "PinataEngine/vendor",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+         "%{IncludeDir.entt}"
     }
 
     buildoptions
@@ -171,7 +174,8 @@ project "Editor"
         "PinataEngine/vendor/spdlog/include",
         "PinataEngine/src",
         "PinataEngine/vendor",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+         "%{IncludeDir.entt}"
     }
 
     buildoptions

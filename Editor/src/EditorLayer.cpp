@@ -31,6 +31,16 @@ namespace Pinata {
 		disc.Height = 720;
 		m_FrameBuffer = FrameBuffer::Create(disc);
 		m_ViewportSize = {(float) disc.Width,(float)disc.Height };
+
+
+		m_Scene = CreateRef<Scene>("TestScene");
+		auto obj = m_Scene->CreateObject("Test Square Object");
+		obj.AddComponent<SpriteRenderer>(m_Material_A);
+
+		auto obj2 = m_Scene->CreateObject("Test Square Object 2");
+		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
+		transform.SetPosition(glm::vec3(-2.0f, 0.0f, 0.1f));
+		obj2.AddComponent<SpriteRenderer>(m_Material_B);
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -149,7 +159,7 @@ namespace Pinata {
 
 
 			PROFILE_SCOPE("Renderer2D::DrawQuad");
-			for (float i = 0.0f; i < 5.0f; i+= 1.0f)
+			/*for (float i = 0.0f; i < 5.0f; i+= 1.0f)
 			{
 				for (float j = 0.0f; j < 5.0f; j += 1.0f)
 				{
@@ -167,8 +177,8 @@ namespace Pinata {
 					Renderer2D::DrawQuad(m_Transform_A, m_Material_A);
 					Renderer2D::DrawQuad(m_Transform_B, m_Material_B);
 				}
-			}
-
+			}*/
+			m_Scene->RenderScene();
 		}
 
 		Renderer2D::EndScene();

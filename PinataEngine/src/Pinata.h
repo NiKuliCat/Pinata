@@ -18,9 +18,15 @@
 #include "Pinata/Renderer/Material.h"
 #include "Pinata/Renderer/VertexArray.h"
 #include "Pinata/Renderer/FrameBuffer.h"
+
+
 #include "Pinata/Editor/OrthoCameraController.h"
 
-#include "Pinata/Renderer/Shader.h"
 #include "Pinata/Renderer/Texture.h"
-#include "Platform/OpenGL/GLSLShaderHelper.h"
+
+#include "Pinata/Scene/Scene.h"
+#include "Pinata/Scene/Object.h"
+#include "Pinata/Object/Component.h"
+
+
 //--------entry point-----------------
