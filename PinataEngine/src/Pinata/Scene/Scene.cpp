@@ -33,10 +33,13 @@ namespace Pinata {
 
 	Object Scene::CreateObject(const std::string& name)
 	{
-		Object obj = { name,m_Registry.create(),this };
+		Object obj = {m_Registry.create(), this };
+		obj.AddComponent<Tag>(AllTags::default);
+		obj.AddComponent<Name>(name);
 		obj.AddComponent<Transform>();
 		return obj;
 	}
+
 
 	void Scene::RenderScene()
 	{

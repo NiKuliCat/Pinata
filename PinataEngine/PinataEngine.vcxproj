@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="src\Pinata.h" />
     <ClInclude Include="src\Pinata\Component\NativeScript.h" />
+    <ClInclude Include="src\Pinata\Component\Tag.h" />
     <ClInclude Include="src\Pinata\Core\Application.h" />
     <ClInclude Include="src\Pinata\Core\Core.h" />
     <ClInclude Include="src\Pinata\Core\CoreTime.h" />

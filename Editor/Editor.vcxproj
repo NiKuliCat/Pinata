@@ -138,10 +138,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
-    <ClInclude Include="src\ImGuiWindow.h" />
+    <ClInclude Include="src\ImGuiPanel\SceneHierarchyPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\ImGuiPanel\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\PinataEditor.cpp" />
   </ItemGroup>
   <ItemGroup>

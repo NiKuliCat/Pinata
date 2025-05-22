@@ -3,6 +3,7 @@
 #include <ImGui/imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <chrono>
+#include "ImGuiPanel/SceneHierarchyPanel.h"
 #define PROFILE_SCOPE(name) Timer timer##__Line__(name,[&](ProfileResult profileResult){m_ProfileResults.push_back(profileResult);})
 template<typename Fn>
 class Timer
@@ -81,6 +82,7 @@ namespace Pinata {
 		Object m_QuadObject;
 		OrthoCameraController  m_CameraController;
 
+		SceneHierarchyPanel m_HierarchyPanel;
 
 		struct ProfileResult
 		{

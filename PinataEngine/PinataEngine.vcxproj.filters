@@ -1469,6 +1469,7 @@
     <ClInclude Include="src\Pinata\Component\Component.h" />
     <ClInclude Include="src\Pinata\Component\NativeScript.h" />
     <ClInclude Include="src\Pinata\Scene\ScriptableObject.h" />
+    <ClInclude Include="src\Pinata\Component\Tag.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">

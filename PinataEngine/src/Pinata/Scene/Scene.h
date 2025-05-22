@@ -2,6 +2,7 @@
 #include "entt.hpp"
 namespace Pinata {
 	class Object;
+
 	class Scene
 	{
 
@@ -21,5 +22,6 @@ namespace Pinata {
 	private:
 		std::string m_Name;
 		entt::registry m_Registry;
+		friend class SceneHierarchyPanel;
 	};
 }

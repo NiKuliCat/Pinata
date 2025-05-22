@@ -42,7 +42,8 @@ namespace Pinata {
 		transform.SetPosition(glm::vec3(-2.0f, 0.0f, 0.1f));
 		obj2.AddComponent<SpriteRenderer>(m_Material_B);
 
-
+		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
+		//m_HierarchyPanel.SetContext(m_Scene);
 
 		class TestScript : public ScriptableObject
 		{
@@ -50,8 +51,8 @@ namespace Pinata {
 			void OnCreate()
 			{
 				GetComponent<Transform>();
+				
 				PTA_INFO("TestScript::OnCreate");
-				PTA_INFO(GetName());
 			}
 
 			void OnUpdate(float deltatime)
@@ -128,7 +129,7 @@ namespace Pinata {
 		ImGui::End();
 		ImGui::PopStyleVar();
 
-
+		m_HierarchyPanel.OnImGuiRender();
 		ImGui::Begin("Render Status ");
 		for (auto& profile : m_ProfileResults)
 		{

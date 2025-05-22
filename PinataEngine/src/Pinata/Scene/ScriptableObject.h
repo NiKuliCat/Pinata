@@ -16,8 +16,6 @@ namespace Pinata {
 		virtual void OnUpdate(float deltatime) {}
 		virtual void OnDestory() {}
 
-		const std::string& GetName() const { return m_Object.GetName(); }
-
 	private:
 		Object m_Object;
 		friend class Scene;

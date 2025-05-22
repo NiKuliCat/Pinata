@@ -1,13 +1,13 @@
 #pragma once
 #include "Scene.h"
 #include "entt.hpp"
+#include "Pinata/Component/Tag.h"
 namespace Pinata {
 
 	class Object
 	{
 	public:
 		Object() = default;
-		Object(const std::string& name,entt::entity entityHandle, Scene* scene);
 		Object(entt::entity entityHandle, Scene* scene);
 		Object(const Object& other) = default;
 		~Object() = default;
@@ -41,10 +41,14 @@ namespace Pinata {
 			m_Scene->GetRegistry().remove<T>(m_EntityHandle);
 		}
 
-		const std::string& GetName() const { return m_Name; }
+		operator bool() const { return m_EntityHandle != entt::null; }
+		operator uint32_t() const { return (uint32_t)m_EntityHandle; }
+		bool operator ==(const Object& other) { return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene; }
+		bool operator !=(const Object& other) { return m_EntityHandle != other.m_EntityHandle || m_Scene != other.m_Scene; }
 
+
+		std::string& GetName() { return GetComponent<Name>().GetName(); }
 	private:
-		std::string m_Name = "new object";
 		entt::entity m_EntityHandle{ entt::null };
 		Scene* m_Scene = nullptr;
 	};
