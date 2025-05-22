@@ -34,13 +34,35 @@ namespace Pinata {
 
 
 		m_Scene = CreateRef<Scene>("TestScene");
-		auto obj = m_Scene->CreateObject("Test Square Object");
-		obj.AddComponent<SpriteRenderer>(m_Material_A);
+		m_QuadObject = m_Scene->CreateObject("Test Square Object");
+		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
 
 		auto obj2 = m_Scene->CreateObject("Test Square Object 2");
 		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
 		transform.SetPosition(glm::vec3(-2.0f, 0.0f, 0.1f));
 		obj2.AddComponent<SpriteRenderer>(m_Material_B);
+
+
+
+		class TestScript : public ScriptableObject
+		{
+		public:
+			void OnCreate()
+			{
+				GetComponent<Transform>();
+				PTA_INFO("TestScript::OnCreate");
+				PTA_INFO(GetName());
+			}
+
+			void OnUpdate(float deltatime)
+			{
+				//PTA_INFO("TestScript::OnUpdate  {0} ",deltatime);
+			}
+
+		};
+
+
+		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -89,19 +111,16 @@ namespace Pinata {
 		}
 
 //-----------------------------------My custom subWindow-----------------------------------
-		ImVec2 ViewportSize;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding , ImVec2(0, 0));
 		ImGui::Begin("Viewport");
 		uint32_t ScreenRT_ID = m_FrameBuffer->GetColorRenderTexture();
-		ViewportSize = ImGui::GetWindowSize();
-		glm::vec2 CurrentSize = { ViewportSize.x,ViewportSize.y };
-		if (m_ViewportSize != CurrentSize)
+
 		{
-			m_FrameBuffer->ReSize((uint32_t)CurrentSize.x, (uint32_t)CurrentSize.y);
-			m_ViewportSize = CurrentSize;
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			ImVec2 ViewportSize = ImGui::GetWindowSize();
+			m_ViewportSize = { ViewportSize.x,ViewportSize.y };
 		}
+
 		ImGui::Image(ScreenRT_ID, ImVec2{ m_ViewportSize.x,m_ViewportSize.y },ImVec2(0,1),ImVec2(1,0));
 
 		//PTA_INFO(ImGui::IsWindowFocused());
@@ -110,7 +129,7 @@ namespace Pinata {
 		ImGui::PopStyleVar();
 
 
-		ImGui::Begin("Base Info");
+		ImGui::Begin("Render Status ");
 		for (auto& profile : m_ProfileResults)
 		{
 			char label[50];
@@ -120,7 +139,11 @@ namespace Pinata {
 			ImGui::Text(label, profile.time);
 		}
 		ImGui::Text("FPS : %.3f per frame", 1.0f / m_TimeStep);
-		ImGui::Text("Viewport Size : (%.0f,%.0f)", ViewportSize.x, ViewportSize.y);
+		ImGui::Text("Viewport Size : (%.0f,%.0f)", m_ViewportSize.x, m_ViewportSize.y);
+
+		auto& quadColor = m_QuadObject.GetComponent<SpriteRenderer>().GetMaterial()->GetColor();
+		ImGui::ColorEdit4("Quad Color", glm::value_ptr(quadColor));
+
 		m_ProfileResults.clear();
 		ImGui::End();
 
@@ -139,10 +162,17 @@ namespace Pinata {
 			PROFILE_SCOPE("CameraController::OnUpdate");
 			m_CameraController.OnUpdate(daltaTime);
 		}
+
+		if (m_ViewportSize.x != m_FrameBuffer->GetBufferDescription().Width || m_ViewportSize.y != m_FrameBuffer->GetBufferDescription().Height)
+		{
+			m_FrameBuffer->ReSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+		}
+
 		m_FrameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		RenderCommand::Clear();
-
+		m_Scene->OnUpdate(daltaTime);
 		//2D render draw call
 		{
 			PROFILE_SCOPE("Renderer2D::BeginScene");

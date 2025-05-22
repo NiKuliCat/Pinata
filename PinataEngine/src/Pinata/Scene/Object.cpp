@@ -7,4 +7,9 @@ namespace Pinata {
 	{
 
 	}
+	Object::Object(entt::entity entityHandle, Scene* scene)
+		:m_Name("newObject"), m_EntityHandle(entityHandle), m_Scene(scene)
+	{
+
+	}
 }

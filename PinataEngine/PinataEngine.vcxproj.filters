@@ -123,7 +123,7 @@
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h">
       <Filter>src\Pinata\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Object\Transform.h">
+    <ClInclude Include="src\Pinata\Component\Transform.h">
       <Filter>src\Pinata\Object</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\Buffer.h">
@@ -1465,8 +1465,10 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Scene\Object.h" />
-    <ClInclude Include="src\Pinata\Object\SpriteRenderer.h" />
-    <ClInclude Include="src\Pinata\Object\Component.h" />
+    <ClInclude Include="src\Pinata\Component\SpriteRenderer.h" />
+    <ClInclude Include="src\Pinata\Component\Component.h" />
+    <ClInclude Include="src\Pinata\Component\NativeScript.h" />
+    <ClInclude Include="src\Pinata\Scene\ScriptableObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1575,7 +1577,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Scene\Object.cpp" />
-    <ClCompile Include="src\Pinata\Object\Transform.cpp" />
-    <ClCompile Include="src\Pinata\Object\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Pinata\Component\Transform.cpp" />
+    <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp" />
   </ItemGroup>
 </Project>

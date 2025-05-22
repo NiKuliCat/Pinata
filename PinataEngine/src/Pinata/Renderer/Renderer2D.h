@@ -2,7 +2,7 @@
 #include "OrthographicCamera.h"
 #include "Texture.h"
 #include "Material.h"
-#include "Pinata/Object/Transform.h"
+#include "Pinata/Component/Transform.h"
 namespace Pinata {
 
 	class Renderer2D

@@ -43,6 +43,13 @@ namespace Pinata {
         auto window = (GLFWwindow*) Application::Get().GetWindow().GetNativeWindow();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
+
+        //font
+        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/msyh.ttc", 20.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
+        ImGui::GetIO().FontDefault = font;
+
+        ImGui_ImplOpenGL3_DestroyFontsTexture();
+        ImGui_ImplOpenGL3_CreateFontsTexture();
 	}
 	void ImGuiLayer::OnDetach()
 	{

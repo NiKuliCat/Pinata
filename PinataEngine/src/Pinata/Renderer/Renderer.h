@@ -2,7 +2,6 @@
 #include "RenderCommand.h"
 #include "Shader.h"
 #include "OrthographicCamera.h"
-#include "Pinata/Object/Transform.h"
 namespace Pinata {
 
 	struct CameraData

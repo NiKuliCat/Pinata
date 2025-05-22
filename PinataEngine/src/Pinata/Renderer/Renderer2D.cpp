@@ -215,6 +215,7 @@ namespace Pinata {
 	{
 		glm::mat4 model = transform.GetModelMatrix();
 		auto texture = material->GetTexture();
+		glm::vec4 color = material->GetColor();
 		uint32_t textureID = texture->GetID();
 		uint32_t  slot;
 
@@ -236,7 +237,7 @@ namespace Pinata {
 		for (int i = 0; i < 4; i++)
 		{
 			s_BaseData->QuadVB_End->Position = model * glm::vec4(s_BaseData->RawQuad[i].Position, 1.0f);
-			s_BaseData->QuadVB_End->Color = s_BaseData->RawQuad[i].Color;
+			s_BaseData->QuadVB_End->Color =  color * s_BaseData->RawQuad[i].Color;
 			s_BaseData->QuadVB_End->Texcoord = s_BaseData->RawQuad[i].Texcoord;
 			s_BaseData->QuadVB_End->TexIndex = slot;
 			s_BaseData->QuadVB_End++;

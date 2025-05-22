@@ -78,7 +78,9 @@ namespace Pinata {
 		Ref<FrameBuffer> m_FrameBuffer;
 		glm::vec2 m_ViewportSize;
 		float m_TimeStep;
+		Object m_QuadObject;
 		OrthoCameraController  m_CameraController;
+
 
 		struct ProfileResult
 		{

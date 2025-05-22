@@ -1,7 +1,7 @@
 #include "ptapch.h""
 #include "Scene.h"
 #include "Object.h"
-#include "Pinata/Object/Component.h"
+#include "Pinata/Component/Component.h"
 #include "Pinata/Renderer/Renderer2D.h"
 namespace Pinata {
 
@@ -14,9 +14,21 @@ namespace Pinata {
 	{
 	}
 
-	void Scene::OnUpdata(float deltaTime)
+	void Scene::OnUpdate(float deltaTime)
 	{
+		{
+			m_Registry.view<NativeScript>().each([=](auto entity, auto& nsc)
+			{
+				if (!nsc.Instance)
+				{
+					nsc.Instance = nsc.InstantiateScript();
+					nsc.Instance->m_Object = Object(entity, this);
+					nsc.Instance->OnCreate();
+				}
+				nsc.Instance->OnUpdate(deltaTime);
 
+			});
+		}
 	}
 
 	Object Scene::CreateObject(const std::string& name)

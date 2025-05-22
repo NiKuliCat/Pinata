@@ -10,7 +10,7 @@ namespace Pinata {
 		Scene(const std::string& name);
 		~Scene();
 
-		void OnUpdata(float deltaTime);
+		void OnUpdate(float deltaTime);
 
 		entt::registry& GetRegistry() { return m_Registry; }
 		Object CreateObject(const std::string& name);

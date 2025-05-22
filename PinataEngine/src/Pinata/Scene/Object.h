@@ -8,6 +8,7 @@ namespace Pinata {
 	public:
 		Object() = default;
 		Object(const std::string& name,entt::entity entityHandle, Scene* scene);
+		Object(entt::entity entityHandle, Scene* scene);
 		Object(const Object& other) = default;
 		~Object() = default;
 
@@ -40,11 +41,11 @@ namespace Pinata {
 			m_Scene->GetRegistry().remove<T>(m_EntityHandle);
 		}
 
-
+		const std::string& GetName() const { return m_Name; }
 
 	private:
-		std::string m_Name;
-		entt::entity m_EntityHandle;
-		Scene* m_Scene;
+		std::string m_Name = "new object";
+		entt::entity m_EntityHandle{ entt::null };
+		Scene* m_Scene = nullptr;
 	};
 }
