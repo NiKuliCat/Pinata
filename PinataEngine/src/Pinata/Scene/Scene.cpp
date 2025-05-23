@@ -29,10 +29,12 @@ namespace Pinata {
 
 			});
 		}
+		RenderScene();
 	}
 
 	Object Scene::CreateObject(const std::string& name)
 	{
+		
 		Object obj = {m_Registry.create(), this };
 		obj.AddComponent<Tag>(AllTags::default);
 		obj.AddComponent<Name>(name);
@@ -43,11 +45,32 @@ namespace Pinata {
 
 	void Scene::RenderScene()
 	{
-		auto group = m_Registry.group<Transform>(entt::get<SpriteRenderer>);
-		for (auto obj : group)
+		Camera* MainCamera = nullptr;
+		Transform MainCameraTransform;
+		auto view = m_Registry.view<Transform, RuntimeCamera>();
+		int sort = -1;
+		for (auto camera : view)
 		{
-			auto [transform, spriteRenderer] = group.get<Transform, SpriteRenderer>(obj);
-			Renderer2D::DrawQuad(transform, spriteRenderer.GetMaterial());
+			auto [transform, camera] = view.get<Transform, RuntimeCamera>(camera);
+			if (camera.m_Sort > sort)
+			{
+				MainCameraTransform = transform;
+				MainCamera = &camera.m_Camera;
+				sort = camera.m_Sort;
+			}
+		}
+
+		if (MainCamera)
+		{
+			Renderer2D::BeginScene(MainCameraTransform, *MainCamera);
+			auto group = m_Registry.group<Transform>(entt::get<SpriteRenderer>);
+			for (auto obj : group)
+			{
+				auto [transform, spriteRenderer] = group.get<Transform, SpriteRenderer>(obj);
+				Renderer2D::DrawQuad(transform, spriteRenderer.GetMaterial());
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 

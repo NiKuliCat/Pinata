@@ -148,7 +148,9 @@
   <ItemGroup>
     <ClInclude Include="src\Pinata.h" />
     <ClInclude Include="src\Pinata\Component\NativeScript.h" />
+    <ClInclude Include="src\Pinata\Component\RuntimeCamera.h" />
     <ClInclude Include="src\Pinata\Component\Tag.h" />
+    <ClInclude Include="src\Pinata\Component\Transform.h" />
     <ClInclude Include="src\Pinata\Core\Application.h" />
     <ClInclude Include="src\Pinata\Core\Core.h" />
     <ClInclude Include="src\Pinata\Core\CoreTime.h" />
@@ -169,8 +171,8 @@
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Pinata\Component\Component.h" />
     <ClInclude Include="src\Pinata\Component\SpriteRenderer.h" />
-    <ClInclude Include="src\Pinata\Component\Transform.h" />
     <ClInclude Include="src\Pinata\Renderer\Buffer.h" />
+    <ClInclude Include="src\Pinata\Renderer\Camera.h" />
     <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Pinata\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Pinata\Renderer\Light.h" />
@@ -620,6 +622,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pinata\Component\Transform.cpp" />
     <ClCompile Include="src\Pinata\Core\Application.cpp" />
     <ClCompile Include="src\Pinata\Core\CoreTime.cpp" />
     <ClCompile Include="src\Pinata\Core\Layer.cpp" />
@@ -629,8 +632,8 @@
     <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp" />
-    <ClCompile Include="src\Pinata\Component\Transform.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\Camera.cpp" />
     <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Light.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Material.cpp" />

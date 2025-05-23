@@ -75,7 +75,7 @@ namespace Pinata {
 		Transform m_Transform_B;
 
 		Ref<Scene> m_Scene;
-
+		Object m_ScneneCamera;
 		Ref<FrameBuffer> m_FrameBuffer;
 		glm::vec2 m_ViewportSize;
 		float m_TimeStep;

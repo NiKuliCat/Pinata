@@ -16,6 +16,10 @@ namespace Pinata {
 		//»·¾³£ºlights,map,
 		m_SceneData->mainCamera.ViewProjectMatrix = camera.GetViewProjectionMatrix();
 	}
+	void Renderer::BeginScene(Transform& transform,Camera& mainCamera)
+	{
+		m_SceneData->mainCamera.ViewProjectMatrix = mainCamera.GetProjectionMatrix() * Transform::GetLookAtMatrix(transform);
+	}
 	void Renderer::EndScene()
 	{
 		//m_SceneData->Clear()

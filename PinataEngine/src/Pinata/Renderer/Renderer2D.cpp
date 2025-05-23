@@ -149,6 +149,22 @@ namespace Pinata {
 		s_BaseData->samplers[s_BaseData->CurrentTexCount] =(int32_t)s_BaseData->CurrentTexCount;
 	}
 
+	void Renderer2D::BeginScene(Transform& transform, Camera& mainCamera)
+	{
+		Renderer::BeginScene(transform, mainCamera);
+
+		s_BaseData->DrawVertexCount = 0;
+		s_BaseData->QuadVB_End = s_BaseData->QuadVB_Start;
+
+		s_BaseData->m_CurrentTextures.clear();
+		s_BaseData->CurrentTexCount = -1;
+
+		s_BaseData->CurrentTexCount++;
+		s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
+		s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
+		s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;
+	}
+
 	void Renderer2D::EndScene()
 	{
 		uint32_t dataSize = (uint8_t*)s_BaseData->QuadVB_End - (uint8_t*)s_BaseData->QuadVB_Start;
@@ -173,7 +189,7 @@ namespace Pinata {
 	void Renderer2D::DrawQuad(Transform& transform, glm::vec4& color, Ref<Texture2D>& texture)
 	{
 		auto shader = ShaderLibrary::Get(s_BaseData->DefaultShader);
-		glm::mat4 model = transform.GetModelMatrix();
+		glm::mat4 model = Transform::GetModelMatrix(transform);
 		shader->Bind();
 		shader->SetColor("_BaseColor", color);
 
@@ -213,7 +229,7 @@ namespace Pinata {
 
 	void Renderer2D::DrawQuad(Transform& transform, Ref<Material>& material)
 	{
-		glm::mat4 model = transform.GetModelMatrix();
+		glm::mat4 model = Transform::GetModelMatrix(transform);
 		auto texture = material->GetTexture();
 		glm::vec4 color = material->GetColor();
 		uint32_t textureID = texture->GetID();

@@ -10,7 +10,7 @@ namespace Pinata {
 		{
 			return m_Object.GetComponent<T>();
 		}
-
+		 
 	protected:
 		virtual void OnCreate() {}
 		virtual void OnUpdate(float deltatime) {}

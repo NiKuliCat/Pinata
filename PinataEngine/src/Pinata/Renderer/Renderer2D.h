@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Material.h"
 #include "Pinata/Component/Transform.h"
+#include "Pinata/Renderer/Camera.h"
 namespace Pinata {
 
 	class Renderer2D
@@ -13,6 +14,7 @@ namespace Pinata {
 		static void Init();
 		static void Shutdown();
 		static void BeginScene(OrthographicCamera& mainCamera);
+		static void BeginScene(Transform& transform,Camera& mainCamera);
 		static void EndScene();
 
 		//with texture

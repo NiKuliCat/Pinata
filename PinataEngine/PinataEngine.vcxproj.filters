@@ -123,9 +123,6 @@
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h">
       <Filter>src\Pinata\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Component\Transform.h">
-      <Filter>src\Pinata\Object</Filter>
-    </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\Buffer.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
@@ -1470,6 +1467,9 @@
     <ClInclude Include="src\Pinata\Component\NativeScript.h" />
     <ClInclude Include="src\Pinata\Scene\ScriptableObject.h" />
     <ClInclude Include="src\Pinata\Component\Tag.h" />
+    <ClInclude Include="src\Pinata\Renderer\Camera.h" />
+    <ClInclude Include="src\Pinata\Component\RuntimeCamera.h" />
+    <ClInclude Include="src\Pinata\Component\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
@@ -1578,7 +1578,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Scene\Object.cpp" />
-    <ClCompile Include="src\Pinata\Component\Transform.cpp" />
     <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Pinata\Component\Transform.cpp" />
   </ItemGroup>
 </Project>

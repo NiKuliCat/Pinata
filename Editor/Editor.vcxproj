@@ -138,7 +138,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\ImGuiPanel\InspectorPanel.h" />
     <ClInclude Include="src\ImGuiPanel\SceneHierarchyPanel.h" />
+    <ClInclude Include="src\MainCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />

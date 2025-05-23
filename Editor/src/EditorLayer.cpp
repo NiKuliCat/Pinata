@@ -4,6 +4,7 @@
 #include <ImGui/imgui_internal.h>
 #include <glm/glm.hpp>
 #include <chrono>
+#include "MainCameraController.h"
 namespace Pinata {
 	void EditorLayer::OnAttach()
 	{
@@ -18,9 +19,9 @@ namespace Pinata {
 		m_Material_A = Material::Create(m_Shader->GetID(), m_Texture2D_A);
 		m_Material_B = Material::Create(m_Shader->GetID(), m_Texture2D_B);
 
-		m_Transform_A = Transform(glm::vec3(0.5f, 1.0f, 0.0f),
+		m_Transform_A = Transform(glm::vec3(0.0f, 0.0f, 1.0f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
-			glm::vec3(0.5f, 0.5f, 1.0f));
+			glm::vec3(1.0f, 1.0f, 1.0f));
 		m_Transform_B = Transform(glm::vec3(-3.0f, 0.0f, 0.1f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 1.0f, 1.0f));
@@ -30,40 +31,73 @@ namespace Pinata {
 		disc.Width = 1280;
 		disc.Height = 720;
 		m_FrameBuffer = FrameBuffer::Create(disc);
-		m_ViewportSize = {(float) disc.Width,(float)disc.Height };
+		m_ViewportSize = { (float)disc.Width,(float)disc.Height };
 
-
-		m_Scene = CreateRef<Scene>("TestScene");
-		m_QuadObject = m_Scene->CreateObject("Test Square Object");
-		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
-
-		auto obj2 = m_Scene->CreateObject("Test Square Object 2");
-		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
-		transform.SetPosition(glm::vec3(-2.0f, 0.0f, 0.1f));
-		obj2.AddComponent<SpriteRenderer>(m_Material_B);
-
-		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
-		//m_HierarchyPanel.SetContext(m_Scene);
 
 		class TestScript : public ScriptableObject
 		{
 		public:
 			void OnCreate()
 			{
-				GetComponent<Transform>();
-				
-				PTA_INFO("TestScript::OnCreate");
+				m_CameraTranslationSpeed = 1.0f;
 			}
 
 			void OnUpdate(float deltatime)
 			{
-				//PTA_INFO("TestScript::OnUpdate  {0} ",deltatime);
-			}
+				if (Input::IsKeyPressed(Key::KP4))
+				{
+					GetComponent<Transform>().Position.x -= m_CameraTranslationSpeed * deltatime;
+				}
+				if (Input::IsKeyPressed(Key::KP6))
+				{
+					GetComponent<Transform>().Position.x += m_CameraTranslationSpeed * deltatime;
+				}
+				if (Input::IsKeyPressed(Key::KP8))
+				{
+					GetComponent<Transform>().Position.y += m_CameraTranslationSpeed * deltatime;
+				}
+				if (Input::IsKeyPressed(Key::KP2))
+				{
+					GetComponent<Transform>().Position.y -= m_CameraTranslationSpeed * deltatime;
+				}
 
+				if (Input::IsKeyPressed(Key::KP7))
+				{
+					GetComponent<Transform>().Position.z -= m_CameraTranslationSpeed * deltatime;
+				}
+
+				if (Input::IsKeyPressed(Key::KP9))
+				{
+					GetComponent<Transform>().Position.z += m_CameraTranslationSpeed * deltatime;
+				}
+
+			}
+		private:
+			float  m_CameraTranslationSpeed = 1.0f;
 		};
 
 
+		m_Scene = CreateRef<Scene>("TestScene");
+		{
+			m_ScneneCamera = m_Scene->CreateObject("Main Camera");
+			m_ScneneCamera.AddComponent<RuntimeCamera>();
+			m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
+			auto& transform = m_ScneneCamera.GetComponent<Transform>();
+			transform.Position = glm::vec3(0.0f, 0.0f, 2.0f);
+			transform.Rotation = glm::vec3(0.0f, -90.0f, 0.0f);
+			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+		}
+
+		m_QuadObject = m_Scene->CreateObject("Test Square Object");
+		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
 		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
+
+		auto obj2 = m_Scene->CreateObject("Test Square Object 2");
+		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
+		transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
+		obj2.AddComponent<SpriteRenderer>(m_Material_B);
+
+		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -167,52 +201,16 @@ namespace Pinata {
 		if (m_ViewportSize.x != m_FrameBuffer->GetBufferDescription().Width || m_ViewportSize.y != m_FrameBuffer->GetBufferDescription().Height)
 		{
 			m_FrameBuffer->ReSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_ScneneCamera.GetComponent<RuntimeCamera>().m_Aspect = m_ViewportSize.x / m_ViewportSize.y;
+			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+			//m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 		}
 
 		m_FrameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		RenderCommand::Clear();
+
 		m_Scene->OnUpdate(daltaTime);
-		//2D render draw call
-		{
-			PROFILE_SCOPE("Renderer2D::BeginScene");
-			Renderer2D::BeginScene(m_CameraController.GetCamera());
-		}
-		{
-
-			m_Transform_A = Transform(glm::vec3(0.5f, 1.0f, 0.0f),
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(0.5f, 0.5f, 1.0f));
-			m_Transform_B = Transform(glm::vec3(-1.0f, 0.0f, 0.1f),
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(1.0f, 1.0f, 1.0f));
-
-
-			PROFILE_SCOPE("Renderer2D::DrawQuad");
-			/*for (float i = 0.0f; i < 5.0f; i+= 1.0f)
-			{
-				for (float j = 0.0f; j < 5.0f; j += 1.0f)
-				{
-					m_Transform_A = Transform(glm::vec3(0.5f, 1.0f, 0.0f),
-						glm::vec3(0.0f, 0.0f, 0.0f),
-						glm::vec3(0.5f, 0.5f, 1.0f));
-
-					m_Transform_B = Transform(glm::vec3(-0.5f, 0.0f, 0.1f),
-						glm::vec3(0.0f, 0.0f, 0.0f),
-						glm::vec3(1.0f, 1.0f, 1.0f));
-
-					m_Transform_A.SetPosition(m_Transform_A.GetPosition() - glm::vec3(i * 0.6f, j * 0.6f, 0.0f));
-					m_Transform_B.SetPosition(m_Transform_B.GetPosition() + glm::vec3(i * 1.2f, j * 1.2f, 0.0f));
-
-					Renderer2D::DrawQuad(m_Transform_A, m_Material_A);
-					Renderer2D::DrawQuad(m_Transform_B, m_Material_B);
-				}
-			}*/
-			m_Scene->RenderScene();
-		}
-
-		Renderer2D::EndScene();
 		m_FrameBuffer->UnBind();
 
 	}

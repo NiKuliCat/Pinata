@@ -2,6 +2,8 @@
 #include "RenderCommand.h"
 #include "Shader.h"
 #include "OrthographicCamera.h"
+#include "Pinata/Renderer/Camera.h"
+#include "Pinata/Component/Component.h"
 namespace Pinata {
 
 	struct CameraData
@@ -25,6 +27,7 @@ namespace Pinata {
 	public:
 		static void Init();
 		static void BeginScene(OrthographicCamera& mainCamera);
+		static void BeginScene(Transform& transfom,Camera& mainCamera);
 		static void EndScene();
 		static void SetWindowSize(const uint32_t width, const uint32_t height);
 		static void SetBlend(bool enable);

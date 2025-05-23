@@ -69,7 +69,11 @@ namespace Pinata {
 	
 	bool OrthoCameraController::OnMouseScrolled(MouseScrolledEvent& event)
 	{
-		m_ZoomLevel -= event.GetYOffset() * 0.1f;
+		float offset = event.GetYOffset();
+		if ((offset > 0 && m_ZoomLevel > 0.12f) || (offset < 0 && m_ZoomLevel < 4.8f))
+		{
+			m_ZoomLevel -= offset * 0.1f;
+		}
 		m_CameraTranslationSpeed = 1.0f * abs(m_ZoomLevel);
 		m_Camera.SetProjectionMatrix(-m_Aspect * m_ZoomLevel, m_Aspect * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;
