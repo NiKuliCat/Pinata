@@ -20,7 +20,7 @@ namespace Pinata {
 		m_Material_B = Material::Create(m_Shader->GetID(), m_Texture2D_B);
 
 		m_Transform_A = Transform(glm::vec3(0.0f, 0.0f, 1.0f),
-			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 1.0f, 1.0f));
 		m_Transform_B = Transform(glm::vec3(-3.0f, 0.0f, 0.1f),
 			glm::vec3(0.0f, 0.0f, 0.0f),
@@ -71,6 +71,10 @@ namespace Pinata {
 					GetComponent<Transform>().Position.z += m_CameraTranslationSpeed * deltatime;
 				}
 
+				if (Input::IsKeyPressed(Key::KP1))
+				{
+					GetComponent<Transform>().Rotation.x += 10.0f * deltatime;
+				}
 			}
 		private:
 			float  m_CameraTranslationSpeed = 1.0f;
@@ -84,7 +88,7 @@ namespace Pinata {
 			m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
 			auto& transform = m_ScneneCamera.GetComponent<Transform>();
 			transform.Position = glm::vec3(0.0f, 0.0f, 2.0f);
-			transform.Rotation = glm::vec3(0.0f, -90.0f, 0.0f);
+			transform.Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
 		}
 
@@ -92,10 +96,10 @@ namespace Pinata {
 		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
 		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
 
-		auto obj2 = m_Scene->CreateObject("Test Square Object 2");
-		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
-		transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
-		obj2.AddComponent<SpriteRenderer>(m_Material_B);
+		//auto obj2 = m_Scene->CreateObject("Test Square Object 2");
+		//auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
+		//transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
+		//obj2.AddComponent<SpriteRenderer>(m_Material_B);
 
 		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 	}
@@ -192,18 +196,11 @@ namespace Pinata {
 
 
 		m_TimeStep = daltaTime;
-		PROFILE_SCOPE("TestLayer::OnUpdate");
-		{
-			PROFILE_SCOPE("CameraController::OnUpdate");
-			m_CameraController.OnUpdate(daltaTime);
-		}
-
 		if (m_ViewportSize.x != m_FrameBuffer->GetBufferDescription().Width || m_ViewportSize.y != m_FrameBuffer->GetBufferDescription().Height)
 		{
 			m_FrameBuffer->ReSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_ScneneCamera.GetComponent<RuntimeCamera>().m_Aspect = m_ViewportSize.x / m_ViewportSize.y;
 			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
-			//m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 		}
 
 		m_FrameBuffer->Bind();
@@ -217,6 +214,6 @@ namespace Pinata {
 
 	void EditorLayer::OnEvent(Event& event)
 	{
-		m_CameraController.OnEvent(event);
 	}
+
 }

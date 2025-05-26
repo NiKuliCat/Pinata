@@ -49,7 +49,7 @@ namespace Pinata {
 	{
 	public:
 		EditorLayer()
-			: Layer("Pinata Editor"), m_CameraController(16.0f / 9.0f, true)
+			: Layer("Pinata Editor")
 		{
 		}
 		virtual ~EditorLayer() = default;
@@ -80,7 +80,6 @@ namespace Pinata {
 		glm::vec2 m_ViewportSize;
 		float m_TimeStep;
 		Object m_QuadObject;
-		OrthoCameraController  m_CameraController;
 
 		SceneHierarchyPanel m_HierarchyPanel;
 

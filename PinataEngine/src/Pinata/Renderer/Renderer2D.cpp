@@ -143,10 +143,10 @@ namespace Pinata {
 		s_BaseData->m_CurrentTextures.clear();                                
 		s_BaseData->CurrentTexCount = -1;
 
-		s_BaseData->CurrentTexCount++;
-		s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
-		s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
-		s_BaseData->samplers[s_BaseData->CurrentTexCount] =(int32_t)s_BaseData->CurrentTexCount;
+		//s_BaseData->CurrentTexCount++;
+		//s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
+		//s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
+		//s_BaseData->samplers[s_BaseData->CurrentTexCount] =(int32_t)s_BaseData->CurrentTexCount;
 	}
 
 	void Renderer2D::BeginScene(Transform& transform, Camera& mainCamera)
@@ -159,10 +159,10 @@ namespace Pinata {
 		s_BaseData->m_CurrentTextures.clear();
 		s_BaseData->CurrentTexCount = -1;
 
-		s_BaseData->CurrentTexCount++;
+		/*s_BaseData->CurrentTexCount++;
 		s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
 		s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
-		s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;
+		s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;*/
 	}
 
 	void Renderer2D::EndScene()
@@ -256,7 +256,7 @@ namespace Pinata {
 			s_BaseData->QuadVB_End->Color =  color * s_BaseData->RawQuad[i].Color;
 			s_BaseData->QuadVB_End->Texcoord = s_BaseData->RawQuad[i].Texcoord;
 			s_BaseData->QuadVB_End->TexIndex = slot;
-			s_BaseData->QuadVB_End++;
+			s_BaseData->QuadVB_End++;	
 		}
 
 

@@ -24,7 +24,7 @@ namespace Pinata {
 		Transform(glm::vec3& position, glm::vec3& rotation, glm::vec3& scale)
 			:Position(position), Rotation(rotation), Scale(scale){}
 
-		static  glm::mat4& GetModelMatrix( Transform& transform);
+		static const glm::mat4& GetModelMatrix(const Transform& transform);
 		static const glm::mat4& GetLookAtMatrix(const Transform& transform);
 		static const glm::mat4& GetViewMatrix(const Transform& transform);
 	};

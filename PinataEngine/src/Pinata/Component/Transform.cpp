@@ -4,17 +4,19 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 namespace Pinata {
-	glm::mat4& Transform::GetModelMatrix(Transform& transform)
+	const glm::mat4& Transform::GetModelMatrix(const Transform& transform)
 	{
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), transform.Position);
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), transform.Scale);
 
-		glm::vec3 radians = glm::radians(transform.Rotation); // 角度 转 弧度
-		glm::vec3 eulerAngles(radians); // 示例值（单位：弧度）
-		glm::quat quaternion = glm::quat(eulerAngles); // 计算出四元数
-		glm::mat4 rotate = glm::mat4_cast(quaternion); // 根据四元数得出旋转矩阵
+		float pitch = glm::radians(transform.Rotation.x);
+		float yaw = glm::radians(transform.Rotation.y);
+		float roll = glm::radians(transform.Rotation.z);
+		glm::quat rotate_Quat = glm::yawPitchRoll(yaw, pitch, roll);
+		rotate_Quat = glm::normalize(rotate_Quat);
+		glm::mat4 rotation = glm::mat4(rotate_Quat);
 		// 本地 to 世界
-		 return translate * scale;
+		 return translate * rotation *  scale;
 	}
 	const glm::mat4& Transform::GetLookAtMatrix(const Transform& transform)
 	{
@@ -43,9 +45,14 @@ namespace Pinata {
 
 	const glm::mat4& Transform::GetViewMatrix(const Transform& transform)
 	{
-		glm::mat4 view = glm::translate(glm::mat4(1.0f), transform.Position)
-			* glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(0, 0, 1));
-		 return glm::inverse(view);
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), transform.Position);
+		float pitch = glm::radians(transform.Rotation.x);
+		float yaw = glm::radians(transform.Rotation.y);
+		float roll = glm::radians(transform.Rotation.z);
+		glm::quat rotate_Quat = glm::yawPitchRoll(yaw, pitch, roll);
+		rotate_Quat = glm::normalize(rotate_Quat);
+		glm::mat4 rotation = glm::mat4(rotate_Quat);
+		return glm::inverse(translate * rotation);
 	}
 
 }

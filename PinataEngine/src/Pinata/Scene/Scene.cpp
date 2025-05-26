@@ -64,8 +64,10 @@ namespace Pinata {
 		{
 			Renderer2D::BeginScene(MainCameraTransform, *MainCamera);
 			auto group = m_Registry.group<Transform>(entt::get<SpriteRenderer>);
+			int i = 0;
 			for (auto obj : group)
 			{
+				i++;
 				auto [transform, spriteRenderer] = group.get<Transform, SpriteRenderer>(obj);
 				Renderer2D::DrawQuad(transform, spriteRenderer.GetMaterial());
 			}

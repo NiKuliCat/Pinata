@@ -29,9 +29,30 @@ namespace Pinata {
 			{
 				GetComponent<Transform>().Position.y -= m_CameraTranslationSpeed * deltatime;
 			}
-
+			if (Input::IsKeyPressed(Key::KPSubtract))
+			{
+				auto& cam = GetComponent<RuntimeCamera>();
+				cam.m_FOV += m_ZoomLevelSpeed * deltatime;
+				cam.OnDataChange();
+			}
+			if (Input::IsKeyPressed(Key::KPAdd))
+			{
+				auto& cam = GetComponent<RuntimeCamera>();
+				cam.m_FOV -= m_ZoomLevelSpeed * deltatime;
+				cam.OnDataChange();
+			}
+			if (Input::IsKeyPressed(Key::Q))
+			{
+				GetComponent<Transform>().Rotation.y -= m_CameraRotateSpeed * deltatime;
+			}
+			if (Input::IsKeyPressed(Key::E))
+			{
+				GetComponent<Transform>().Rotation.y += m_CameraRotateSpeed * deltatime;
+			}
 		}
 	private:
 		float  m_CameraTranslationSpeed = 1.0f;
+		float  m_CameraRotateSpeed = 30.0f;
+		float  m_ZoomLevelSpeed = 20.0f;
 	};
 }

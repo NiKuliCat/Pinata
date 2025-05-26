@@ -18,7 +18,7 @@ namespace Pinata {
 	}
 	void Renderer::BeginScene(Transform& transform,Camera& mainCamera)
 	{
-		m_SceneData->mainCamera.ViewProjectMatrix = mainCamera.GetProjectionMatrix() * Transform::GetLookAtMatrix(transform);
+		m_SceneData->mainCamera.ViewProjectMatrix = mainCamera.GetProjectionMatrix() * Transform::GetViewMatrix(transform);
 	}
 	void Renderer::EndScene()
 	{
