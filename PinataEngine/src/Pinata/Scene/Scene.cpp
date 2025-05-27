@@ -63,7 +63,7 @@ namespace Pinata {
 		if (MainCamera)
 		{
 			Renderer2D::BeginScene(MainCameraTransform, *MainCamera);
-			auto group = m_Registry.group<Transform>(entt::get<SpriteRenderer>);
+			auto group = m_Registry.group<Transform,SpriteRenderer>();
 			int i = 0;
 			for (auto obj : group)
 			{

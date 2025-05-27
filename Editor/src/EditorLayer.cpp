@@ -73,7 +73,7 @@ namespace Pinata {
 
 				if (Input::IsKeyPressed(Key::KP1))
 				{
-					GetComponent<Transform>().Rotation.x += 10.0f * deltatime;
+					GetComponent<Transform>().Rotation.x += 30.0f * deltatime;
 				}
 			}
 		private:
@@ -87,19 +87,35 @@ namespace Pinata {
 			m_ScneneCamera.AddComponent<RuntimeCamera>();
 			m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
 			auto& transform = m_ScneneCamera.GetComponent<Transform>();
-			transform.Position = glm::vec3(0.0f, 0.0f, 2.0f);
+			transform.Position = glm::vec3(0.0f, 0.0f, 10.0f);
 			transform.Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+
 		}
 
-		m_QuadObject = m_Scene->CreateObject("Test Square Object");
+		m_QuadObject = m_Scene->CreateObject("Square Object 1");
 		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
 		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
 
-		//auto obj2 = m_Scene->CreateObject("Test Square Object 2");
-		//auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
-		//transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
-		//obj2.AddComponent<SpriteRenderer>(m_Material_B);
+		//for (int i = 0; i < 5; i++)
+		//{
+		//	auto obj = m_Scene->CreateObject("Square Object");
+		//	auto& transform = m_ScneneCamera.GetComponent<Transform>();
+		//	transform.Position = glm::vec3(float(i), 0.0f, 0.1f);
+		//	obj.AddComponent<SpriteRenderer>(m_Material_A);
+		//}
+
+		{
+			auto obj = m_Scene->CreateObject("Square Object 2");
+			auto& objtrans = obj.GetComponent<Transform>();
+			objtrans.Position = glm::vec3(2.0f, 0.0f, 0.1f);
+			obj.AddComponent<SpriteRenderer>(m_Material_A);
+		}
+
+		auto obj2 = m_Scene->CreateObject("Square Object 3");
+		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
+		transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
+		obj2.AddComponent<SpriteRenderer>(m_Material_B);
 
 		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 	}
@@ -180,8 +196,8 @@ namespace Pinata {
 		ImGui::Text("FPS : %.3f per frame", 1.0f / m_TimeStep);
 		ImGui::Text("Viewport Size : (%.0f,%.0f)", m_ViewportSize.x, m_ViewportSize.y);
 
-		auto& quadColor = m_QuadObject.GetComponent<SpriteRenderer>().GetMaterial()->GetColor();
-		ImGui::ColorEdit4("Quad Color", glm::value_ptr(quadColor));
+		//auto& quadColor = m_QuadObject.GetComponent<SpriteRenderer>().GetMaterial()->GetColor();
+		//ImGui::ColorEdit4("Quad Color", glm::value_ptr(quadColor));
 
 		m_ProfileResults.clear();
 		ImGui::End();

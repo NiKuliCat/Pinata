@@ -7,7 +7,7 @@ layout(location = 3) in float index;
 uniform mat4 _MVP;
 uniform vec4 _BaseColor;
 out vec4 ourColor;
-out vec2 uv;
+varying vec2 uv;
 out float TexIndex;
 void main()
 {
@@ -21,12 +21,11 @@ void main()
 #program     fragment 
 #version 330 core
 layout(location = 0) out vec4 FragColor;
-in vec2 uv;
+varying vec2 uv;
 in vec4 ourColor;
 in float TexIndex;
 uniform sampler2D   _MainTex[32];
 uniform vec4 _BaseColor;
-uniform int _Intensity;
 void main()
 {
 	FragColor = ourColor *  texture(_MainTex[int(TexIndex)], uv);

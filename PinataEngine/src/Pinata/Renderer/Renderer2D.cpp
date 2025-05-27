@@ -9,8 +9,8 @@ namespace Pinata {
 
 	struct TextureslotInfo
 	{
-		uint32_t TexID;
-		uint32_t Slot;
+		int32_t TexID;
+		int32_t Slot;
 	};
 	//和layout排列一致，该顶点的数据
 	struct QuadVertex
@@ -48,12 +48,12 @@ namespace Pinata {
 		QuadVertex* QuadVB_Start = nullptr;
 		QuadVertex* QuadVB_End   = nullptr;
 		QuadVertex RawQuad[4] = {
-			{glm::vec3(0.5f,0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(1.0f,1.0f),0},
-			{glm::vec3(0.5f, -0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(1.0f, 0.0f),0},
-			{glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(0.0f, 0.0f),0},
-			{glm::vec3(-0.5f,  0.5f, 0.0f),glm::vec4(1.0f, 1.0f,1.0f,1.0f),glm::vec2(0.0f, 1.0f),0}
+			{glm::vec3(0.5f,   0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f), 0},
+			{glm::vec3(0.5f,  -0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f), 0},
+			{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f), 0},
+			{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f), 0}
 		};
-		uint32_t CurrentTexCount;
+		int32_t CurrentTexCount;
 		std::unordered_map<uint32_t, uint32_t> m_CurrentTextures;
 		int32_t samplers[MaxTextureSlots];
 
@@ -62,10 +62,10 @@ namespace Pinata {
 			float QuadPos[9 * 4] =
 			{
 				//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
-				 0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,1.0f,   1.0f, 1.0f,   // 右上
-				 0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,1.0f,   1.0f, 0.0f,   // 右下
-				-0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 0.0f,   // 左下
-				-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 1.0f    // 左上
+				 0.5f,  0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   1.0f, 1.0f,   // 右上
+				 0.5f, -0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   1.0f, 0.0f,   // 右下
+				-0.5f, -0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 0.0f,   // 左下
+				-0.5f,  0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 1.0f    // 左上
 			};
 			DrawVertexCount = 0;
 			uint32_t QuadIndices[6] = { 0, 1, 3, 1, 2, 3 };
@@ -159,10 +159,10 @@ namespace Pinata {
 		s_BaseData->m_CurrentTextures.clear();
 		s_BaseData->CurrentTexCount = -1;
 
-		/*s_BaseData->CurrentTexCount++;
-		s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
-		s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
-		s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;*/
+		//s_BaseData->CurrentTexCount++;
+		//s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
+		//s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
+		//s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;
 	}
 
 	void Renderer2D::EndScene()
@@ -248,6 +248,7 @@ namespace Pinata {
 		else
 		{
 			slot = s_BaseData->m_CurrentTextures[textureID];
+			//PTA_INFO("textureID: {0},slot:{1}", textureID, slot);
 		}
 
 		for (int i = 0; i < 4; i++)
