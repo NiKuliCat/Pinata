@@ -4,6 +4,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/euler_angles.hpp>
 namespace Pinata {
+
 	const glm::mat4& Transform::GetModelMatrix(const Transform& transform)
 	{
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), transform.Position);
@@ -18,6 +19,7 @@ namespace Pinata {
 		// 本地 to 世界
 		 return translate * rotation *  scale;
 	}
+
 	const glm::mat4& Transform::GetLookAtMatrix(const Transform& transform)
 	{
 		glm::vec3 position = transform.Position;

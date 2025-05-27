@@ -1,7 +1,9 @@
 #include "ptapch.h"
 #include "SceneHierarchyPanel.h"
 #include <ImGui/imgui.h>
+#include <ImGui/imgui_internal.h>
 #include "Pinata/Component/Component.h"
+#include <glm/gtc/type_ptr.hpp>
 namespace Pinata{
 	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& scene)
 	{
@@ -33,6 +35,7 @@ namespace Pinata{
 		DrawInspectorPanel();
 
 	}
+
 	void SceneHierarchyPanel::DrawObjectNode(Object obj)
 	{
 		auto& name = obj.GetName();
@@ -55,6 +58,65 @@ namespace Pinata{
 			ImGui::TreePop();
 		}
 	}
+
+	static void DrawVec3Control(const std::string& label, glm::vec3& value, glm::vec3& defaulValue = glm::vec3( 0.0f,0.0f,0.0f ), float columnWidth = 90.0f)
+	{
+		ImGui::PushID(label.c_str());
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 1,1 });
+
+		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+		ImVec2 buttonSize = { lineHeight + 10.0f,lineHeight };
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.7f,0.1f,0.15f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f,0.2f,0.25f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.7f,0.1f,0.15f,1.0f });
+		if (ImGui::Button("X", buttonSize))
+		{
+			value.x = defaulValue.x;
+		}
+		ImGui::PopStyleColor(3);
+		ImGui::SameLine();
+		ImGui::DragFloat("##X", &value.x, 0.1f,0.0f,0.0f,"%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f,0.7f,0.1f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f,0.9f,0.3f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f,0.9f,0.15f,1.0f });
+		if (ImGui::Button("Y", buttonSize))
+		{
+			value.y = defaulValue.y;
+		}
+		ImGui::PopStyleColor(3);
+		ImGui::SameLine();
+		ImGui::DragFloat("##Y", &value.y, 0.1f, 0.0f, 0.0f, "%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f,0.1f,0.7f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f,0.2f,0.9f,1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f,0.2f,0.9f,1.0f });
+		if (ImGui::Button("Z", buttonSize))
+		{
+			value.z = defaulValue.z;
+		}
+		ImGui::PopStyleColor(3);
+		ImGui::SameLine();
+		ImGui::DragFloat("##Z", &value.z, 0.1f, 0.0f, 0.0f, "%.2f");
+		ImGui::PopItemWidth();
+
+		ImGui::PopStyleVar();
+		ImGui::Columns(1);
+
+		ImGui::PopID();
+	}
+
+
 
 	void SceneHierarchyPanel::DrawInspectorPanel()
 	{
@@ -84,7 +146,15 @@ namespace Pinata{
 
 			if (m_SelectedObjectNode.HasComponent<Transform>())
 			{
+				if (ImGui::TreeNodeEx((void*)typeid(Transform).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform"))
+				{
+					auto& transform = m_SelectedObjectNode.GetComponent<Transform>();
+					DrawVec3Control("Position", transform.Position);
+					DrawVec3Control("Rotation", transform.Rotation);
+					DrawVec3Control("Scale", transform.Scale,glm::vec3(1.0f,1.0f,1.0f));
 
+					ImGui::TreePop();
+				}
 			}
 
 			if (m_SelectedObjectNode.HasComponent<RuntimeCamera>())

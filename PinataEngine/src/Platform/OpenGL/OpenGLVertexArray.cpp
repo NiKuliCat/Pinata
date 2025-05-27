@@ -53,11 +53,21 @@ namespace Pinata {
 		for (auto& element : layout)
 		{
 			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index, element.Count,
-				ShaderDataTypeToOpenGL(element.DataType), 
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetVertexStride(), (void*)element.Offset);
+			if (ShaderDataTypeToOpenGL(element.DataType) != GL_INT)
+			{
+				glVertexAttribPointer(
+					index, element.Count,
+					ShaderDataTypeToOpenGL(element.DataType),
+					element.Normalized ? GL_TRUE : GL_FALSE,
+					layout.GetVertexStride(), (void*)element.Offset);
+			}
+			else
+			{
+				glVertexAttribIPointer(
+					index, element.Count,
+					ShaderDataTypeToOpenGL(element.DataType),
+					layout.GetVertexStride(), (void*)element.Offset);
+			}
 			index++;
 		}
 		m_VertexBuffers.push_back(vertexBuffer);

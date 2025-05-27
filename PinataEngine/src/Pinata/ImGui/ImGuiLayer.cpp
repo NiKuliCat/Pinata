@@ -45,7 +45,9 @@ namespace Pinata {
 		ImGui_ImplOpenGL3_Init("#version 410");
 
         //font
-        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/msyh.ttc", 20.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
+        ImFontConfig fontcfg;
+        fontcfg.GlyphOffset.x = -1.0f;
+        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/msyh.ttc", 20.0f, &fontcfg, io.Fonts->GetGlyphRangesChineseFull());
         ImGui::GetIO().FontDefault = font;
 
         ImGui_ImplOpenGL3_DestroyFontsTexture();
