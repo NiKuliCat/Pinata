@@ -139,7 +139,7 @@ namespace Pinata{
 	static void DrawVec3Control(const std::string& label, glm::vec3& value, glm::vec3& defaulValue = glm::vec3( 0.0f,0.0f,0.0f ), float columnWidth = 90.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		auto boldfont = io.Fonts->Fonts[1];
+		auto boldfont = io.Fonts->Fonts[0];
 		ImGui::PushID(label.c_str());
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);

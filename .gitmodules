@@ -11,3 +11,6 @@
 	path = PinataEngine/vendor/ImGui
 	url = https://github.com/NiKuliCat/imgui
 	branch = docking
+[submodule "PinataEngine/vendor/yaml-cpp"]
+	path = PinataEngine/vendor/yaml-cpp
+	url = https://github.com/NiKuliCat/yaml-cpp

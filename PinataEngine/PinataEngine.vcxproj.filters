@@ -7,6 +7,9 @@
     <Filter Include="src\Pinata">
       <UniqueIdentifier>{D99A8427-C552-C674-2E5A-9FD01A316165}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Pinata\Component">
+      <UniqueIdentifier>{7B9614AC-6725-9E75-1044-B270FCB1AE1B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Pinata\Core">
       <UniqueIdentifier>{D16E1DB2-3DFA-8A76-460B-0E6BB215E776}</UniqueIdentifier>
     </Filter>
@@ -18,9 +21,6 @@
     </Filter>
     <Filter Include="src\Pinata\ImGui">
       <UniqueIdentifier>{C30E36F6-AF07-5548-D839-3ACDC4913454}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Pinata\Object">
-      <UniqueIdentifier>{3FBA42CA-ABD0-4060-F447-CC81609D11E8}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Pinata\Renderer">
       <UniqueIdentifier>{9F22D21A-0B84-AF28-94F1-F5DA0052E6E7}</UniqueIdentifier>
@@ -68,6 +68,24 @@
   <ItemGroup>
     <ClInclude Include="src\Pinata.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Component\Component.h">
+      <Filter>src\Pinata\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Component\NativeScript.h">
+      <Filter>src\Pinata\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Component\RuntimeCamera.h">
+      <Filter>src\Pinata\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Component\SpriteRenderer.h">
+      <Filter>src\Pinata\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Component\Tag.h">
+      <Filter>src\Pinata\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Component\Transform.h">
+      <Filter>src\Pinata\Component</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Core\Application.h">
       <Filter>src\Pinata\Core</Filter>
@@ -126,6 +144,9 @@
     <ClInclude Include="src\Pinata\Renderer\Buffer.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\Camera.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
@@ -165,7 +186,13 @@
     <ClInclude Include="src\Pinata\Renderer\VertexArray.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Scene\Object.h">
+      <Filter>src\Pinata\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Scene\Scene.h">
+      <Filter>src\Pinata\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Scene\ScriptableObject.h">
       <Filter>src\Pinata\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\GLSLShaderHelper.h">
@@ -1461,17 +1488,14 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Scene\Object.h" />
-    <ClInclude Include="src\Pinata\Component\SpriteRenderer.h" />
-    <ClInclude Include="src\Pinata\Component\Component.h" />
-    <ClInclude Include="src\Pinata\Component\NativeScript.h" />
-    <ClInclude Include="src\Pinata\Scene\ScriptableObject.h" />
-    <ClInclude Include="src\Pinata\Component\Tag.h" />
-    <ClInclude Include="src\Pinata\Renderer\Camera.h" />
-    <ClInclude Include="src\Pinata\Component\RuntimeCamera.h" />
-    <ClInclude Include="src\Pinata\Component\Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp">
+      <Filter>src\Pinata\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Component\Transform.cpp">
+      <Filter>src\Pinata\Component</Filter>
+    </ClCompile>
     <ClCompile Include="src\Pinata\Core\Application.cpp">
       <Filter>src\Pinata\Core</Filter>
     </ClCompile>
@@ -1497,6 +1521,9 @@
       <Filter>src\Pinata\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\Buffer.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\Camera.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp">
@@ -1534,6 +1561,9 @@
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp">
       <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Scene\Object.cpp">
+      <Filter>src\Pinata\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Scene\Scene.cpp">
       <Filter>src\Pinata\Scene</Filter>
@@ -1577,9 +1607,5 @@
     <ClCompile Include="src\ptapch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pinata\Scene\Object.cpp" />
-    <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp" />
-    <ClCompile Include="src\Pinata\Renderer\Camera.cpp" />
-    <ClCompile Include="src\Pinata\Component\Transform.cpp" />
   </ItemGroup>
 </Project>

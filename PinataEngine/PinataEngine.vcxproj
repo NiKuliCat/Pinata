@@ -76,11 +76,13 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\stb_image;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -98,14 +100,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\stb_image;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -124,14 +127,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\stb_image;src;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -147,8 +151,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Pinata.h" />
+    <ClInclude Include="src\Pinata\Component\Component.h" />
     <ClInclude Include="src\Pinata\Component\NativeScript.h" />
     <ClInclude Include="src\Pinata\Component\RuntimeCamera.h" />
+    <ClInclude Include="src\Pinata\Component\SpriteRenderer.h" />
     <ClInclude Include="src\Pinata\Component\Tag.h" />
     <ClInclude Include="src\Pinata\Component\Transform.h" />
     <ClInclude Include="src\Pinata\Core\Application.h" />
@@ -169,8 +175,6 @@
     <ClInclude Include="src\Pinata\Event\KeyboardEvent.h" />
     <ClInclude Include="src\Pinata\Event\MouseEvent.h" />
     <ClInclude Include="src\Pinata\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Pinata\Component\Component.h" />
-    <ClInclude Include="src\Pinata\Component\SpriteRenderer.h" />
     <ClInclude Include="src\Pinata\Renderer\Buffer.h" />
     <ClInclude Include="src\Pinata\Renderer\Camera.h" />
     <ClInclude Include="src\Pinata\Renderer\FrameBuffer.h" />
@@ -622,6 +626,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp" />
     <ClCompile Include="src\Pinata\Component\Transform.cpp" />
     <ClCompile Include="src\Pinata\Core\Application.cpp" />
     <ClCompile Include="src\Pinata\Core\CoreTime.cpp" />
@@ -631,7 +636,6 @@
     <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp" />
     <ClCompile Include="src\Pinata\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Camera.cpp" />
     <ClCompile Include="src\Pinata\Renderer\FrameBuffer.cpp" />
@@ -661,9 +665,7 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ptapch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -675,6 +677,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\ImGui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
