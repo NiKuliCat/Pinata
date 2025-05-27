@@ -16,6 +16,8 @@ namespace Pinata {
 		entt::registry& GetRegistry() { return m_Registry; }
 		Object CreateObject(const std::string& name);
 
+		void DestroyObject(Object object);
+
 	public:
 		void RenderScene();
 

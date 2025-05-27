@@ -17,6 +17,9 @@ namespace Pinata {
 		virtual void OnDetach() override;
 		virtual void OnImGuiRender() override;
 
+
+		void SetDarkThemeColor();
+
 		void Begin();
 		void End();
 

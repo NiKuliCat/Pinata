@@ -42,6 +42,11 @@ namespace Pinata {
 		return obj;
 	}
 
+	void Scene::DestroyObject(Object object)
+	{
+		m_Registry.destroy(object);
+	}
+
 
 	void Scene::RenderScene()
 	{

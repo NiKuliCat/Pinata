@@ -32,7 +32,7 @@ namespace Pinata {
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
         ImGui::StyleColorsDark();
-
+        SetDarkThemeColor();
         ImGuiStyle& style = ImGui::GetStyle();
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
@@ -47,7 +47,8 @@ namespace Pinata {
         //font
         ImFontConfig fontcfg;
         fontcfg.GlyphOffset.x = -1.0f;
-        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/msyh.ttc", 20.0f, &fontcfg, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/Rubik/Rubik-VariableFont_wght.ttf", 20.0f, &fontcfg, io.Fonts->GetGlyphRangesChineseFull());
+        io.Fonts->AddFontFromFileTTF("Assets/Fonts/Rubik/Rubik-SemiBold.ttf", 20.0f);
         ImGui::GetIO().FontDefault = font;
 
         ImGui_ImplOpenGL3_DestroyFontsTexture();
@@ -61,6 +62,41 @@ namespace Pinata {
 	}
 	
 
+
+    void ImGuiLayer::SetDarkThemeColor()
+    {
+        auto& colors = ImGui::GetStyle().Colors;
+
+        colors[ImGuiCol_WindowBg] = ImVec4{ 0.1f,0.105f,0.11f,1.0f };
+
+        //header
+        colors[ImGuiCol_Header] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+        colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.35f,0.355f,0.36f,1.0f };
+        colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f,0.155f,0.16f,1.0f };
+
+        //button
+        colors[ImGuiCol_Button] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+        colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.35f,0.355f,0.36f,1.0f };
+        colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f,0.155f,0.16f,1.0f };
+
+        //frame background
+        colors[ImGuiCol_FrameBg] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+        colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.35f,0.355f,0.36f,1.0f };
+        colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f,0.155f,0.16f,1.0f };
+
+        //tab
+        colors[ImGuiCol_Tab] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+        colors[ImGuiCol_TabHovered] = ImVec4{ 0.35f,0.355f,0.36f,1.0f };
+        colors[ImGuiCol_TabActive] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+        colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f,0.155f,0.16f,1.0f };
+        colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+
+        //title
+        colors[ImGuiCol_TitleBg] = ImVec4{ 0.18f,0.185f,0.19f,1.0f };
+        colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.35f,0.355f,0.36f,1.0f };
+        colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.25f,0.255f,0.26f,1.0f };
+       
+    }
 
     void ImGuiLayer::Begin()
     {

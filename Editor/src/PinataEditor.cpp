@@ -10,7 +10,7 @@ namespace Pinata {
 	{
 	public:
 		PinataEditor()
-			:Application("Pinata Editor")
+			:Application("Pinata Engine")
 		{
 			PushLayer(new EditorLayer());
 		}

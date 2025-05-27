@@ -159,12 +159,15 @@ namespace Pinata {
 			ImGui::PopStyleVar(2);
 
 		ImGuiIO& io = ImGui::GetIO();
+		ImGuiStyle& style = ImGui::GetStyle();
+		ImVec2 minWindowSize = style.WindowMinSize;
+		style.WindowMinSize = ImVec2{ 120.0f,80.0f };
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
-
+		style.WindowMinSize = minWindowSize;
 //-----------------------------------My custom subWindow-----------------------------------
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding , ImVec2(0, 0));
@@ -172,7 +175,8 @@ namespace Pinata {
 		uint32_t ScreenRT_ID = m_FrameBuffer->GetColorRenderTexture();
 
 		{
-			ImVec2 ViewportSize = ImGui::GetWindowSize();
+			//ImVec2 ViewportSize = ImGui::GetWindowSize();
+			ImVec2 ViewportSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = { ViewportSize.x,ViewportSize.y };
 		}
 
