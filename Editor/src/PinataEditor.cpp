@@ -3,7 +3,6 @@
 #include <ImGui/imgui.h>
 #include "EditorLayer.h"
 #include <Pinata/Core/EntryPoint.h>
-
 namespace Pinata {
 
 	class PinataEditor : public Application

@@ -10,6 +10,12 @@ namespace Pinata {
 		Perspective  = 1
 	};
 
+	static std::string GetProjectionModeString(ProjectionMode mode)
+	{
+		const std::string modes[] = { "Orthographic","Perspective" };
+		return modes[int(mode)];
+	}
+
 	class Camera
 	{
 	public:

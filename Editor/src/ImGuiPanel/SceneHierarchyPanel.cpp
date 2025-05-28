@@ -217,7 +217,7 @@ namespace Pinata{
 				ImGui::SetColumnWidth(0, 120.0f);
 				ImGui::Text("Name : ");
 				ImGui::NextColumn();
-				auto& name = m_SelectedObjectNode.GetComponent<Name>().GetName();
+				auto& name = m_SelectedObjectNode.GetComponent<Name>().m_Name;
 				char buffer[256];
 				memset(buffer, 0, sizeof(buffer));
 				strcpy_s(buffer, sizeof(buffer), name.c_str());

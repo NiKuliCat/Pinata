@@ -1,0 +1,48 @@
+Scene: TestScene
+Objects:
+  - Object: 1235312512
+    NameComponent:
+      Name: Square Object 3
+    TagComponent:
+      Tag: default
+    TransformComponent:
+      Position: [-2, 0, 0.1]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Object: 1235312512
+    NameComponent:
+      Name: Square Object 2
+    TagComponent:
+      Tag: default
+    TransformComponent:
+      Position: [2, 0, 0.1]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Object: 1235312512
+    NameComponent:
+      Name: Square Object 1
+    TagComponent:
+      Tag: default
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Object: 1235312512
+    NameComponent:
+      Name: Main Camera
+    TagComponent:
+      Tag: camera
+    TransformComponent:
+      Position: [0, 0, 10]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      ProjectionMode: Perspective
+      FOV: 45
+      OrthSize: 4
+      Aspect: 3.1666667
+      Near: 0.1
+      Far: 100
+      OrthNear: -1
+      OrthFar: 1
+      Sort: 0

@@ -28,6 +28,4 @@
 #include "Pinata/Scene/Object.h"
 #include "Pinata/Scene/ScriptableObject.h"
 #include "Pinata/Component/Component.h"
-
-
 //--------entry point-----------------

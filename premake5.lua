@@ -24,7 +24,7 @@ group "Dependencies"
     include "PinataEngine/vendor/GLFW"
     include "PinataEngine/vendor/Glad"
     include "PinataEngine/vendor/ImGui"
-     include "PinataEngine/vendor/yaml-cpp"
+    include "PinataEngine/vendor/yaml-cpp"
 group "" 
 
 include "PinataEngine"

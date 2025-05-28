@@ -48,7 +48,7 @@ namespace Pinata {
 		bool operator !=(const Object& other) { return m_EntityHandle != other.m_EntityHandle || m_Scene != other.m_Scene; }
 
 
-		std::string& GetName() { return GetComponent<Name>().GetName(); }
+		std::string& GetName() { return GetComponent<Name>().m_Name; }
 	private:
 		entt::entity m_EntityHandle{ entt::null };
 		Scene* m_Scene = nullptr;

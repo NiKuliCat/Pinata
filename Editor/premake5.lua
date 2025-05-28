@@ -19,7 +19,8 @@ project "Editor"
         "%{wks.location}/PinataEngine/src",
         "%{wks.location}/PinataEngine/vendor",
         "%{IncludeDir.glm}",
-         "%{IncludeDir.entt}"
+        "%{IncludeDir.entt}",
+        "%{IncludeDir.yaml_cpp}"
     }
 
     buildoptions

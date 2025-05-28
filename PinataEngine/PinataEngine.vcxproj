@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;YAML_CPP_STATIC_DEFINE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -100,7 +100,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;YAML_CPP_STATIC_DEFINE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -127,7 +127,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;YAML_CPP_STATIC_DEFINE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -192,6 +192,7 @@
     <ClInclude Include="src\Pinata\Renderer\VertexArray.h" />
     <ClInclude Include="src\Pinata\Scene\Object.h" />
     <ClInclude Include="src\Pinata\Scene\Scene.h" />
+    <ClInclude Include="src\Pinata\Scene\SceneSerialize.h" />
     <ClInclude Include="src\Pinata\Scene\ScriptableObject.h" />
     <ClInclude Include="src\Platform\OpenGL\GLSLShaderHelper.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
@@ -652,6 +653,7 @@
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Pinata\Scene\Object.cpp" />
     <ClCompile Include="src\Pinata\Scene\Scene.cpp" />
+    <ClCompile Include="src\Pinata\Scene\SceneSerialize.cpp" />
     <ClCompile Include="src\Pinata\vendor\stb_image.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />

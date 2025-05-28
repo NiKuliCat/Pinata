@@ -192,6 +192,9 @@
     <ClInclude Include="src\Pinata\Scene\Scene.h">
       <Filter>src\Pinata\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Scene\SceneSerialize.h">
+      <Filter>src\Pinata\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pinata\Scene\ScriptableObject.h">
       <Filter>src\Pinata\Scene</Filter>
     </ClInclude>
@@ -1566,6 +1569,9 @@
       <Filter>src\Pinata\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Scene\Scene.cpp">
+      <Filter>src\Pinata\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Scene\SceneSerialize.cpp">
       <Filter>src\Pinata\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\vendor\stb_image.cpp">

@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <chrono>
 #include "MainCameraController.h"
+#include "Pinata/Scene/SceneSerialize.h"
 namespace Pinata {
 	void EditorLayer::OnAttach()
 	{
@@ -82,40 +83,39 @@ namespace Pinata {
 
 
 		m_Scene = CreateRef<Scene>("TestScene");
-		{
-			m_ScneneCamera = m_Scene->CreateObject("Main Camera");
-			m_ScneneCamera.AddComponent<RuntimeCamera>();
-			m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
-			auto& transform = m_ScneneCamera.GetComponent<Transform>();
-			transform.Position = glm::vec3(0.0f, 0.0f, 10.0f);
-			transform.Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
 
-		}
 
-		m_QuadObject = m_Scene->CreateObject("Square Object 1");
-		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
-		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
-
-		//for (int i = 0; i < 5; i++)
 		//{
-		//	auto obj = m_Scene->CreateObject("Square Object");
+		//	m_ScneneCamera = m_Scene->CreateObject("Main Camera");
+		//	m_ScneneCamera.AddComponent<RuntimeCamera>();
+		//	m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
 		//	auto& transform = m_ScneneCamera.GetComponent<Transform>();
-		//	transform.Position = glm::vec3(float(i), 0.0f, 0.1f);
+		//	transform.Position = glm::vec3(0.0f, 0.0f, 10.0f);
+		//	transform.Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+		//	m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+		//	m_ScneneCamera.GetComponent<Tag>().m_Tag = AllTags::camera;
+		//}
+
+		//m_QuadObject = m_Scene->CreateObject("Square Object 1");
+		//m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
+		//m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
+
+
+		//{
+		//	auto obj = m_Scene->CreateObject("Square Object 2");
+		//	auto& objtrans = obj.GetComponent<Transform>();
+		//	objtrans.Position = glm::vec3(2.0f, 0.0f, 0.1f);
 		//	obj.AddComponent<SpriteRenderer>(m_Material_A);
 		//}
 
-		{
-			auto obj = m_Scene->CreateObject("Square Object 2");
-			auto& objtrans = obj.GetComponent<Transform>();
-			objtrans.Position = glm::vec3(2.0f, 0.0f, 0.1f);
-			obj.AddComponent<SpriteRenderer>(m_Material_A);
-		}
+		//auto obj2 = m_Scene->CreateObject("Square Object 3");
+		//auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
+		//transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
+		//obj2.AddComponent<SpriteRenderer>(m_Material_B);
 
-		auto obj2 = m_Scene->CreateObject("Square Object 3");
-		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
-		transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
-		obj2.AddComponent<SpriteRenderer>(m_Material_B);
+
+		SceneSerialize serialize(m_Scene);
+		serialize.Deserialize("Assets/Scenes/TestScene.pta");
 
 		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 	}
@@ -219,8 +219,11 @@ namespace Pinata {
 		if (m_ViewportSize.x != m_FrameBuffer->GetBufferDescription().Width || m_ViewportSize.y != m_FrameBuffer->GetBufferDescription().Height)
 		{
 			m_FrameBuffer->ReSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_ScneneCamera.GetComponent<RuntimeCamera>().m_Aspect = m_ViewportSize.x / m_ViewportSize.y;
-			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+			if (m_ScneneCamera)
+			{
+				m_ScneneCamera.GetComponent<RuntimeCamera>().m_Aspect = m_ViewportSize.x / m_ViewportSize.y;
+				m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+			}
 		}
 
 		m_FrameBuffer->Bind();

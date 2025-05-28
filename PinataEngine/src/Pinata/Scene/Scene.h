@@ -25,5 +25,6 @@ namespace Pinata {
 		std::string m_Name;
 		entt::registry m_Registry;
 		friend class SceneHierarchyPanel;
+		friend class SceneSerialize;
 	};
 }
