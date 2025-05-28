@@ -61,6 +61,15 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\magic_enum">
+      <UniqueIdentifier>{B766A863-237D-A6F9-6CF4-311BD8497781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\magic_enum\include">
+      <UniqueIdentifier>{2A553060-9617-64EA-DFC7-F2764BC93CC8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\magic_enum\include\magic_enum">
+      <UniqueIdentifier>{CE0FC99E-BAF6-8A96-6347-F1B34F0D04FD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor\stb_image">
       <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
     </Filter>
@@ -1487,6 +1496,33 @@
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_all.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_containers.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_flags.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_format.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_fuse.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_iostream.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_switch.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\magic_enum\include\magic_enum\magic_enum_utility.hpp">
+      <Filter>vendor\magic_enum\include\magic_enum</Filter>
     </ClInclude>
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>

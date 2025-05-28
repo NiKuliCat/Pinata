@@ -16,7 +16,8 @@ project "PinataEngine"
         "src/**.cpp",
         "vendor/stb_image/**.h",
         "vendor/glm/glm/**.hpp",
-        "vendor/glm/glm/**.inl"
+        "vendor/glm/glm/**.inl",
+        "vendor/magic_enum/include/**.hpp"
     }
     defines
     {
@@ -35,7 +36,8 @@ project "PinataEngine"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.entt}",
-        "%{IncludeDir.yaml_cpp}"
+        "%{IncludeDir.yaml_cpp}",
+        "%{IncludeDir.magic_enum}"
     }
     buildoptions
     {
