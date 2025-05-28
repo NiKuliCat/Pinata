@@ -61,6 +61,9 @@ namespace Pinata {
 
 		virtual void OnEvent(Event& event) override;
 
+	private:
+		bool OnKeyPressed(KeyPressedEvent& event);
+
 
 	private:
 		Ref<Texture2D> m_Texture2D_A;
@@ -83,6 +86,7 @@ namespace Pinata {
 		Object m_QuadObject;
 
 		SceneHierarchyPanel m_HierarchyPanel;
+		int32_t m_GizmoControlType = -1;
 
 		struct ProfileResult
 		{

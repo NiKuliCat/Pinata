@@ -21,7 +21,8 @@ project "Editor"
         "%{IncludeDir.glm}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml_cpp}",
-        "%{IncludeDir.magic_enum}"
+        "%{IncludeDir.magic_enum}",
+        "%{IncludeDir.ImGuizmo}"
     }
 
     buildoptions

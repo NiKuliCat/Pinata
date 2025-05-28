@@ -7,6 +7,7 @@
 #include "MainCameraController.h"
 #include "Pinata/Scene/SceneSerialize.h"
 #include "Pinata/Utils/PlatformUtils.h"
+#include "ImGuizmo.h"
 namespace Pinata {
 	void EditorLayer::OnAttach()
 	{
@@ -36,55 +37,9 @@ namespace Pinata {
 		m_ViewportSize = { (float)disc.Width,(float)disc.Height };
 		m_HasActiveScene = false;
 
-		class TestScript : public ScriptableObject
-		{
-		public:
-			void OnCreate()
-			{
-				m_CameraTranslationSpeed = 1.0f;
-			}
 
-			void OnUpdate(float deltatime)
-			{
-				if (Input::IsKeyPressed(Key::KP4))
-				{
-					GetComponent<Transform>().Position.x -= m_CameraTranslationSpeed * deltatime;
-				}
-				if (Input::IsKeyPressed(Key::KP6))
-				{
-					GetComponent<Transform>().Position.x += m_CameraTranslationSpeed * deltatime;
-				}
-				if (Input::IsKeyPressed(Key::KP8))
-				{
-					GetComponent<Transform>().Position.y += m_CameraTranslationSpeed * deltatime;
-				}
-				if (Input::IsKeyPressed(Key::KP2))
-				{
-					GetComponent<Transform>().Position.y -= m_CameraTranslationSpeed * deltatime;
-				}
-
-				if (Input::IsKeyPressed(Key::KP7))
-				{
-					GetComponent<Transform>().Position.z -= m_CameraTranslationSpeed * deltatime;
-				}
-
-				if (Input::IsKeyPressed(Key::KP9))
-				{
-					GetComponent<Transform>().Position.z += m_CameraTranslationSpeed * deltatime;
-				}
-
-				if (Input::IsKeyPressed(Key::KP1))
-				{
-					GetComponent<Transform>().Rotation.x += 30.0f * deltatime;
-				}
-			}
-		private:
-			float  m_CameraTranslationSpeed = 1.0f;
-		};
-
-
-		//m_Scene = CreateRef<Scene>("TestScene");
-#if 0
+#if 1
+		m_Scene = CreateRef<Scene>("TestScene");
 
 		{
 			m_ScneneCamera = m_Scene->CreateObject("Main Camera");
@@ -99,7 +54,6 @@ namespace Pinata {
 
 		m_QuadObject = m_Scene->CreateObject("Square Object 1");
 		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
-		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
 
 
 		{
@@ -114,12 +68,14 @@ namespace Pinata {
 		transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
 		obj2.AddComponent<SpriteRenderer>(m_Material_B);
 
+		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 #endif // 0
+
+
 		//SceneSerialize serialize(m_Scene);
 		//serialize.Serialize("Assets/Scenes/TestScene.pta");
 		//serialize.Deserialize("Assets/Scenes/TestScene.pta");
 
-		//m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -225,8 +181,52 @@ namespace Pinata {
 
 		ImGui::Image(ScreenRT_ID, ImVec2{ m_ViewportSize.x,m_ViewportSize.y },ImVec2(0,1),ImVec2(1,0));
 
+		Object selectedObj = m_HierarchyPanel.GetSelectedObject();
+		if (selectedObj)
+		{
+			//ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+			float windowWidth = (float)ImGui::GetWindowWidth();
+			float windowHeight = (float)ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+			auto cameraObj = m_Scene->GetMainCamera();
+			const auto& camera = cameraObj.GetComponent<RuntimeCamera>();
+			const auto& cameraTransform = cameraObj.GetComponent<Transform>();
+			glm::mat4 viewMatrix = Transform::GetViewMatrix(cameraTransform);
+			glm::mat4 projectionMatrix = camera.m_Camera.GetProjectionMatrix();
+
+
+			auto& selectedObjTransform = selectedObj.GetComponent<Transform>();
+			glm::mat4 modelMatrix = Transform::GetModelMatrix(selectedObjTransform);
+
+			bool enableSnapping = Input::IsKeyPressed(Key::LeftControl);
+			float snappingValue = 0.1f;
+			if(m_GizmoControlType == ImGuizmo::OPERATION::ROTATE)
+				snappingValue = 10.0f;
+			float snappingValues[3] = { snappingValue,snappingValue,snappingValue };
+
+			ImGuizmo::Manipulate(glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix),
+								ImGuizmo::OPERATION(m_GizmoControlType), ImGuizmo::LOCAL, glm::value_ptr(modelMatrix),nullptr,enableSnapping ? snappingValues : nullptr);
+
+			if (ImGuizmo::IsUsing())
+			{
+				glm::vec3 translate, rotate, scale;
+				Transform::DecomposeTransformMatrix(modelMatrix, translate, rotate, scale);
+				//先统一转成弧度计算 
+				glm::vec3 currentRotate = glm::radians( selectedObjTransform.Rotation);
+				glm::vec3 deltaRotate = rotate - currentRotate;
+				currentRotate += deltaRotate;
+
+				PTA_INFO("rotate:({0},{1},{2})", rotate.x, rotate.y, rotate.z);
+				selectedObjTransform.Position = translate;
+				//最后转回角度
+				selectedObjTransform.Rotation = glm::degrees(currentRotate);
+				selectedObjTransform.Scale = scale;
+			}
+		}
+
 		ImGui::End();
-		ImGui::PopStyleVar();
 
 		m_HierarchyPanel.OnImGuiRender();
 
@@ -244,9 +244,10 @@ namespace Pinata {
 
 		m_ProfileResults.clear();
 		ImGui::End();
-
 //-----------------------------------My custom subWindow-----------------------------------
 
+
+		ImGui::PopStyleVar();
 		ImGui::End();
 	}
 
@@ -278,6 +279,31 @@ namespace Pinata {
 
 	void EditorLayer::OnEvent(Event& event)
 	{
+		EventDisPatcher dispatcher(event);
+		dispatcher.Dispatcher<KeyPressedEvent>(BIND_EVENT_FUNC(EditorLayer::OnKeyPressed));
+
+
+
+	}
+
+	bool  EditorLayer::OnKeyPressed(KeyPressedEvent& event)
+	{
+		if (event.IsRepeat())
+			return false;
+
+
+		switch (event.GetKeyCode())
+		{
+		case Key::W:
+			m_GizmoControlType = ImGuizmo::OPERATION::TRANSLATE;
+			break;
+		case Key::E:
+			m_GizmoControlType = ImGuizmo::OPERATION::ROTATE;
+			break;
+		case Key::R:
+			m_GizmoControlType = ImGuizmo::OPERATION::SCALE;
+			break;
+		}
 	}
 
 }

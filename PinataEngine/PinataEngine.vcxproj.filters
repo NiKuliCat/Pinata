@@ -28,6 +28,9 @@
     <Filter Include="src\Pinata\Scene">
       <UniqueIdentifier>{B606E6F6-A2FF-0449-CB31-EACDB789E454}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Pinata\Utils">
+      <UniqueIdentifier>{F99A13F7-E593-3249-0EC6-17CEFA1D1255}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Pinata\vendor">
       <UniqueIdentifier>{16637425-8279-72BB-CBF0-FDDC37464343}</UniqueIdentifier>
     </Filter>
@@ -42,6 +45,9 @@
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\ImGuizmo">
+      <UniqueIdentifier>{73BF7F4C-DF4A-ED10-E85B-700554664911}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\glm">
       <UniqueIdentifier>{829FC5A8-6E57-07F6-D75E-E051C335A2E6}</UniqueIdentifier>
@@ -207,6 +213,9 @@
     <ClInclude Include="src\Pinata\Scene\ScriptableObject.h">
       <Filter>src\Pinata\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pinata\Utils\PlatformUtils.h">
+      <Filter>src\Pinata\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\GLSLShaderHelper.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
@@ -242,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="src\ptapch.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h">
+      <Filter>vendor\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
@@ -1527,7 +1539,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Utils\PlatformUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pinata\Component\SpriteRenderer.cpp">
@@ -1644,12 +1655,17 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\ptapch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
+    <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
+      <Filter>vendor\ImGuizmo</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

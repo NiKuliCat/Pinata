@@ -27,5 +27,15 @@ namespace Pinata {
 		static const glm::mat4& GetModelMatrix(const Transform& transform);
 		static const glm::mat4& GetLookAtMatrix(const Transform& transform);
 		static const glm::mat4& GetViewMatrix(const Transform& transform);
+
+		/// <summary>
+		/// 分解变换矩阵->位移，旋转，缩放(注意:返回的rotate 单位是弧度)
+		/// </summary>
+		/// <param name="Transform"></param>
+		/// <param name="out_Translation"></param>
+		/// <param name="out_Rotation"></param>
+		/// <param name="out_Scale"></param>
+		/// <returns></returns>
+		static bool DecomposeTransformMatrix(const glm::mat4& transform, glm::vec3& out_Translation, glm::vec3& out_Rotation, glm::vec3& out_Scale);
 	};
 }

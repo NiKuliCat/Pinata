@@ -17,3 +17,6 @@
 [submodule "PinataEngine/vendor/magic_enum"]
 	path = PinataEngine/vendor/magic_enum
 	url = https://github.com/NiKuliCat/magic_enum
+[submodule "PinataEngine/vendor/ImGuizmo"]
+	path = PinataEngine/vendor/ImGuizmo
+	url = https://github.com/NiKuliCat/ImGuizmo

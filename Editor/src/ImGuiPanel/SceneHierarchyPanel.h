@@ -11,7 +11,7 @@ namespace Pinata {
 		SceneHierarchyPanel(const Ref<Scene>& scene);
 
 		void SetContext(const Ref<Scene>& scene);
-		
+		Object GetSelectedObject() { return m_SelectedObjectNode; }
 		void OnImGuiRender();
 		operator bool() const { return !(m_SceneContext == nullptr); }
 	private:

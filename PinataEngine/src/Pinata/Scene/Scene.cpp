@@ -81,4 +81,25 @@ namespace Pinata {
 		}
 	}
 
+	Object Scene::GetMainCamera()
+	{
+		entt::entity cameraEntity;
+		auto view = m_Registry.view<RuntimeCamera>();
+		int sort = -1;
+		for (auto camera : view)
+		{
+			auto cameraComponent  = view.get< RuntimeCamera>(camera);
+			if (cameraComponent.m_Sort > sort)
+			{
+				cameraEntity = camera;
+				sort = cameraComponent.m_Sort;
+			}
+		}
+		if (sort != -1)
+		{
+			return Object{ cameraEntity,this };
+		}
+		return {};
+	}
+
 }

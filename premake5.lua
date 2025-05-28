@@ -21,6 +21,8 @@ IncludeDir["glm"] = "%{wks.location}/PinataEngine/vendor/glm"
 IncludeDir["entt"] = "%{wks.location}/PinataEngine/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "%{wks.location}/PinataEngine/vendor/yaml-cpp/include"
 IncludeDir["magic_enum"] = "%{wks.location}/PinataEngine/vendor/magic_enum/include"
+IncludeDir["ImGuizmo"] = "%{wks.location}/PinataEngine/vendor/ImGuizmo"
+
 group "Dependencies"
     include "PinataEngine/vendor/GLFW"
     include "PinataEngine/vendor/Glad"

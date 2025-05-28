@@ -17,7 +17,9 @@ project "PinataEngine"
         "vendor/stb_image/**.h",
         "vendor/glm/glm/**.hpp",
         "vendor/glm/glm/**.inl",
-        "vendor/magic_enum/include/**.hpp"
+        "vendor/magic_enum/include/**.hpp",
+        "vendor/ImGuizmo/ImGuizmo.h",
+        "vendor/ImGuizmo/ImGuizmo.cpp"
     }
     defines
     {
@@ -37,7 +39,8 @@ project "PinataEngine"
         "%{IncludeDir.glm}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.yaml_cpp}",
-        "%{IncludeDir.magic_enum}"
+        "%{IncludeDir.magic_enum}",
+        "%{IncludeDir.ImGuizmo}"
     }
     buildoptions
     {
@@ -51,6 +54,9 @@ project "PinataEngine"
         "opengl32.lib",
         "yaml-cpp"
     }
+
+    filter "files:vendor/ImGuizmo/**.cpp"
+    flags {"NoPCH"}
 
     filter "system:windows"
         systemversion "latest"

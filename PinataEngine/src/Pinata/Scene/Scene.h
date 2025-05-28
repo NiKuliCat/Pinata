@@ -21,6 +21,8 @@ namespace Pinata {
 	public:
 		void RenderScene();
 
+		Object GetMainCamera();
+
 	private:
 		std::string m_Name = "New Scene";
 		entt::registry m_Registry;
