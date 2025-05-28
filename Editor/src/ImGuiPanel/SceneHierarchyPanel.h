@@ -13,7 +13,7 @@ namespace Pinata {
 		void SetContext(const Ref<Scene>& scene);
 		
 		void OnImGuiRender();
-
+		operator bool() const { return !(m_SceneContext == nullptr); }
 	private:
 		void DrawObjectNode(Object obj);
 		void DrawInspectorPanel();

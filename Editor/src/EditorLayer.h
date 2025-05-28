@@ -75,6 +75,7 @@ namespace Pinata {
 		Transform m_Transform_B;
 
 		Ref<Scene> m_Scene;
+		bool m_HasActiveScene = false;
 		Object m_ScneneCamera;
 		Ref<FrameBuffer> m_FrameBuffer;
 		glm::vec2 m_ViewportSize;

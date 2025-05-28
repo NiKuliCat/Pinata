@@ -88,6 +88,21 @@ namespace Pinata {
 		return emitter;
 	}
 
+	YAML::Emitter& operator << (YAML::Emitter& emitter, const Tag& tag) 
+	{
+
+		auto str = GetTagString(tag.m_Tag);
+		emitter << str;
+		return emitter;
+	}
+
+	YAML::Emitter& operator << (YAML::Emitter& emitter, const ProjectionMode& mode)
+	{
+		auto str = GetProjectionModeString(mode);
+		emitter << std::string(str);
+		return emitter;
+	}
+
 
 	SceneSerialize::SceneSerialize(const Ref<Scene>& scene)
 		:m_Scene(scene)
@@ -114,7 +129,7 @@ namespace Pinata {
 			emitter << YAML::Key << "TagComponent";
 			emitter << YAML::BeginMap;
 			auto& tag = object.GetComponent<Tag>().m_Tag;
-			emitter << YAML::Key << "Tag" << YAML::Value << GetTagString(tag);
+			emitter << YAML::Key << "Tag" << YAML::Value << tag;
 
 			emitter << YAML::EndMap;
 		}
@@ -139,7 +154,7 @@ namespace Pinata {
 			emitter << YAML::BeginMap;
 
 			auto& camera = object.GetComponent<RuntimeCamera>();
-			emitter << YAML::Key << "ProjectionMode" << YAML::Value << GetProjectionModeString(camera.m_ProjectionMode);
+			emitter << YAML::Key << "ProjectionMode" << YAML::Value << camera.m_ProjectionMode;
 			emitter << YAML::Key << "FOV" << YAML::Value << camera.m_FOV;
 			emitter << YAML::Key << "OrthSize" << YAML::Value << camera.m_OrthSize;
 			emitter << YAML::Key << "Aspect" << YAML::Value << camera.m_Aspect;
@@ -220,7 +235,7 @@ namespace Pinata {
 				auto objTagComponent = obj["TagComponent"];
 				if (objTagComponent)
 				{
-					AllTags tag = GetTag(objTagComponent["Tag"].as<std::string>());
+					AllTags tag = GetTagByString(objTagComponent["Tag"].as<std::string>());
 					deserializeObject.GetComponent<Tag>().m_Tag = tag;
 				}
 
@@ -238,8 +253,7 @@ namespace Pinata {
 				if (objCameraComponent)
 				{
 					auto& camera = deserializeObject.AddComponent<RuntimeCamera>();
-					//camera.m_ProjectionMode = GetProjectionMode(objCameraComponent["ProjectionMode"].as<std::string>());
-
+					camera.m_ProjectionMode = GetProjectionModeByString(objCameraComponent["ProjectionMode"].as<std::string>());
 					camera.m_FOV = objCameraComponent["FOV"].as<float>();
 					camera.m_OrthSize = objCameraComponent["OrthSize"].as<float>();
 					camera.m_Aspect = objCameraComponent["Aspect"].as<float>();

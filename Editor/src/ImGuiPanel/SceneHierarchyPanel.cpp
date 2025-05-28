@@ -12,37 +12,55 @@ namespace Pinata{
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& scene)
 	{
 		m_SceneContext = scene;
+		m_SelectedObjectNode = {};
 	}
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
 		ImGui::Begin("Hierarchy");
-		m_SceneContext->GetRegistry().view<entt::entity>().each([&](auto entityID)
+
+		if (m_SceneContext)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			auto boldfont = io.Fonts->Fonts[1];
+			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
+
+			ImGui::PushFont(boldfont);
+			bool open = ImGui::TreeNodeEx(m_SceneContext->m_Name.c_str(), flags);
+			ImGui::PopFont();
+			if (ImGui::IsItemClicked())
 			{
-				
-				Object obj{ entityID, m_SceneContext.get() };
-				DrawObjectNode(obj);
-			});
+				m_SelectedObjectNode = {};
+			}
+			if (open)
+			{
+				m_SceneContext->GetRegistry().view<entt::entity>().each([&](auto entityID)
+					{
+
+						Object obj{ entityID, m_SceneContext.get() };
+						DrawObjectNode(obj);
+					});
+
+				ImGui::TreePop();
+			}
 
 
-		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-		{
-			m_SelectedObjectNode = {};
+			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+			{
+				m_SelectedObjectNode = {};
+			}
+
+			if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+			{
+
+				ImGui::OpenPopup("hierarchy_context_menu");
+			}
+
+			if (ImGui::BeginPopup("hierarchy_context_menu")) {
+				if (ImGui::MenuItem("Create Empty Object")) { m_SceneContext->CreateObject("Empty Object"); }
+				if (ImGui::MenuItem("Create Quad ")) { m_SceneContext->CreateObject("Quad Object"); }
+				ImGui::EndPopup();
+			}
 		}
-
-		if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-
-			ImGui::OpenPopup("hierarchy_context_menu");
-		}
-
-		if (ImGui::BeginPopup("hierarchy_context_menu")) {
-			if (ImGui::MenuItem("Create Empty Object")) { m_SceneContext->CreateObject("Empty Object"); }
-			if (ImGui::MenuItem("Create Quad ")) { m_SceneContext->CreateObject("Quad Object"); }
-			ImGui::EndPopup();
-		}
-
-
-
 
 		ImGui::End();
 		DrawInspectorPanel();
@@ -73,10 +91,6 @@ namespace Pinata{
 
 		if (open)
 		{
-			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-			bool open = ImGui::TreeNodeEx((void*)12223, flags, "My Chlid");
-			if (open)
-				ImGui::TreePop();
 
 			ImGui::TreePop();
 		}
@@ -90,7 +104,7 @@ namespace Pinata{
 		}
 	}
 	template<typename T, typename Func>
-	static void DrawComponent(const std::string& label, Object object, Func func)
+	static void DrawComponent(const std::string& label, Object object, Func func,bool enableRemove = true)
 	{
 		const ImGuiTreeNodeFlags componentNodeFlags = ImGuiTreeNodeFlags_DefaultOpen  | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_AllowOverlap
 														| ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
@@ -116,7 +130,7 @@ namespace Pinata{
 
 			if (ImGui::BeginPopup(moreOperation_Str.c_str()))
 			{
-				if (ImGui::MenuItem("Remove Component"))
+				if (ImGui::MenuItem("Remove Component",0,false, enableRemove))
 				{
 					remove = true;
 				}
@@ -139,7 +153,7 @@ namespace Pinata{
 	static void DrawVec3Control(const std::string& label, glm::vec3& value, glm::vec3& defaulValue = glm::vec3( 0.0f,0.0f,0.0f ), float columnWidth = 90.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		auto boldfont = io.Fonts->Fonts[0];
+		auto boldfont = io.Fonts->Fonts[1];
 		ImGui::PushID(label.c_str());
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
@@ -234,7 +248,7 @@ namespace Pinata{
 				DrawVec3Control("Position", transformComponent.Position);
 				DrawVec3Control("Rotation", transformComponent.Rotation);
 				DrawVec3Control("Scale", transformComponent.Scale, glm::vec3(1.0f, 1.0f, 1.0f));
-				});
+				},false);
 
 
 			DrawComponent<RuntimeCamera>("Camera", m_SelectedObjectNode, [this](auto& cameraComponent) {

@@ -6,6 +6,7 @@
 #include <chrono>
 #include "MainCameraController.h"
 #include "Pinata/Scene/SceneSerialize.h"
+#include "Pinata/Utils/PlatformUtils.h"
 namespace Pinata {
 	void EditorLayer::OnAttach()
 	{
@@ -33,7 +34,7 @@ namespace Pinata {
 		disc.Height = 720;
 		m_FrameBuffer = FrameBuffer::Create(disc);
 		m_ViewportSize = { (float)disc.Width,(float)disc.Height };
-
+		m_HasActiveScene = false;
 
 		class TestScript : public ScriptableObject
 		{
@@ -82,42 +83,43 @@ namespace Pinata {
 		};
 
 
-		m_Scene = CreateRef<Scene>("TestScene");
+		//m_Scene = CreateRef<Scene>("TestScene");
+#if 0
+
+		{
+			m_ScneneCamera = m_Scene->CreateObject("Main Camera");
+			m_ScneneCamera.AddComponent<RuntimeCamera>();
+			m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
+			auto& transform = m_ScneneCamera.GetComponent<Transform>();
+			transform.Position = glm::vec3(0.0f, 0.0f, 10.0f);
+			transform.Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+			m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
+			m_ScneneCamera.GetComponent<Tag>().m_Tag = AllTags::camera;
+		}
+
+		m_QuadObject = m_Scene->CreateObject("Square Object 1");
+		m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
+		m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
 
 
-		//{
-		//	m_ScneneCamera = m_Scene->CreateObject("Main Camera");
-		//	m_ScneneCamera.AddComponent<RuntimeCamera>();
-		//	m_ScneneCamera.AddComponent<NativeScript>().Bind<MainCameraController>();
-		//	auto& transform = m_ScneneCamera.GetComponent<Transform>();
-		//	transform.Position = glm::vec3(0.0f, 0.0f, 10.0f);
-		//	transform.Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-		//	m_ScneneCamera.GetComponent<RuntimeCamera>().OnDataChange();
-		//	m_ScneneCamera.GetComponent<Tag>().m_Tag = AllTags::camera;
-		//}
+		{
+			auto obj = m_Scene->CreateObject("Square Object 2");
+			auto& objtrans = obj.GetComponent<Transform>();
+			objtrans.Position = glm::vec3(2.0f, 0.0f, 0.1f);
+			obj.AddComponent<SpriteRenderer>(m_Material_A);
+		}
 
-		//m_QuadObject = m_Scene->CreateObject("Square Object 1");
-		//m_QuadObject.AddComponent<SpriteRenderer>(m_Material_A);
-		//m_QuadObject.AddComponent<NativeScript>().Bind<TestScript>();
+		auto obj2 = m_Scene->CreateObject("Square Object 3");
+		auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
+		transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
+		obj2.AddComponent<SpriteRenderer>(m_Material_B);
 
+#endif // 0
+		//SceneSerialize serialize(m_Scene);
+		//serialize.Serialize("Assets/Scenes/TestScene.pta");
+		//serialize.Deserialize("Assets/Scenes/TestScene.pta");
 
-		//{
-		//	auto obj = m_Scene->CreateObject("Square Object 2");
-		//	auto& objtrans = obj.GetComponent<Transform>();
-		//	objtrans.Position = glm::vec3(2.0f, 0.0f, 0.1f);
-		//	obj.AddComponent<SpriteRenderer>(m_Material_A);
-		//}
-
-		//auto obj2 = m_Scene->CreateObject("Square Object 3");
-		//auto& transform = obj2.GetComponent<Transform>(); //注意这里必须要引用，否则copy 下面修改无效
-		//transform.Position = glm::vec3(-2.0f, 0.0f, 0.1f);
-		//obj2.AddComponent<SpriteRenderer>(m_Material_B);
-
-
-		SceneSerialize serialize(m_Scene);
-		serialize.Deserialize("Assets/Scenes/TestScene.pta");
-
-		m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
+		//m_HierarchyPanel = SceneHierarchyPanel(m_Scene);
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -168,6 +170,48 @@ namespace Pinata {
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
 		style.WindowMinSize = minWindowSize;
+
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("New","Ctrl+N"))
+				{
+					m_HasActiveScene = false;
+					m_HierarchyPanel.SetContext(nullptr);
+
+					m_Scene = CreateRef<Scene>("New Scene 1");
+					m_HierarchyPanel.SetContext(m_Scene);
+					m_HasActiveScene = true;
+				}
+				if (ImGui::MenuItem("Open...","Ctrl+O"))
+				{
+					std::string filepath = FileDialogs::OpenFile("Pinata Scene (*.pta)\0*.pta\0");
+					if (!filepath.empty())
+					{
+						m_Scene = CreateRef<Scene>();
+
+						m_HierarchyPanel.SetContext(m_Scene);
+						SceneSerialize serialize(m_Scene);
+						serialize.Deserialize(filepath);
+						m_HasActiveScene = true;
+					}
+				}
+				if (ImGui::MenuItem("Save As...","Ctrl+Shift+S",false, m_HasActiveScene))
+				{
+					std::string filepath = FileDialogs::SaveFile("Pinata Scene (*.pta)\0*.pta\0");
+					if (!filepath.empty())
+					{
+						m_HierarchyPanel.SetContext(m_Scene);
+						SceneSerialize serialize(m_Scene);
+						serialize.Serialize(filepath);
+					}
+				}
+				if (ImGui::MenuItem("Exit")) { Application::Get().CloseWindow(); }
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
 //-----------------------------------My custom subWindow-----------------------------------
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding , ImVec2(0, 0));
@@ -175,19 +219,17 @@ namespace Pinata {
 		uint32_t ScreenRT_ID = m_FrameBuffer->GetColorRenderTexture();
 
 		{
-			//ImVec2 ViewportSize = ImGui::GetWindowSize();
 			ImVec2 ViewportSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = { ViewportSize.x,ViewportSize.y };
 		}
 
 		ImGui::Image(ScreenRT_ID, ImVec2{ m_ViewportSize.x,m_ViewportSize.y },ImVec2(0,1),ImVec2(1,0));
 
-		//PTA_INFO(ImGui::IsWindowFocused());
-		//PTA_INFO(ImGui::IsWindowHovered());
 		ImGui::End();
 		ImGui::PopStyleVar();
 
 		m_HierarchyPanel.OnImGuiRender();
+
 		ImGui::Begin("Render Status ");
 		for (auto& profile : m_ProfileResults)
 		{
@@ -199,9 +241,6 @@ namespace Pinata {
 		}
 		ImGui::Text("FPS : %.3f per frame", 1.0f / m_TimeStep);
 		ImGui::Text("Viewport Size : (%.0f,%.0f)", m_ViewportSize.x, m_ViewportSize.y);
-
-		//auto& quadColor = m_QuadObject.GetComponent<SpriteRenderer>().GetMaterial()->GetColor();
-		//ImGui::ColorEdit4("Quad Color", glm::value_ptr(quadColor));
 
 		m_ProfileResults.clear();
 		ImGui::End();
@@ -229,8 +268,10 @@ namespace Pinata {
 		m_FrameBuffer->Bind();
 		RenderCommand::SetClearColor({ 0.1f,0.1f,0.1f,1.0f });
 		RenderCommand::Clear();
-
-		m_Scene->OnUpdate(daltaTime);
+		if (m_Scene)
+		{
+			m_Scene->OnUpdate(daltaTime);
+		}
 		m_FrameBuffer->UnBind();
 
 	}

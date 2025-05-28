@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PINATA_PLATFORM_WINDOW;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\PinataEngine\vendor\spdlog\include;..\PinataEngine\src;..\PinataEngine\vendor;..\PinataEngine\vendor\glm;..\PinataEngine\vendor\entt\include;..\PinataEngine\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\PinataEngine\vendor\spdlog\include;..\PinataEngine\src;..\PinataEngine\vendor;..\PinataEngine\vendor\glm;..\PinataEngine\vendor\entt\include;..\PinataEngine\vendor\yaml-cpp\include;..\PinataEngine\vendor\magic_enum\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -99,7 +99,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PINATA_PLATFORM_WINDOW;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\PinataEngine\vendor\spdlog\include;..\PinataEngine\src;..\PinataEngine\vendor;..\PinataEngine\vendor\glm;..\PinataEngine\vendor\entt\include;..\PinataEngine\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\PinataEngine\vendor\spdlog\include;..\PinataEngine\src;..\PinataEngine\vendor;..\PinataEngine\vendor\glm;..\PinataEngine\vendor\entt\include;..\PinataEngine\vendor\yaml-cpp\include;..\PinataEngine\vendor\magic_enum\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -122,7 +122,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PINATA_PLATFORM_WINDOW;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\PinataEngine\vendor\spdlog\include;..\PinataEngine\src;..\PinataEngine\vendor;..\PinataEngine\vendor\glm;..\PinataEngine\vendor\entt\include;..\PinataEngine\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\PinataEngine\vendor\spdlog\include;..\PinataEngine\src;..\PinataEngine\vendor;..\PinataEngine\vendor\glm;..\PinataEngine\vendor\entt\include;..\PinataEngine\vendor\yaml-cpp\include;..\PinataEngine\vendor\magic_enum\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

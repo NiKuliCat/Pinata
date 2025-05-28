@@ -7,7 +7,7 @@ namespace Pinata {
 	{
 
 	public:
-
+		Scene() = default;
 		Scene(const std::string& name);
 		~Scene();
 
@@ -22,7 +22,7 @@ namespace Pinata {
 		void RenderScene();
 
 	private:
-		std::string m_Name;
+		std::string m_Name = "New Scene";
 		entt::registry m_Registry;
 		friend class SceneHierarchyPanel;
 		friend class SceneSerialize;

@@ -26,7 +26,7 @@ namespace Pinata {
 
 		inline static Application& Get() { return *s_Instance; }
 		inline Window& GetWindow() { return *m_Window; }
-
+		inline void CloseWindow() { m_Running = false; }
 	private:
 		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;

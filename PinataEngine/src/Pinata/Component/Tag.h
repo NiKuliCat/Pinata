@@ -1,5 +1,5 @@
 #pragma once
-
+#include  "magic_enum/magic_enum.hpp"
 namespace Pinata {
 
 	enum class AllTags
@@ -10,42 +10,14 @@ namespace Pinata {
 		player
 	};
 
-	const std::unordered_map<AllTags, std::string> TagToStringMap = {
-		{AllTags::default, "default"},
-		{AllTags::ui, "ui"},
-		{AllTags::camera, "camera"},
-		{AllTags::player, "player" }
-	};
 
-	const std::unordered_map<std::string, AllTags> StringToTagMap = {
-		{"default", AllTags::default},
-		{"ui", AllTags::ui},
-		{"camera", AllTags::camera},
-		{"player", AllTags::player}
-	};
-
-
-
-	static std::string GetTagString(AllTags tag)
+	static AllTags GetTagByString(const std::string& str)
 	{
-		auto it = TagToStringMap.find(tag);
-		if(it != TagToStringMap.end())
-		{
-			return it->second;
-		}
-
-		return "default";
+		return magic_enum::enum_cast<AllTags>(str).value_or(AllTags::default);
 	}
-
-	static AllTags GetTag(std::string tag)
+	static  std::string GetTagString(const AllTags& tag)
 	{
-		auto it = StringToTagMap.find(tag);
-		if (it != StringToTagMap.end())
-		{
-			return it->second;
-		}
-
-		return AllTags::default;
+		return magic_enum::enum_name(tag).data();
 	}
 
 	struct Tag
@@ -57,7 +29,7 @@ namespace Pinata {
 			:m_Tag(tag){}
 		Tag(const Tag& other) = default;
 
-		//operator std::string& () const { return GetTagString(m_Tag); }
+		operator std::string()  { return GetTagString(m_Tag);}
 
 	};
 

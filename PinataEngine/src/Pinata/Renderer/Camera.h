@@ -2,18 +2,24 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <magic_enum/magic_enum.hpp>
 namespace Pinata {
 
 	enum class ProjectionMode
 	{
 		Orthographic = 0,
 		Perspective  = 1
+
 	};
 
-	static std::string GetProjectionModeString(ProjectionMode mode)
+	static std::string GetProjectionModeString(const ProjectionMode mode)
 	{
-		const std::string modes[] = { "Orthographic","Perspective" };
-		return modes[int(mode)];
+		return magic_enum::enum_name(mode).data();
+	}
+
+	static ProjectionMode GetProjectionModeByString(const std::string& str)
+	{
+		return magic_enum::enum_cast<ProjectionMode>(str).value_or(ProjectionMode::Orthographic);
 	}
 
 	class Camera
