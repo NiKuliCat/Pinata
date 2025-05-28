@@ -1,9 +1,9 @@
 #pragma once
-#include "OrthographicCamera.h"
 #include "Texture.h"
 #include "Material.h"
 #include "Pinata/Component/Transform.h"
 #include "Pinata/Renderer/Camera.h"
+#include "Pinata/Editor/EditorCamera.h"
 namespace Pinata {
 
 	class Renderer2D
@@ -13,8 +13,8 @@ namespace Pinata {
 
 		static void Init();
 		static void Shutdown();
-		static void BeginScene(OrthographicCamera& mainCamera);
 		static void BeginScene(Transform& transform,Camera& mainCamera);
+		static void BeginScene(EditorCamera& editorCamera);
 		static void EndScene();
 
 		//with texture

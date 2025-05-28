@@ -190,11 +190,8 @@ namespace Pinata {
 			float windowHeight = (float)ImGui::GetWindowHeight();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-			auto cameraObj = m_Scene->GetMainCamera();
-			const auto& camera = cameraObj.GetComponent<RuntimeCamera>();
-			const auto& cameraTransform = cameraObj.GetComponent<Transform>();
-			glm::mat4 viewMatrix = Transform::GetViewMatrix(cameraTransform);
-			glm::mat4 projectionMatrix = camera.m_Camera.GetProjectionMatrix();
+			glm::mat4 viewMatrix = m_EditorCamera.GetViewMatrix();
+			glm::mat4 projectionMatrix = m_EditorCamera.GetProjectionMatrix();
 
 
 			auto& selectedObjTransform = selectedObj.GetComponent<Transform>();
@@ -218,7 +215,6 @@ namespace Pinata {
 				glm::vec3 deltaRotate = rotate - currentRotate;
 				currentRotate += deltaRotate;
 
-				PTA_INFO("rotate:({0},{1},{2})", rotate.x, rotate.y, rotate.z);
 				selectedObjTransform.Position = translate;
 				//最后转回角度
 				selectedObjTransform.Rotation = glm::degrees(currentRotate);
@@ -254,11 +250,12 @@ namespace Pinata {
 	void EditorLayer::OnUpdate(float daltaTime)
 	{
 
-
+		m_EditorCamera.OnUpdate(daltaTime);
 		m_TimeStep = daltaTime;
 		if (m_ViewportSize.x != m_FrameBuffer->GetBufferDescription().Width || m_ViewportSize.y != m_FrameBuffer->GetBufferDescription().Height)
 		{
 			m_FrameBuffer->ReSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_EditorCamera.SetViewport(m_ViewportSize.x, m_ViewportSize.y);
 			if (m_ScneneCamera)
 			{
 				m_ScneneCamera.GetComponent<RuntimeCamera>().m_Aspect = m_ViewportSize.x / m_ViewportSize.y;
@@ -271,7 +268,7 @@ namespace Pinata {
 		RenderCommand::Clear();
 		if (m_Scene)
 		{
-			m_Scene->OnUpdate(daltaTime);
+			m_Scene->OnUpdateEditor(daltaTime,m_EditorCamera);
 		}
 		m_FrameBuffer->UnBind();
 
@@ -281,9 +278,7 @@ namespace Pinata {
 	{
 		EventDisPatcher dispatcher(event);
 		dispatcher.Dispatcher<KeyPressedEvent>(BIND_EVENT_FUNC(EditorLayer::OnKeyPressed));
-
-
-
+		m_EditorCamera.OnEvent(event);
 	}
 
 	bool  EditorLayer::OnKeyPressed(KeyPressedEvent& event)

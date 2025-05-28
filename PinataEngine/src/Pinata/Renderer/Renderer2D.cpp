@@ -133,22 +133,6 @@ namespace Pinata {
 	{
 		delete s_BaseData;
 	}
-
-	void Renderer2D::BeginScene(OrthographicCamera& mainCamera)
-	{
-		Renderer::BeginScene(mainCamera);
-		s_BaseData->DrawVertexCount = 0;
-		s_BaseData->QuadVB_End = s_BaseData->QuadVB_Start;
-
-		s_BaseData->m_CurrentTextures.clear();                                
-		s_BaseData->CurrentTexCount = -1;
-
-		//s_BaseData->CurrentTexCount++;
-		//s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
-		//s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
-		//s_BaseData->samplers[s_BaseData->CurrentTexCount] =(int32_t)s_BaseData->CurrentTexCount;
-	}
-
 	void Renderer2D::BeginScene(Transform& transform, Camera& mainCamera)
 	{
 		Renderer::BeginScene(transform, mainCamera);
@@ -163,6 +147,17 @@ namespace Pinata {
 		//s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
 		//s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
 		//s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;
+	}
+
+	void Renderer2D::BeginScene(EditorCamera& editorCamera)
+	{
+		Renderer::BeginScene(editorCamera);
+
+		s_BaseData->DrawVertexCount = 0;
+		s_BaseData->QuadVB_End = s_BaseData->QuadVB_Start;
+
+		s_BaseData->m_CurrentTextures.clear();
+		s_BaseData->CurrentTexCount = -1;
 	}
 
 	void Renderer2D::EndScene()

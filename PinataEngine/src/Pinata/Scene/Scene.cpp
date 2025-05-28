@@ -14,7 +14,7 @@ namespace Pinata {
 	{
 	}
 
-	void Scene::OnUpdate(float deltaTime)
+	void Scene::OnUpdateRuntime(float deltaTime)
 	{
 		{
 			m_Registry.view<NativeScript>().each([=](auto entity, auto& nsc)
@@ -29,7 +29,12 @@ namespace Pinata {
 
 			});
 		}
-		RenderScene();
+		RenderSceneRunTime();
+	}
+
+	void Scene::OnUpdateEditor(float deltaTime,EditorCamera& editorCamera)
+	{
+		RenderSceneEditor(editorCamera);
 	}
 
 	Object Scene::CreateObject(const std::string& name)
@@ -48,15 +53,15 @@ namespace Pinata {
 	}
 
 
-	void Scene::RenderScene()
+	void Scene::RenderSceneRunTime()
 	{
 		Camera* MainCamera = nullptr;
 		Transform MainCameraTransform;
-		auto view = m_Registry.view<Transform, RuntimeCamera>();
+		auto group = m_Registry.group<Transform, RuntimeCamera>();
 		int sort = -1;
-		for (auto camera : view)
+		for (auto obj : group)
 		{
-			auto [transform, camera] = view.get<Transform, RuntimeCamera>(camera);
+			auto [transform, camera] = group.get<Transform, RuntimeCamera>(obj);
 			if (camera.m_Sort > sort)
 			{
 				MainCameraTransform = transform;
@@ -69,16 +74,28 @@ namespace Pinata {
 		{
 			Renderer2D::BeginScene(MainCameraTransform, *MainCamera);
 			auto group = m_Registry.group<Transform,SpriteRenderer>();
-			int i = 0;
 			for (auto obj : group)
 			{
-				i++;
 				auto [transform, spriteRenderer] = group.get<Transform, SpriteRenderer>(obj);
 				Renderer2D::DrawQuad(transform, spriteRenderer.GetMaterial());
 			}
 
 			Renderer2D::EndScene();
 		}
+	}
+
+	void Scene::RenderSceneEditor(EditorCamera& editorCamera)
+	{
+		Renderer2D::BeginScene(editorCamera);
+
+		auto group = m_Registry.group<Transform, SpriteRenderer>();
+		for (auto obj : group)
+		{
+			auto [transform, spriteRenderer] = group.get<Transform, SpriteRenderer>(obj);
+			Renderer2D::DrawQuad(transform, spriteRenderer.GetMaterial());
+		}
+
+		Renderer2D::EndScene();
 	}
 
 	Object Scene::GetMainCamera()

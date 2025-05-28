@@ -10,15 +10,13 @@ namespace Pinata {
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
-
-	void Renderer::BeginScene(OrthographicCamera& camera)
-	{
-		//»·¾³£ºlights,map,
-		m_SceneData->mainCamera.ViewProjectMatrix = camera.GetViewProjectionMatrix();
-	}
 	void Renderer::BeginScene(Transform& transform,Camera& mainCamera)
 	{
 		m_SceneData->mainCamera.ViewProjectMatrix = mainCamera.GetProjectionMatrix() * Transform::GetViewMatrix(transform);
+	}
+	void Renderer::BeginScene(EditorCamera& editorCamera)
+	{
+		m_SceneData->mainCamera.ViewProjectMatrix = editorCamera.GetViewProjectionMatrix();
 	}
 	void Renderer::EndScene()
 	{

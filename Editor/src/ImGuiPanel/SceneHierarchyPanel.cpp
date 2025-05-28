@@ -49,7 +49,7 @@ namespace Pinata{
 				m_SelectedObjectNode = {};
 			}
 
-			if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+			if (!ImGui::IsAnyItemHovered() && ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
 			{
 
 				ImGui::OpenPopup("hierarchy_context_menu");
@@ -223,7 +223,7 @@ namespace Pinata{
 		if (m_SelectedObjectNode)
 		{
 
-#pragma region  ------------------------------------------------- Name Component ---------------------------------------------------------
+#pragma region  ------------------------------------------------- Draw Name Component ---------------------------------------------------------
 
 			if (m_SelectedObjectNode.HasComponent<Name>())
 			{
@@ -243,14 +243,15 @@ namespace Pinata{
 			}
 #pragma endregion
 
-
+#pragma region  ------------------------------------------------- Draw Transform Component ---------------------------------------------------------
 			DrawComponent<Transform>("Transform", m_SelectedObjectNode, [this](auto& transformComponent) {
 				DrawVec3Control("Position", transformComponent.Position);
 				DrawVec3Control("Rotation", transformComponent.Rotation);
 				DrawVec3Control("Scale", transformComponent.Scale, glm::vec3(1.0f, 1.0f, 1.0f));
 				},false);
+#pragma endregion
 
-
+#pragma region  ------------------------------------------------- Draw Camera Component ---------------------------------------------------------
 			DrawComponent<RuntimeCamera>("Camera", m_SelectedObjectNode, [this](auto& cameraComponent) {
 
 				const char* projectionMode_str[] = { "Orthographic","Perspective" };
@@ -313,7 +314,7 @@ namespace Pinata{
 				}
 
 				});
-
+#pragma endregion
 
 			
 		}

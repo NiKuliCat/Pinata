@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <chrono>
 #include "ImGuiPanel/SceneHierarchyPanel.h"
+#include "Pinata/Editor/EditorCamera.h"
 #define PROFILE_SCOPE(name) Timer timer##__Line__(name,[&](ProfileResult profileResult){m_ProfileResults.push_back(profileResult);})
 template<typename Fn>
 class Timer
@@ -78,6 +79,7 @@ namespace Pinata {
 		Transform m_Transform_B;
 
 		Ref<Scene> m_Scene;
+		EditorCamera m_EditorCamera;
 		bool m_HasActiveScene = false;
 		Object m_ScneneCamera;
 		Ref<FrameBuffer> m_FrameBuffer;

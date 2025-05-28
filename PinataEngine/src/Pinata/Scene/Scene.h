@@ -1,5 +1,6 @@
 #pragma once
 #include "entt.hpp"
+#include "Pinata/Editor/EditorCamera.h"
 namespace Pinata {
 	class Object;
 
@@ -11,7 +12,8 @@ namespace Pinata {
 		Scene(const std::string& name);
 		~Scene();
 
-		void OnUpdate(float deltaTime);
+		void OnUpdateRuntime(float deltaTime);
+		void OnUpdateEditor(float deltaTime,EditorCamera& editorCamera);
 
 		entt::registry& GetRegistry() { return m_Registry; }
 		Object CreateObject(const std::string& name);
@@ -19,11 +21,13 @@ namespace Pinata {
 		void DestroyObject(Object object);
 
 	public:
-		void RenderScene();
+		void RenderSceneRunTime();
+		void RenderSceneEditor(EditorCamera& editorCamera);
 
 		Object GetMainCamera();
 
 	private:
+
 		std::string m_Name = "New Scene";
 		entt::registry m_Registry;
 		friend class SceneHierarchyPanel;
