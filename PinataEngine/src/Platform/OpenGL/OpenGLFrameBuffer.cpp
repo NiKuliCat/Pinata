@@ -74,6 +74,17 @@ namespace Pinata {
 			return false;
 		}
 
+		static GLenum FrameBufferFormatToOpenGLFormat(FrameBufferTexFormat format)
+		{
+			switch (format)
+			{
+				case Pinata::FrameBufferTexFormat::RGBA8: return GL_RGBA;
+				case Pinata::FrameBufferTexFormat::RED_INTEGER: return GL_RED_INTEGER;
+			}
+			PTA_CORE_ERROR("Unkown frame buffer format");
+			return 0;
+		}
+
 	}
 
 
@@ -109,6 +120,14 @@ namespace Pinata {
 		int pixel;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel);
 		return pixel;
+	}
+
+	void OpenGLFrameBuffer::ClearIDBuffer(int value)
+	{
+		PTA_CORE_ASSERT(m_ColorAttachments.size() > 1, "Not Created ID Buffer");
+		auto& description = m_ColorAttachmentDescriptions[1];
+
+		glClearTexImage(m_ColorAttachments[1], 0, FrameBufferUtils::FrameBufferFormatToOpenGLFormat(description.TextureFormat),GL_INT, &value);
 	}
 
 	void OpenGLFrameBuffer::ReSize(uint32_t width, uint32_t height)

@@ -56,6 +56,7 @@ namespace Pinata {
 		virtual uint32_t GetDepthRenderTexture() = 0;
 
 		virtual int GetIDBufferValue(int x, int y) = 0;
+		virtual void ClearIDBuffer(int value) = 0;
 
 		virtual void ReSize(uint32_t width, uint32_t height) = 0;
 

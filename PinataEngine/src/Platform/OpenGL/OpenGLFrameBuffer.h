@@ -20,6 +20,7 @@ namespace Pinata {
 		virtual uint32_t GetColorRenderTexture(uint32_t index = 0) override { return m_ColorAttachments[index]; }
 		virtual uint32_t GetDepthRenderTexture() override { return m_DepthAttachment; }
 		virtual int GetIDBufferValue(int x, int y) override;
+		virtual void ClearIDBuffer(int value) override;
 		virtual void ReSize(uint32_t width, uint32_t height) override;
 
 		virtual void Bind()  override;
