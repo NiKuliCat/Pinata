@@ -9,6 +9,8 @@ namespace Pinata {
 		RGBA8,
 		RGBA16F,
 
+		RED_INTEGER,
+
 		DEPTH24STENCIL8,
 		DEPTH = DEPTH24STENCIL8
 	};
@@ -52,6 +54,8 @@ namespace Pinata {
 
 		virtual uint32_t GetColorRenderTexture(uint32_t index = 0) = 0;
 		virtual uint32_t GetDepthRenderTexture() = 0;
+
+		virtual int GetIDBufferValue(int x, int y) = 0;
 
 		virtual void ReSize(uint32_t width, uint32_t height) = 0;
 

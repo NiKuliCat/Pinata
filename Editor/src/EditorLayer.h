@@ -84,6 +84,7 @@ namespace Pinata {
 		Object m_ScneneCamera;
 		Ref<FrameBuffer> m_FrameBuffer;
 		glm::vec2 m_ViewportSize;
+		glm::vec2 m_ViewportBounds[2];
 		float m_TimeStep;
 		Object m_QuadObject;
 

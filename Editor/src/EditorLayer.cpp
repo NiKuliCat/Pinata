@@ -31,7 +31,7 @@ namespace Pinata {
 
 
 		FrameBufferDescription disc;
-		disc.AttachmentsDescription = { FrameBufferTexFormat::RGBA8, FrameBufferTexFormat::RGBA8,FrameBufferTexFormat::DEPTH };
+		disc.AttachmentsDescription = { FrameBufferTexFormat::RGBA8, FrameBufferTexFormat::RED_INTEGER,FrameBufferTexFormat::DEPTH };
 		disc.Width = 1280;
 		disc.Height = 720;
 
@@ -183,8 +183,22 @@ namespace Pinata {
 			m_ViewportSize = { ViewportSize.x,ViewportSize.y };
 		}
 
+		auto viewportOffset = ImGui::GetCursorPos();
+		//view
 		ImGui::Image(ScreenRT_ID, ImVec2{ m_ViewportSize.x,m_ViewportSize.y },ImVec2(0,1),ImVec2(1,0));
 
+		auto windowSize = ImGui::GetWindowSize();
+		ImVec2 minBound = ImGui::GetWindowPos();
+
+		minBound.x += viewportOffset.x;
+		minBound.y += viewportOffset.y;
+
+		ImVec2 maxBound = { minBound.x + windowSize.x,minBound.y + windowSize.y };
+		m_ViewportBounds[0] = { minBound.x,minBound.y };
+		m_ViewportBounds[1] = { maxBound.x,maxBound.y };
+
+
+		//gizmo
 		Object selectedObj = m_HierarchyPanel.GetSelectedObject();
 		if (selectedObj)
 		{
@@ -274,6 +288,16 @@ namespace Pinata {
 		{
 			m_Scene->OnUpdateEditor(daltaTime,m_EditorCamera);
 		}
+		auto [mx, my] = ImGui::GetMousePos();
+		mx -= m_ViewportBounds[0].x;
+		my -= m_ViewportBounds[0].y;
+		glm::vec2 size = m_ViewportBounds[1] - m_ViewportBounds[0];
+
+		int mouseX = (int)mx;
+		int mouseY = (int)my;
+		int pixel = m_FrameBuffer->GetIDBufferValue(mouseX, mouseY);
+		PTA_TRACE("pixel in viewport : {0}", pixel);
+
 		m_FrameBuffer->UnBind();
 
 	}

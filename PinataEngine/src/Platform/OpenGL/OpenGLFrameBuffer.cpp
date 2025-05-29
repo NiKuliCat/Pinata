@@ -21,7 +21,7 @@ namespace Pinata {
 			glBindTexture(TextureTarget(mulisampled), id);
 		}
 
-		static void AttachColorTexture(uint32_t id, int samples, GLenum format, uint32_t width, uint32_t height, int index)
+		static void AttachColorTexture(uint32_t id, int samples, GLenum internalFormat, GLenum format,uint32_t width, uint32_t height, int index)
 		{
 			bool multisampled = samples > 1;
 			if (multisampled)
@@ -30,7 +30,7 @@ namespace Pinata {
 			}
 			else
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -102,6 +102,15 @@ namespace Pinata {
 		glDeleteTextures(1, &m_DepthAttachment);
 	}
 
+	int OpenGLFrameBuffer::GetIDBufferValue(int x, int y)
+	{
+		PTA_CORE_ASSERT(m_ColorAttachments.size() > 1, "Not Created ID Buffer");
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + 1);
+		int pixel;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel);
+		return pixel;
+	}
+
 	void OpenGLFrameBuffer::ReSize(uint32_t width, uint32_t height)
 	{
 		m_Description.Width = width;
@@ -150,7 +159,12 @@ namespace Pinata {
 				{
 					case FrameBufferTexFormat::RGBA8:
 					{
-						FrameBufferUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_RGBA8, m_Description.Width, m_Description.Height, i);
+						FrameBufferUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_RGBA8, GL_RGBA,m_Description.Width, m_Description.Height, i);
+						break;
+					}
+					case FrameBufferTexFormat::RED_INTEGER:
+					{
+						FrameBufferUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_R32I, GL_RED_INTEGER, m_Description.Width, m_Description.Height, i);
 						break;
 					}
 				}

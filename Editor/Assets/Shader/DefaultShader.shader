@@ -21,6 +21,7 @@ void main()
 #program     fragment 
 #version 330 core
 layout(location = 0) out vec4 FragColor;
+layout(location = 1) out int IDColor;
 varying vec2 uv;
 in vec4 ourColor;
 in float TexIndex;
@@ -29,5 +30,6 @@ uniform vec4 _BaseColor;
 void main()
 {
 	FragColor = ourColor *  texture(_MainTex[int(TexIndex + 0.01f)], uv);
+	IDColor =   22;
 	//FragColor = vec4(int(TexIndex) ,int(TexIndex) ,int(TexIndex) ,1.0f);
 };
