@@ -31,11 +31,15 @@ namespace Pinata {
 
 
 		FrameBufferDescription disc;
+		disc.AttachmentsDescription = { FrameBufferTexFormat::RGBA8, FrameBufferTexFormat::RGBA8,FrameBufferTexFormat::DEPTH };
 		disc.Width = 1280;
 		disc.Height = 720;
+
 		m_FrameBuffer = FrameBuffer::Create(disc);
 		m_ViewportSize = { (float)disc.Width,(float)disc.Height };
 		m_HasActiveScene = false;
+
+		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
 
 #if 1
@@ -172,7 +176,7 @@ namespace Pinata {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding , ImVec2(0, 0));
 		ImGui::Begin("Viewport");
-		uint32_t ScreenRT_ID = m_FrameBuffer->GetColorRenderTexture();
+		uint32_t ScreenRT_ID = m_FrameBuffer->GetColorRenderTexture(0);
 
 		{
 			ImVec2 ViewportSize = ImGui::GetContentRegionAvail();
