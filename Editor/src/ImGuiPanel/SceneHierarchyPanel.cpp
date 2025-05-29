@@ -12,7 +12,18 @@ namespace Pinata{
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& scene)
 	{
 		m_SceneContext = scene;
-		m_SelectedObjectNode = {};
+		m_SelectedObject = {};
+	}
+	void SceneHierarchyPanel::SetSelectedObject(Object obj)
+	{
+		if (obj)
+		{
+			m_SelectedObject = obj;
+		}
+		else
+		{
+			m_SelectedObject = {};
+		}
 	}
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
@@ -29,7 +40,7 @@ namespace Pinata{
 			ImGui::PopFont();
 			if (ImGui::IsItemClicked())
 			{
-				m_SelectedObjectNode = {};
+				m_SelectedObject = {};
 			}
 			if (open)
 			{
@@ -46,7 +57,7 @@ namespace Pinata{
 
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 			{
-				m_SelectedObjectNode = {};
+				m_SelectedObject = {};
 			}
 
 			if (!ImGui::IsAnyItemHovered() && ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
@@ -70,13 +81,13 @@ namespace Pinata{
 	void SceneHierarchyPanel::DrawObjectNode(Object obj)
 	{
 		auto& name = obj.GetName();
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ((m_SelectedObjectNode == obj) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_SpanAvailWidth;
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ((m_SelectedObject == obj) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_SpanAvailWidth;
 
 		bool open = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)obj, flags, name.c_str());
 
 		if (ImGui::IsItemClicked())
 		{
-			m_SelectedObjectNode = obj;
+			m_SelectedObject = obj;
 		}
 
 		bool deleted = false;
@@ -97,9 +108,9 @@ namespace Pinata{
 		if (deleted)
 		{
 			m_SceneContext->DestroyObject(obj);
-			if (m_SelectedObjectNode == obj)
+			if (m_SelectedObject == obj)
 			{
-				m_SelectedObjectNode = {};
+				m_SelectedObject = {};
 			}
 		}
 	}
@@ -220,18 +231,18 @@ namespace Pinata{
 	void SceneHierarchyPanel::DrawInspectorPanel()
 	{
 		ImGui::Begin("Inspector");
-		if (m_SelectedObjectNode)
+		if (m_SelectedObject)
 		{
 
 #pragma region  ------------------------------------------------- Draw Name Component ---------------------------------------------------------
 
-			if (m_SelectedObjectNode.HasComponent<Name>())
+			if (m_SelectedObject.HasComponent<Name>())
 			{
 				ImGui::Columns(2);
 				ImGui::SetColumnWidth(0, 120.0f);
 				ImGui::Text("Name : ");
 				ImGui::NextColumn();
-				auto& name = m_SelectedObjectNode.GetComponent<Name>().m_Name;
+				auto& name = m_SelectedObject.GetComponent<Name>().m_Name;
 				char buffer[256];
 				memset(buffer, 0, sizeof(buffer));
 				strcpy_s(buffer, sizeof(buffer), name.c_str());
@@ -244,7 +255,7 @@ namespace Pinata{
 #pragma endregion
 
 #pragma region  ------------------------------------------------- Draw Transform Component ---------------------------------------------------------
-			DrawComponent<Transform>("Transform", m_SelectedObjectNode, [this](auto& transformComponent) {
+			DrawComponent<Transform>("Transform", m_SelectedObject, [this](auto& transformComponent) {
 				DrawVec3Control("Position", transformComponent.Position);
 				DrawVec3Control("Rotation", transformComponent.Rotation);
 				DrawVec3Control("Scale", transformComponent.Scale, glm::vec3(1.0f, 1.0f, 1.0f));
@@ -252,7 +263,7 @@ namespace Pinata{
 #pragma endregion
 
 #pragma region  ------------------------------------------------- Draw Camera Component ---------------------------------------------------------
-			DrawComponent<RuntimeCamera>("Camera", m_SelectedObjectNode, [this](auto& cameraComponent) {
+			DrawComponent<RuntimeCamera>("Camera", m_SelectedObject, [this](auto& cameraComponent) {
 
 				const char* projectionMode_str[] = { "Orthographic","Perspective" };
 				const char* currentMode_str = projectionMode_str[(int)cameraComponent.m_ProjectionMode];
@@ -324,7 +335,7 @@ namespace Pinata{
 
 	void SceneHierarchyPanel::OnSlectedObjectChange(Object obj)
 	{
-		m_SelectedObjectNode = obj;
+		m_SelectedObject = obj;
 		auto storage = m_SceneContext->GetRegistry().storage();
 
 	}

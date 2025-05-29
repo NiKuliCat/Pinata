@@ -19,17 +19,12 @@ namespace Pinata {
 		glm::vec4 Color;
 		glm::vec2 Texcoord;
 		int TexIndex;
+		int ObjectID;
 		//normal,tangent .....
-		QuadVertex(glm::vec3& position, glm::vec4& color, glm::vec2& texcoord, int index)
-			:Position(position),Color(color),Texcoord(texcoord),TexIndex(index)
-		{
 
-		}
-
-		QuadVertex()
-		{
-
-		}
+		QuadVertex(){}
+		QuadVertex(glm::vec3& position, glm::vec4& color, glm::vec2& texcoord, int index,int id)
+			:Position(position),Color(color),Texcoord(texcoord),TexIndex(index),ObjectID(id){}
 	};
 
 	struct Renderer2DBaseData
@@ -48,10 +43,10 @@ namespace Pinata {
 		QuadVertex* QuadVB_Start = nullptr;
 		QuadVertex* QuadVB_End   = nullptr;
 		QuadVertex RawQuad[4] = {
-			{glm::vec3(0.5f,   0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f), 0},
-			{glm::vec3(0.5f,  -0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f), 0},
-			{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f), 0},
-			{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f), 0}
+			{glm::vec3(0.5f,   0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f), 0,-1},
+			{glm::vec3(0.5f,  -0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f), 0,-1},
+			{glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f), 0,-1},
+			{glm::vec3(-0.5f,  0.5f, 0.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f), 0,-1}
 		};
 		int32_t CurrentTexCount;
 		std::unordered_map<uint32_t, uint32_t> m_CurrentTextures;
@@ -59,17 +54,8 @@ namespace Pinata {
 
 		Renderer2DBaseData()
 		{
-			float QuadPos[9 * 4] =
-			{
-				//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
-				 0.5f,  0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   1.0f, 1.0f,   // 右上
-				 0.5f, -0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   1.0f, 0.0f,   // 右下
-				-0.5f, -0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 0.0f,   // 左下
-				-0.5f,  0.5f, 1.0f,   1.0f, 1.0f, 1.0f,1.0f,   0.0f, 1.0f    // 左上
-			};
 			DrawVertexCount = 0;
 			uint32_t QuadIndices[6] = { 0, 1, 3, 1, 2, 3 };
-
 		
 //////  --------------------------------------- index buffer ---------------------------------
 			uint32_t* MaXQuadIndices = new uint32_t[MaxIndices];
@@ -99,7 +85,8 @@ namespace Pinata {
 				{ShaderDataType::Float3,"PositionOS"},
 				{ShaderDataType::Float4,"Color"},
 				{ShaderDataType::Float2,"Texcoord"},
-				{ShaderDataType::Int,"TexIndex"}
+				{ShaderDataType::Int,"TexIndex"},
+				{ShaderDataType::Int,"ObjectID"}
 			};
 
 			VB_Quad->SetLayout(layout);
@@ -257,8 +244,45 @@ namespace Pinata {
 
 
 		s_BaseData->DrawVertexCount += 6;
+	}
 
-		
+	void Renderer2D::DrawQuadEditor(Transform& transform, Ref<Material>& material, int id)
+	{
+
+		glm::mat4 model = Transform::GetModelMatrix(transform);
+		auto texture = material->GetTexture();
+		glm::vec4 color = material->GetColor();
+		uint32_t textureID = texture->GetID();
+		uint32_t  slot;
+
+		//如果此纹理还未绑定,则加入map中，并分配slot槽位
+		if (s_BaseData->m_CurrentTextures.find(textureID) == s_BaseData->m_CurrentTextures.end())
+		{
+			s_BaseData->CurrentTexCount++;
+			slot = s_BaseData->CurrentTexCount;
+			texture->Bind(s_BaseData->CurrentTexCount);
+			s_BaseData->samplers[s_BaseData->CurrentTexCount] = slot;
+			s_BaseData->m_CurrentTextures[textureID] = s_BaseData->CurrentTexCount;
+		}
+		//如果该纹理已经绑定过，找到其对应的slot;
+		else
+		{
+			slot = s_BaseData->m_CurrentTextures[textureID];
+			//PTA_INFO("textureID: {0},slot:{1}", textureID, slot);
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			s_BaseData->QuadVB_End->Position = model * glm::vec4(s_BaseData->RawQuad[i].Position, 1.0f);
+			s_BaseData->QuadVB_End->Color = color * s_BaseData->RawQuad[i].Color;
+			s_BaseData->QuadVB_End->Texcoord = s_BaseData->RawQuad[i].Texcoord;
+			s_BaseData->QuadVB_End->TexIndex = slot;
+			s_BaseData->QuadVB_End->ObjectID = id;
+			s_BaseData->QuadVB_End++;
+		}
+
+
+		s_BaseData->DrawVertexCount += 6;
 	}
 
 	void Renderer2D::Flush()

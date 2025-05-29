@@ -30,6 +30,8 @@ namespace Pinata {
 
 		// now use this api
 		static void DrawQuad(Transform& transform, Ref<Material>& material);
+		static void DrawQuadEditor(Transform& transform, Ref<Material>& material,int id);
+
 
 	private:
 		static void Flush();

@@ -64,6 +64,9 @@ namespace Pinata {
 
 	private:
 		bool OnKeyPressed(KeyPressedEvent& event);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& event);
+
+		void TryGetMousePickkingObject();
 
 
 	private:

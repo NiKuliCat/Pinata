@@ -183,21 +183,15 @@ namespace Pinata {
 			m_ViewportSize = { ViewportSize.x,ViewportSize.y };
 		}
 
-		auto viewportOffset = ImGui::GetCursorPos();
+		auto viewportReginMin = ImGui::GetWindowContentRegionMin();
+		auto viewportReginMax = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+		m_ViewportBounds[0] = { viewportReginMin.x + viewportOffset.x,viewportReginMin.y + viewportOffset.y };
+		m_ViewportBounds[1] = { viewportReginMax.x + viewportOffset.x,viewportReginMax.y + viewportOffset.y };
+
+
 		//view
 		ImGui::Image(ScreenRT_ID, ImVec2{ m_ViewportSize.x,m_ViewportSize.y },ImVec2(0,1),ImVec2(1,0));
-
-		auto windowSize = ImGui::GetWindowSize();
-		ImVec2 minBound = ImGui::GetWindowPos();
-
-		minBound.x += viewportOffset.x;
-		minBound.y += viewportOffset.y;
-
-		ImVec2 maxBound = { minBound.x + windowSize.x,minBound.y + windowSize.y };
-		m_ViewportBounds[0] = { minBound.x,minBound.y };
-		m_ViewportBounds[1] = { maxBound.x,maxBound.y };
-
-
 		//gizmo
 		Object selectedObj = m_HierarchyPanel.GetSelectedObject();
 		if (selectedObj)
@@ -290,16 +284,7 @@ namespace Pinata {
 		{
 			m_Scene->OnUpdateEditor(daltaTime,m_EditorCamera);
 		}
-		auto [mx, my] = ImGui::GetMousePos();
-		mx -= m_ViewportBounds[0].x;
-		my -= m_ViewportBounds[0].y;
-		glm::vec2 size = m_ViewportBounds[1] - m_ViewportBounds[0];
-
-		int mouseX = (int)mx;
-		int mouseY = (int)my;
-		int pixel = m_FrameBuffer->GetIDBufferValue(mouseX, mouseY);
-		PTA_TRACE("pixel in viewport : {0}", pixel);
-
+	
 		m_FrameBuffer->UnBind();
 
 	}
@@ -308,6 +293,7 @@ namespace Pinata {
 	{
 		EventDisPatcher dispatcher(event);
 		dispatcher.Dispatcher<KeyPressedEvent>(BIND_EVENT_FUNC(EditorLayer::OnKeyPressed));
+		dispatcher.Dispatcher<MouseButtonPressedEvent>(BIND_EVENT_FUNC(EditorLayer::OnMouseButtonPressed));
 		m_EditorCamera.OnEvent(event);
 	}
 
@@ -329,6 +315,49 @@ namespace Pinata {
 			m_GizmoControlType = ImGuizmo::OPERATION::SCALE;
 			break;
 		}
+		return false;
+	}
+
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event)
+	{
+		switch (event.GetMouseButton())
+		{
+			case Mouse::Button0: TryGetMousePickkingObject(); break;
+		}
+		return false;
+	}
+
+	void EditorLayer::TryGetMousePickkingObject()
+	{
+		//如果鼠标正悬停在gizmo上，或者按住了左Alt键，就不进行拾取操作
+		if (ImGuizmo::IsOver() || Input::IsKeyPressed(Key::LeftAlt))
+			return; 
+
+		m_FrameBuffer->Bind();
+		auto [mx, my] = ImGui::GetMousePos();
+		mx -= m_ViewportBounds[0].x;
+		my -= m_ViewportBounds[0].y;
+		glm::vec2 size = m_ViewportBounds[1] - m_ViewportBounds[0];
+		my = size.y - my; // 这里要将y轴反过来
+
+		int mouseY = (int)my;
+		int mouseX = (int)mx;
+		if (mouseX > 0 && mouseY > 0 && mouseX < (int)size.x && mouseY < (int)size.y)
+		{
+			int pixel = m_FrameBuffer->GetIDBufferValue(mouseX, mouseY);
+			if (pixel != -1)
+			{
+				Object selectedObject = Object{ (entt::entity)pixel,m_Scene.get() };
+				m_HierarchyPanel.SetSelectedObject(selectedObject);
+
+			}
+			else
+			{
+				m_HierarchyPanel.SetSelectedObject({});
+			}
+			PTA_TRACE("pixel in viewport : {0}", pixel);
+		}
+		m_FrameBuffer->UnBind();
 	}
 
 }

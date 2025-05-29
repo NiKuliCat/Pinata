@@ -92,7 +92,7 @@ namespace Pinata {
 		for (auto obj : group)
 		{
 			auto [transform, spriteRenderer] = group.get<Transform, SpriteRenderer>(obj);
-			Renderer2D::DrawQuad(transform, spriteRenderer.GetMaterial());
+			Renderer2D::DrawQuadEditor(transform, spriteRenderer.GetMaterial(), (int)obj);
 		}
 
 		Renderer2D::EndScene();
