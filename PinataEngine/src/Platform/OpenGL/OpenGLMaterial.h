@@ -7,6 +7,7 @@ namespace Pinata {
 	class OpenGLMaterial : public Material
 	{
 	public:
+		OpenGLMaterial(const Ref<Texture2D>& texture);
 		OpenGLMaterial(const uint32_t shaderID,const Ref<Texture2D>& texture);
 		OpenGLMaterial(const uint32_t shaderID,const Ref<Texture2D>& texture,glm::vec4& color );
 		~OpenGLMaterial();

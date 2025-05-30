@@ -122,6 +122,7 @@ namespace Pinata {
 	{
 		s_BaseData = new Renderer2DBaseData();
 		s_BaseData->DefaultShader = ShaderLibrary::Load("Assets/Shader/EditorDefaultShader.glsl")->GetID();
+		//s_BaseData->DefaultShader = ShaderLibrary::Load("Assets/Shader/Texture.glsl")->GetID();
 	}
 
 	void Renderer2D::Shutdown()
@@ -138,10 +139,10 @@ namespace Pinata {
 		s_BaseData->m_CurrentTextures.clear();
 		s_BaseData->CurrentTexCount = -1;
 
-		//s_BaseData->CurrentTexCount++;
-		//s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
-		//s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
-		//s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;
+		s_BaseData->CurrentTexCount++;
+		s_BaseData->m_CurrentTextures.insert({ s_BaseData->DefaultTexture->GetID(),s_BaseData->CurrentTexCount });
+		s_BaseData->DefaultTexture->Bind(s_BaseData->CurrentTexCount);
+		s_BaseData->samplers[s_BaseData->CurrentTexCount] = (int32_t)s_BaseData->CurrentTexCount;
 	}
 
 	void Renderer2D::BeginScene(EditorCamera& editorCamera)

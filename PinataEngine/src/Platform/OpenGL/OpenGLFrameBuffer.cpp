@@ -1,99 +1,16 @@
 #include "ptapch.h"
 #include "OpenGLFrameBuffer.h"
 #include "Pinata/Renderer/Texture.h"
+#include "OpenGLUtils.h"
 #include <glad/glad.h>
 namespace Pinata {
-
-	namespace FrameBufferUtils {
-
-		static GLenum TextureTarget(bool multisampled)
-		{
-			return multisampled ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
-		}
-
-		static void CreateTextures(bool mulisampled, uint32_t* out_id, uint32_t count)
-		{
-			glCreateTextures(TextureTarget(mulisampled), count, out_id);
-		}
-
-		static void BindTexture(bool mulisampled, uint32_t id)
-		{
-			glBindTexture(TextureTarget(mulisampled), id);
-		}
-
-		static void AttachColorTexture(uint32_t id, int samples, GLenum internalFormat, GLenum format,uint32_t width, uint32_t height, int index)
-		{
-			bool multisampled = samples > 1;
-			if (multisampled)
-			{
-				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
-			}
-			else
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
-
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			}
-
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index,TextureTarget(multisampled), id, 0);
-		}
-
-
-		static void AttachDepthTexture(uint32_t id, int samples, GLenum format,GLenum depthAttachType, uint32_t width, uint32_t height)
-		{
-			bool multisampled = samples > 1;
-			if (multisampled)
-			{
-				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
-			}
-			else
-			{
-				glTexStorage2D(GL_TEXTURE_2D, 1, format, width, height);
-
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			}
-
-			glFramebufferTexture2D(GL_FRAMEBUFFER, depthAttachType, TextureTarget(multisampled), id, 0);
-		}
-
-
-		static bool isDepthFormat(FrameBufferTexFormat format)
-		{
-			switch (format)
-			{
-				case FrameBufferTexFormat::DEPTH24STENCIL8:  return true;
-			}
-			return false;
-		}
-
-		static GLenum FrameBufferFormatToOpenGLFormat(FrameBufferTexFormat format)
-		{
-			switch (format)
-			{
-				case Pinata::FrameBufferTexFormat::RGBA8: return GL_RGBA;
-				case Pinata::FrameBufferTexFormat::RED_INTEGER: return GL_RED_INTEGER;
-			}
-			PTA_CORE_ERROR("Unkown frame buffer format");
-			return 0;
-		}
-
-	}
-
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferDescription& description)
 		:m_Description(description)
 	{
 		for (auto format : m_Description.AttachmentsDescription.Attachments)
 		{
-			if (FrameBufferUtils::isDepthFormat(format.TextureFormat))
+			if (OpenGLUtils::isDepthFormat(format.TextureFormat))
 			{
 				m_DepthAttachmentDescription = format;
 			}
@@ -127,7 +44,7 @@ namespace Pinata {
 		PTA_CORE_ASSERT(m_ColorAttachments.size() > 1, "Not Created ID Buffer");
 		auto& description = m_ColorAttachmentDescriptions[1];
 
-		glClearTexImage(m_ColorAttachments[1], 0, FrameBufferUtils::FrameBufferFormatToOpenGLFormat(description.TextureFormat),GL_INT, &value);
+		glClearTexImage(m_ColorAttachments[1], 0, OpenGLUtils::FrameBufferFormatToOpenGLFormat(description.TextureFormat),GL_INT, &value);
 	}
 
 	void OpenGLFrameBuffer::ReSize(uint32_t width, uint32_t height)
@@ -170,20 +87,20 @@ namespace Pinata {
 		if (m_ColorAttachmentDescriptions.size())
 		{
 			m_ColorAttachments.resize(m_ColorAttachmentDescriptions.size());
-			FrameBufferUtils::CreateTextures(multisampled, m_ColorAttachments.data(), m_ColorAttachments.size());
+			OpenGLUtils::CreateTextures(multisampled, m_ColorAttachments.data(), m_ColorAttachments.size());
 			for (size_t i = 0; i < m_ColorAttachments.size(); i++)
 			{
-				FrameBufferUtils::BindTexture(multisampled, m_ColorAttachments[i]);
+				OpenGLUtils::BindTexture(multisampled, m_ColorAttachments[i]);
 				switch (m_ColorAttachmentDescriptions[i].TextureFormat)
 				{
 					case FrameBufferTexFormat::RGBA8:
 					{
-						FrameBufferUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_RGBA8, GL_RGBA,m_Description.Width, m_Description.Height, i);
+						OpenGLUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_RGBA8, GL_RGBA,m_Description.Width, m_Description.Height, i);
 						break;
 					}
 					case FrameBufferTexFormat::RED_INTEGER:
 					{
-						FrameBufferUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_R32I, GL_RED_INTEGER, m_Description.Width, m_Description.Height, i);
+						OpenGLUtils::AttachColorTexture(m_ColorAttachments[i], m_Description.Samples, GL_R32I, GL_RED_INTEGER, m_Description.Width, m_Description.Height, i);
 						break;
 					}
 				}
@@ -193,13 +110,13 @@ namespace Pinata {
 		// depth attach
 		if (m_DepthAttachmentDescription.TextureFormat != FrameBufferTexFormat::None)
 		{
-			FrameBufferUtils::CreateTextures(multisampled, &m_DepthAttachment, 1);
-			FrameBufferUtils::BindTexture(multisampled, m_DepthAttachment);
+			OpenGLUtils::CreateTextures(multisampled, &m_DepthAttachment, 1);
+			OpenGLUtils::BindTexture(multisampled, m_DepthAttachment);
 			switch (m_DepthAttachmentDescription.TextureFormat)
 			{
 				case FrameBufferTexFormat::DEPTH24STENCIL8:
 				{
-					FrameBufferUtils::AttachDepthTexture(m_DepthAttachment, m_Description.Samples, GL_DEPTH24_STENCIL8,GL_DEPTH_STENCIL_ATTACHMENT, m_Description.Width, m_Description.Height);
+					OpenGLUtils::AttachDepthTexture(m_DepthAttachment, m_Description.Samples, GL_DEPTH24_STENCIL8,GL_DEPTH_STENCIL_ATTACHMENT, m_Description.Width, m_Description.Height);
 					break;
 				}
 			}

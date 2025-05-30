@@ -25,6 +25,7 @@ namespace Pinata {
 		virtual  glm::vec4& GetColor() = 0;
 
 	public:
+		static Ref<Material> Create(const Ref<Texture2D>& texture);
 		static Ref<Material> Create(const uint32_t shaderID,const Ref<Texture2D>& texture);
 
 	};

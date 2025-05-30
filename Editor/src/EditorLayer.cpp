@@ -17,10 +17,8 @@ namespace Pinata {
 		m_Texture2D_B = Texture2D::Create(attri, "Assets/Textures/03.png");
 		defaultWhiteTex = Texture2D::DefaultTexture(DefaultTexColor::Magenta);
 
-		m_Shader = ShaderLibrary::Load("Assets/Shader/DefaultShader.shader");
-
-		m_Material_A = Material::Create(m_Shader->GetID(), m_Texture2D_A);
-		m_Material_B = Material::Create(m_Shader->GetID(), m_Texture2D_B);
+		m_Material_A = Material::Create(m_Texture2D_A);
+		m_Material_B = Material::Create(m_Texture2D_B);
 
 		m_Transform_A = Transform(glm::vec3(0.0f, 0.0f, 1.0f),
 			glm::vec3(.0f, 0.0f, 0.0f),

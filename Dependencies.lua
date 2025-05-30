@@ -11,7 +11,7 @@ IncludeDir["entt"] = "%{wks.location}/PinataEngine/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "%{wks.location}/PinataEngine/vendor/yaml-cpp/include"
 IncludeDir["magic_enum"] = "%{wks.location}/PinataEngine/vendor/magic_enum/include"
 IncludeDir["ImGuizmo"] = "%{wks.location}/PinataEngine/vendor/ImGuizmo"
-IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
+IncludeDir["VulkanSDK"] = "%{VULKANSDK}/Include"
 
 
 LibraryDir = {}

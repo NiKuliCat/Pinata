@@ -1,6 +1,6 @@
 #pragma once
 #include "Pinata/Renderer/Shader.h"
-
+#include <glad/glad.h>
 namespace Pinata {
 
 	class OpenGLShader : public Shader
@@ -32,9 +32,21 @@ namespace Pinata {
 		uint32_t CompileShader(uint32_t type, const std::string& source);
 
 
+		void CompileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSource);
+		void CompileOrGetOpenGLBinaries();
+		void CreateProgram();
+		void Reflect(GLenum stage, const std::vector<uint32_t>& shaderData);
+
+
 	private:
 		uint32_t m_Program_ID;
 		std::string  m_Name;
+
+		std::string m_Filepath;
+		std::unordered_map<GLenum, std::vector<uint32_t>> m_Vulkan_SPIRV;
+		std::unordered_map<GLenum, std::vector<uint32_t>> m_OpenGL_SPIRV;
+
+		std::unordered_map<GLenum, std::string> m_OpenGL_SourceCode;
 
 	};
 

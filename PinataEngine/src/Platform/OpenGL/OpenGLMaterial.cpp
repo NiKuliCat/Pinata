@@ -2,6 +2,10 @@
 #include "OpenGLMaterial.h"
 #include "Pinata/Renderer/ShaderLibrary.h"
 namespace Pinata {
+	OpenGLMaterial::OpenGLMaterial(const Ref<Texture2D>& texture)
+		:m_Texture(texture), m_VertexColor(glm::vec4(1.0f))
+	{
+	}
 	OpenGLMaterial::OpenGLMaterial(const uint32_t shaderID, const Ref<Texture2D>& texture)
 		:m_ShaderID(shaderID),m_Shader(ShaderLibrary::Get(shaderID)),m_Texture(texture),m_VertexColor(glm::vec4(1.0f))
 	{

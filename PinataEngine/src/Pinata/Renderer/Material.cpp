@@ -7,6 +7,23 @@ namespace Pinata {
 
 
 
+	Ref<Material> Material::Create(const Ref<Texture2D>& texture)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case  RendererAPI::API::None:
+		{
+			return nullptr;
+			break;
+		}
+		case  RendererAPI::API::OpenGL:
+		{
+			return CreateRef<OpenGLMaterial>(texture);
+			break;
+		}
+		}
+	}
+
 	Ref<Material> Material::Create(const uint32_t shaderID, const Ref<Texture2D>& texture)
 	{
 		switch (Renderer::GetAPI())
