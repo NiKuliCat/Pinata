@@ -1,3 +1,5 @@
+include "Dependencies.lua"
+
 workspace "PinataEngine"
     architecture "x86_64"
      startproject "Editor"   
@@ -12,16 +14,6 @@ workspace "PinataEngine"
 		"MultiProcessorCompile"     --多处理器并行编译
 	}
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
-IncludeDir = {}
-IncludeDir["GLFW"] = "%{wks.location}/PinataEngine/vendor/GLFW/include"
-IncludeDir["Glad"] = "%{wks.location}/PinataEngine/vendor/Glad/include"
-IncludeDir["ImGui"] = "%{wks.location}/PinataEngine/vendor/ImGui"
-IncludeDir["glm"] = "%{wks.location}/PinataEngine/vendor/glm"
-IncludeDir["entt"] = "%{wks.location}/PinataEngine/vendor/entt/include"
-IncludeDir["yaml_cpp"] = "%{wks.location}/PinataEngine/vendor/yaml-cpp/include"
-IncludeDir["magic_enum"] = "%{wks.location}/PinataEngine/vendor/magic_enum/include"
-IncludeDir["ImGuizmo"] = "%{wks.location}/PinataEngine/vendor/ImGuizmo"
 
 group "Dependencies"
     include "PinataEngine/vendor/GLFW"

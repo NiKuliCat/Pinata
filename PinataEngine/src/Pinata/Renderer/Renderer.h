@@ -4,6 +4,7 @@
 #include "Pinata/Renderer/Camera.h"
 #include "Pinata/Component/Component.h"
 #include "Pinata/Editor/EditorCamera.h"
+
 namespace Pinata {
 
 	struct CameraData

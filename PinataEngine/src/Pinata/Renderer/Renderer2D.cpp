@@ -4,6 +4,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "ShaderLibrary.h"
+#include "UniformBuffer.h"
 #include <unordered_map>
 namespace Pinata {
 
@@ -52,6 +53,12 @@ namespace Pinata {
 		std::unordered_map<uint32_t, uint32_t> m_CurrentTextures;
 		int32_t samplers[MaxTextureSlots];
 
+		struct CameraMatrixData
+		{
+			glm::mat4  ViewProjectionMatrix;
+		};
+		CameraMatrixData cameraUniformData;
+		Ref<UniformBuffer> CameraUniformBuffer;
 		Renderer2DBaseData()
 		{
 			DrawVertexCount = 0;
@@ -104,6 +111,7 @@ namespace Pinata {
 
 			QuadVB_Start = new QuadVertex[MaxCount];
 
+			CameraUniformBuffer = UniformBuffer::Create(sizeof(CameraMatrixData), 0);
 
 		}
 	};
@@ -113,7 +121,7 @@ namespace Pinata {
 	void Renderer2D::Init()
 	{
 		s_BaseData = new Renderer2DBaseData();
-		s_BaseData->DefaultShader = ShaderLibrary::Load("Assets/Shader/DefaultShader.shader")->GetID();
+		s_BaseData->DefaultShader = ShaderLibrary::Load("Assets/Shader/EditorDefaultShader.glsl")->GetID();
 	}
 
 	void Renderer2D::Shutdown()
@@ -139,6 +147,11 @@ namespace Pinata {
 	void Renderer2D::BeginScene(EditorCamera& editorCamera)
 	{
 		Renderer::BeginScene(editorCamera);
+
+
+		s_BaseData->cameraUniformData.ViewProjectionMatrix = editorCamera.GetViewProjectionMatrix();
+		s_BaseData->CameraUniformBuffer->SetData(&s_BaseData->cameraUniformData, sizeof(Renderer2DBaseData::CameraMatrixData));
+
 
 		s_BaseData->DrawVertexCount = 0;
 		s_BaseData->QuadVB_End = s_BaseData->QuadVB_Start;

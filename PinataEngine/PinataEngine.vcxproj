@@ -77,11 +77,11 @@
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;YAML_CPP_STATIC_DEFINE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;vendor\magic_enum\include;vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;vendor\magic_enum\include;vendor\ImGuizmo;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -92,7 +92,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.243.0\Lib\shaderc_sharedd.lib;C:\VulkanSDK\1.3.243.0\Lib\spirv-cross-cored.lib;C:\VulkanSDK\1.3.243.0\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -101,13 +101,13 @@
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;YAML_CPP_STATIC_DEFINE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;vendor\magic_enum\include;vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;vendor\magic_enum\include;vendor\ImGuizmo;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -119,7 +119,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.243.0\Lib\shaderc_shared.lib;C:\VulkanSDK\1.3.243.0\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.3.243.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -128,13 +128,13 @@
       <PrecompiledHeaderFile>ptapch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;YAML_CPP_STATIC_DEFINE;PINATA_PLATFORM_WINDOW;PINATA_BUILD_DLL;PTA_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;vendor\magic_enum\include;vendor\ImGuizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\stb_image;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\entt\include;vendor\yaml-cpp\include;vendor\magic_enum\include;vendor\ImGuizmo;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -146,7 +146,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.243.0\Lib\shaderc_shared.lib;C:\VulkanSDK\1.3.243.0\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.3.243.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -188,6 +188,7 @@
     <ClInclude Include="src\Pinata\Renderer\Shader.h" />
     <ClInclude Include="src\Pinata\Renderer\ShaderLibrary.h" />
     <ClInclude Include="src\Pinata\Renderer\Texture.h" />
+    <ClInclude Include="src\Pinata\Renderer\UniformBuffer.h" />
     <ClInclude Include="src\Pinata\Renderer\VertexArray.h" />
     <ClInclude Include="src\Pinata\Scene\Object.h" />
     <ClInclude Include="src\Pinata\Scene\Scene.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\ptapch.h" />
@@ -659,6 +661,7 @@
     <ClCompile Include="src\Pinata\Renderer\Shader.cpp" />
     <ClCompile Include="src\Pinata\Renderer\ShaderLibrary.cpp" />
     <ClCompile Include="src\Pinata\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Pinata\Renderer\UniformBuffer.cpp" />
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Pinata\Scene\Object.cpp" />
     <ClCompile Include="src\Pinata\Scene\Scene.cpp" />
@@ -672,6 +675,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />

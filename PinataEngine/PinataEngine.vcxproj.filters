@@ -138,7 +138,7 @@
     <ClInclude Include="src\Pinata\Core\Window.h">
       <Filter>src\Pinata\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Editor\OrthoCameraController.h">
+    <ClInclude Include="src\Pinata\Editor\EditorCamera.h">
       <Filter>src\Pinata\Editor</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Event\ApplicationEvent.h">
@@ -174,9 +174,6 @@
     <ClInclude Include="src\Pinata\Renderer\Material.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pinata\Renderer\OrthographicCamera.h">
-      <Filter>src\Pinata\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\RenderCommand.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
@@ -196,6 +193,9 @@
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\Texture.h">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pinata\Renderer\UniformBuffer.h">
       <Filter>src\Pinata\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Pinata\Renderer\VertexArray.h">
@@ -241,6 +241,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1562,7 +1565,7 @@
     <ClCompile Include="src\Pinata\Core\Log.cpp">
       <Filter>src\Pinata\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pinata\Editor\OrthoCameraController.cpp">
+    <ClCompile Include="src\Pinata\Editor\EditorCamera.cpp">
       <Filter>src\Pinata\Editor</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\ImGui\ImGuiBuilder.cpp">
@@ -1586,9 +1589,6 @@
     <ClCompile Include="src\Pinata\Renderer\Material.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pinata\Renderer\OrthographicCamera.cpp">
-      <Filter>src\Pinata\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\RenderCommand.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
@@ -1608,6 +1608,9 @@
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\Texture.cpp">
+      <Filter>src\Pinata\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pinata\Renderer\UniformBuffer.cpp">
       <Filter>src\Pinata\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Pinata\Renderer\VertexArray.cpp">
@@ -1647,6 +1650,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
