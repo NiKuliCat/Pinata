@@ -8,6 +8,7 @@
 #include "Pinata/Core/Application.h"
 #include "ImGuizmo.h"
 namespace Pinata {
+
 	ImGuiLayer::ImGuiLayer()
 		:Layer("ImGuiLayer")
 	{
@@ -45,8 +46,9 @@ namespace Pinata {
         //font
         ImFontConfig fontcfg;
         fontcfg.GlyphOffset.x = -1.0f;
-        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/Rubik/Rubik-VariableFont_wght.ttf", 20.0f, &fontcfg, io.Fonts->GetGlyphRangesChineseFull());
-        io.Fonts->AddFontFromFileTTF("Assets/Fonts/Rubik/Rubik-SemiBold.ttf", 20.0f);
+        float fontSize = 26.0f;
+        ImFont* font = io.Fonts->AddFontFromFileTTF("Assets/Fonts/Rubik/Rubik-VariableFont_wght.ttf", fontSize, &fontcfg, io.Fonts->GetGlyphRangesChineseFull());
+        io.Fonts->AddFontFromFileTTF("Assets/Fonts/Rubik/Rubik-SemiBold.ttf", fontSize);
         ImGui::GetIO().FontDefault = font;
 
         ImGui_ImplOpenGL3_DestroyFontsTexture();

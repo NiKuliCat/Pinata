@@ -14,6 +14,7 @@
       <Filter>ImGuiPanel</Filter>
     </ClInclude>
     <ClInclude Include="src\MainCameraController.h" />
+    <ClInclude Include="src\ImGuiPanel\ContentBrowserPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
@@ -21,5 +22,6 @@
       <Filter>ImGuiPanel</Filter>
     </ClCompile>
     <ClCompile Include="src\PinataEditor.cpp" />
+    <ClCompile Include="src\ImGuiPanel\ContentBrowserPanel.cpp" />
   </ItemGroup>
 </Project>

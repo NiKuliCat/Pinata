@@ -16,19 +16,6 @@ namespace Pinata {
 	{
 		auto src = GLSLShaderHelper::Read(filepath);
 
-		//uint32_t program = glCreateProgram();
-		//uint32_t vs = CompileShader(GL_VERTEX_SHADER, src[GL_VERTEX_SHADER]);
-		//uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, src[GL_FRAGMENT_SHADER]);
-
-		//glAttachShader(program, vs);
-		//glAttachShader(program, fs);
-		//glLinkProgram(program);
-		//glValidateProgram(program);
-
-		//glDeleteShader(vs);
-		//glDeleteShader(fs);
-		//m_Program_ID = program;
-		// 
 		//创建着色器缓存文件
 		OpenGLUtils::CreateCacheDirectoryIfNeeded();
 		//将glsl src 编译成 中间件 spirv
@@ -163,7 +150,6 @@ namespace Pinata {
 		shaderc::CompileOptions options;
 		options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_3);
 		const bool optimize = true;
-
 		if (optimize)
 		{
 			options.SetOptimizationLevel(shaderc_optimization_level_performance);

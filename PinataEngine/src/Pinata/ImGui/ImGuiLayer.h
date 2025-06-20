@@ -19,7 +19,6 @@ namespace Pinata {
 
 
 		void SetDarkThemeColor();
-
 		void Begin();
 		void End();
 
